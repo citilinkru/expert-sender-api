@@ -1,0 +1,13 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests/</directory>
+            <exclude>tests/LinguaLeo/ExpertSender/ExpertSenderTest.php</exclude>
+        </testsuite>
+    </testsuites>
+    <testsuites>
+        <testsuite name="integration">
+            <file>tests/LinguaLeo/ExpertSender/ExpertSenderTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
