@@ -1,4 +1,4 @@
-expert-sender-api
+Expert Sender Api
 =================
 
 Simple API for expert sender service
