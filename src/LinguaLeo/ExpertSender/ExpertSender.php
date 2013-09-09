@@ -77,6 +77,11 @@ class ExpertSender
         return new ApiResult($response);
     }
 
+    /**
+     * @param $email
+     * @param int $listId
+     * @return ApiResult
+     */
     public function deleteUser($email, $listId = null)
     {
         $data = $this->getBaseData();
