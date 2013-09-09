@@ -1,0 +1,23 @@
+{
+    "name": "lingualeo/expert-sender-api",
+    "description": "Simple API for expert sender service",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LinugaLeo",
+            "email": "backend@lingualeo.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "LinguaLeo": "src/"
+        }
+    }
+}
