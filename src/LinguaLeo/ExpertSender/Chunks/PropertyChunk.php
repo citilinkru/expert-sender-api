@@ -1,8 +1,6 @@
 <?php
 namespace LinguaLeo\ExpertSender\Chunks;
 
-use LinguaLeo\ExpertSender\Property;
-
 class PropertyChunk implements ChunkInterface
 {
     const PATTERN = <<<EOD

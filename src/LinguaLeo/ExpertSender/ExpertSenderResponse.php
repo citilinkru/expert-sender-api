@@ -33,4 +33,12 @@ class ExpertSenderResponse
 
         return '';
     }
+
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
 }

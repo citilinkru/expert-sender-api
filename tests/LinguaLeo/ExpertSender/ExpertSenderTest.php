@@ -42,4 +42,34 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(404, $result->getErrorCode());
         $this->assertRegExp('~not found~', $result->getErrorMessage());
     }
+
+    public function testChangeEmail()
+    {
+        $randomEmail = sprintf("some_random_%s@gmail.com", rand(0, 100000000000) . rand(0, 1000000000000));
+        $randomEmail2 = sprintf("some_random_%s@gmail.com", rand(0, 100000000000) . rand(0, 1000000000000));
+
+        $listId = $this->getTestListId();
+
+        $expertSender = $this->getExpertSender();
+        $expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female')], 'Alex');
+
+        $result = $expertSender->getUserId($randomEmail);
+        $oldId = $result->getId();
+        $this->assertTrue(is_numeric($oldId));
+
+        $expertSender->changeEmail($listId, $randomEmail, $randomEmail2);
+
+        $result = $expertSender->getUserId($randomEmail2);
+
+        $this->assertEquals($result->getId(), $oldId);
+
+        try {
+            $expertSender->getUserId($randomEmail);
+            $exceptionThrown = false;
+        } catch(\Exception $e) {
+            $exceptionThrown = true;
+        }
+
+        $this->assertTrue($exceptionThrown);
+    }
 }

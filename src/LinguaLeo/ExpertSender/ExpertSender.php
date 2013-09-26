@@ -6,6 +6,7 @@ use LinguaLeo\ExpertSender\Chunks\HeaderChunk;
 use LinguaLeo\ExpertSender\Chunks\PropertiesChunk;
 use LinguaLeo\ExpertSender\Chunks\PropertyChunk;
 use LinguaLeo\ExpertSender\Chunks\SimpleChunk;
+use LinguaLeo\ExpertSender\Results\UserIdResult;
 
 class ExpertSender
 {
@@ -45,9 +46,10 @@ class ExpertSender
      * @param string|null $firstName
      * @param string|null $lastName
      * @param string $mode - see ExpertSenderEnum for available values
+     * @param integer|null $id
      * @return ApiResult
      */
-    public function addUserToList($email, $listId, $properties, $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE)
+    public function addUserToList($email, $listId, $properties, $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE, $id = null)
     {
         $dataChunk = new DataChunk('Subscriber');
         $dataChunk->addSubChunk(new SimpleChunk('Mode', $mode));
@@ -60,6 +62,10 @@ class ExpertSender
 
         if ($lastName !== null) {
             $dataChunk->addSubChunk(new SimpleChunk('Lastname', $lastName));
+        }
+
+        if ($id !== null) {
+            $dataChunk->addSubChunk(new SimpleChunk('Id', $id));
         }
 
         $propertiesChunks = new PropertiesChunk();
@@ -93,6 +99,23 @@ class ExpertSender
         $response = $this->transport->delete($this->subscribersUrl, $data);
 
         return new ApiResult($response);
+    }
+
+    public function getUserId($email)
+    {
+        $data = $this->getBaseData();
+        $data['email'] = $email;
+        $data['option'] = '3';
+
+        $response = $this->transport->get($this->subscribersUrl, $data);
+
+        return new UserIdResult($response);
+    }
+
+    public function changeEmail($listId, $from, $to)
+    {
+        $result = $this->getUserId($from);
+        $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
     }
 
     protected function getHeaderChunk($dataChunk)
