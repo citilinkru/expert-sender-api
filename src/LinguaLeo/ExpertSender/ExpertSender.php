@@ -147,12 +147,12 @@ class ExpertSender
      */
     protected function logApiResult($method, ApiResult $result)
     {
-        if (!$this->logger) {
+        if (!$this->logger || $result->isOk()) {
             return;
         }
-        $this->logger->debug(
+        $this->logger->error(
             sprintf(
-                'ES method "%s" response: %s.',
+                'ES method "%s" error response: %s.',
                 $method,
                 json_encode((array)$result, JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT)
             )
