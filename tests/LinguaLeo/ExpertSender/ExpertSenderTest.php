@@ -5,6 +5,7 @@ use LinguaLeo\ExpertSender\Chunks\Property;
 
 class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 {
+
     public function getParams()
     {
         return json_decode(file_get_contents(__DIR__ . '/params.json'), 1);
@@ -17,7 +18,8 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         return new ExpertSender($params['url'], $params['key'], new HttpTransport());
     }
 
-    public function getTestListId() {
+    public function getTestListId()
+    {
         return $this->getParams()['testList'];
     }
 
@@ -28,7 +30,12 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $listId = $this->getTestListId();
 
         $expertSender = $this->getExpertSender();
-        $result = $expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female')], 'Alex');
+        $result = $expertSender->addUserToList(
+            $randomEmail,
+            $listId,
+            [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female')],
+            'Alex'
+        );
 
         $this->assertTrue($result->isOk());
         $this->assertEquals(0, $result->getErrorCode());
@@ -51,7 +58,12 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $listId = $this->getTestListId();
 
         $expertSender = $this->getExpertSender();
-        $expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female')], 'Alex');
+        $expertSender->addUserToList(
+            $randomEmail,
+            $listId,
+            [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female')],
+            'Alex'
+        );
 
         $result = $expertSender->getUserId($randomEmail);
         $oldId = $result->getId();
@@ -66,10 +78,11 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         try {
             $expertSender->getUserId($randomEmail);
             $exceptionThrown = false;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $exceptionThrown = true;
         }
 
         $this->assertTrue($exceptionThrown);
     }
+
 }

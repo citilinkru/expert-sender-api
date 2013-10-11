@@ -7,23 +7,27 @@ use LinguaLeo\ExpertSender\Chunks\PropertiesChunk;
 use LinguaLeo\ExpertSender\Chunks\PropertyChunk;
 use LinguaLeo\ExpertSender\Chunks\SimpleChunk;
 use LinguaLeo\ExpertSender\Results\UserIdResult;
+use Psr\Log\LoggerInterface;
 
 class ExpertSender
 {
+
+    /** @var string */
     protected $apiKey;
+    protected $endpointUrl;
 
     /** @var HttpTransport */
     protected $transport;
-
-    protected $endpointUrl;
-
+    /** @var LoggerInterface */
+    protected $logger;
 
     /**
      * @param $endpointUrl - url without /Api
      * @param $apiKey
      * @param $transport
+     * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct($endpointUrl, $apiKey, $transport = null)
+    public function __construct($endpointUrl, $apiKey, $transport = null, LoggerInterface $logger = null)
     {
         if ($endpointUrl[strlen($endpointUrl) - 1] != '/') {
             $endpointUrl .= '/';
@@ -37,6 +41,7 @@ class ExpertSender
         $this->subscribersUrl = $this->endpointUrl . 'Subscribers';
         $this->apiKey = $apiKey;
         $this->transport = $transport;
+        $this->logger = $logger;
     }
 
     /**
@@ -80,7 +85,9 @@ class ExpertSender
 
         $response = $this->transport->post($this->subscribersUrl, $headerChunk->getText());
 
-        return new ApiResult($response);
+        $apiResult = new ApiResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     /**
@@ -98,7 +105,9 @@ class ExpertSender
 
         $response = $this->transport->delete($this->subscribersUrl, $data);
 
-        return new ApiResult($response);
+        $apiResult = new ApiResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     public function getUserId($email)
@@ -109,13 +118,17 @@ class ExpertSender
 
         $response = $this->transport->get($this->subscribersUrl, $data);
 
-        return new UserIdResult($response);
+        $apiResult = new UserIdResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     public function changeEmail($listId, $from, $to)
     {
         $result = $this->getUserId($from);
-        $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
+        $apiResult = $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     protected function getHeaderChunk($dataChunk)
@@ -127,4 +140,23 @@ class ExpertSender
     {
         return ['apiKey' => $this->apiKey];
     }
+
+    /**
+     * @param string $method
+     * @param ApiResult $result
+     */
+    protected function logApiResult($method, ApiResult $result)
+    {
+        if (!$this->logger) {
+            return;
+        }
+        $this->logger->debug(
+            sprintf(
+                'Method "%s" got ExpertSender response: %s.',
+                $method,
+                json_encode($result, JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT)
+            )
+        );
+    }
+
 } 
