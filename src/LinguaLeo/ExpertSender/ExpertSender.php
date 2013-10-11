@@ -152,9 +152,9 @@ class ExpertSender
         }
         $this->logger->debug(
             sprintf(
-                'Method "%s" got ExpertSender response: %s.',
+                'ES got response: %s.',
                 $method,
-                json_encode($result, JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT)
+                json_encode((array)$result, JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT)
             )
         );
     }
