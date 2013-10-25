@@ -3,7 +3,9 @@ namespace LinguaLeo\ExpertSender\Chunks;
 
 class SimpleChunk implements ChunkInterface
 {
-    const PATTERN = '       <%s>%s</%s>';
+    const PATTERN = <<<EOD
+       <%s>%s</%s>
+EOD;
 
     protected $name;
     protected $value;

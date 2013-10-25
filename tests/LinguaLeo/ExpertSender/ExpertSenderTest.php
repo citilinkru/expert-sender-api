@@ -1,7 +1,9 @@
 <?php
 namespace LinguaLeo\ExpertSender;
 
-use LinguaLeo\ExpertSender\Chunks\Property;
+use LinguaLeo\ExpertSender\Entities\Property;
+use LinguaLeo\ExpertSender\Entities\Receiver;
+use LinguaLeo\ExpertSender\Entities\Snippet;
 
 class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +19,24 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         return new ExpertSender($params['url'], $params['key'], new HttpTransport());
     }
 
-    public function getTestListId() {
+    public function getTestListId()
+    {
         return $this->getParams()['testList'];
+    }
+
+    public function getTestTrigger()
+    {
+        return $this->getParams()['testTrigger'];
+    }
+
+    public function getTestTransactional()
+    {
+        return $this->getParams()['testTransactional'];
+    }
+
+    public function getTestEmailPattern()
+    {
+        return $this->getParams()['testGmailEmailPattern'];
     }
 
     public function testLists()
@@ -66,10 +84,38 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         try {
             $expertSender->getUserId($randomEmail);
             $exceptionThrown = false;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $exceptionThrown = true;
         }
 
         $this->assertTrue($exceptionThrown);
+    }
+
+    public function testSendTrigger()
+    {
+        $randomEmail = sprintf($this->getTestEmailPattern(), rand(0, 100000000000) . rand(0, 1000000000000));
+
+        $listId = $this->getTestListId();
+
+        $expertSender = $this->getExpertSender();
+        $expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')], 'Vladimir');
+
+        $expertSender->sendTrigger($this->getTestTrigger(), [new Receiver($randomEmail)]);
+
+        $this->assertTrue(true);
+    }
+
+    public function testSendTransactional()
+    {
+        $randomEmail = sprintf($this->getTestEmailPattern(), rand(0, 100000000000) . rand(0, 1000000000000));
+
+        $listId = $this->getTestListId();
+
+        $expertSender = $this->getExpertSender();
+        $expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')], 'Vladimir');
+
+        $expertSender->sendTransactional($this->getTestTransactional(), new Receiver($randomEmail), [new Snippet('code', 123456)]);
+
+        $this->assertTrue(true);
     }
 }

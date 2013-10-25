@@ -5,7 +5,11 @@ use LinguaLeo\ExpertSender\Chunks\DataChunk;
 use LinguaLeo\ExpertSender\Chunks\HeaderChunk;
 use LinguaLeo\ExpertSender\Chunks\PropertiesChunk;
 use LinguaLeo\ExpertSender\Chunks\PropertyChunk;
+use LinguaLeo\ExpertSender\Chunks\ReceiverChunk;
+use LinguaLeo\ExpertSender\Chunks\ReceiversChunk;
 use LinguaLeo\ExpertSender\Chunks\SimpleChunk;
+use LinguaLeo\ExpertSender\Chunks\SnippetChunk;
+use LinguaLeo\ExpertSender\Chunks\SnippetsChunk;
 use LinguaLeo\ExpertSender\Results\UserIdResult;
 
 class ExpertSender
@@ -16,6 +20,8 @@ class ExpertSender
     protected $transport;
 
     protected $endpointUrl;
+    protected $subscribersUrl;
+    protected $triggerUrlPattern;
 
 
     /**
@@ -35,6 +41,8 @@ class ExpertSender
 
         $this->endpointUrl = $endpointUrl . 'Api/';
         $this->subscribersUrl = $this->endpointUrl . 'Subscribers';
+        $this->triggerUrlPattern = $this->endpointUrl . 'Triggers/%s';
+        $this->transactionalUrlPattern = $this->endpointUrl . 'Transactionals/%s';
         $this->apiKey = $apiKey;
         $this->transport = $transport;
     }
@@ -118,6 +126,53 @@ class ExpertSender
         $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
     }
 
+    /**
+     * @param $triggerId
+     * @param $receivers
+     */
+    public function sendTrigger($triggerId, $receivers)
+    {
+        $receiverChunks = [];
+        foreach($receivers as $receiver) {
+            $receiverChunks[] = new ReceiverChunk($receiver);
+        }
+
+        $receiversChunks = new ReceiversChunk($receiverChunks);
+        $dataChunk = new DataChunk('TriggerReceivers');
+        $dataChunk->addSubChunk($receiversChunks);
+        $headerChunk = $this->getHeaderChunk($dataChunk);
+
+        $url = sprintf($this->triggerUrlPattern, $triggerId);
+        $this->transport->post($url, $headerChunk->getText());
+    }
+
+    /**
+     * @param $transactionId
+     * @param $receiver
+     * @param $snippets
+     */
+    public function sendTransactional($transactionId, $receiver, $snippets)
+    {
+        $snippetChunks = [];
+        foreach($snippets as $snippet) {
+            $snippetChunks[] = new SnippetChunk($snippet);
+        }
+
+        $receiverChunk = new ReceiverChunk($receiver);
+        $snippetsChunks = new SnippetsChunk($snippetChunks);
+        $dataChunk = new DataChunk();
+        $dataChunk->addSubChunk($receiverChunk);
+        $dataChunk->addSubChunk($snippetsChunks);
+        $headerChunk = $this->getHeaderChunk($dataChunk);
+
+        $url = sprintf($this->transactionalUrlPattern, $transactionId);
+        $this->transport->post($url, $headerChunk->getText());
+    }
+
+    /**
+     * @param $dataChunk
+     * @return HeaderChunk
+     */
     protected function getHeaderChunk($dataChunk)
     {
         return new HeaderChunk($this->apiKey, $dataChunk);

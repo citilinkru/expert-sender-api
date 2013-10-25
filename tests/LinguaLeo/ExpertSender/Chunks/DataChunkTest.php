@@ -15,10 +15,8 @@ class DataChunkTest extends \PHPUnit_Framework_TestCase
         $dataChunk->addSubChunk($bodyChunk2);
 
         $text = $dataChunk->getText();
-
         $this->assertRegExp('~subscriber~', $text);
         $this->assertRegExp('~data1~', $text);
         $this->assertRegExp('~data2~', $text);
-
     }
 }

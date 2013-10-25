@@ -4,7 +4,7 @@ namespace LinguaLeo\ExpertSender\Chunks;
 class DataChunk implements ChunkInterface
 {
     const PATTERN = <<<EOD
-    <Data xsi:type="%s">
+    <Data %s>
 %s
     </Data>
 EOD;
@@ -12,7 +12,7 @@ EOD;
     protected $xsiType;
     protected $subChunks = [];
 
-    public function __construct($xsiType)
+    public function __construct($xsiType = null)
     {
         $this->xsiType = $xsiType;
     }
@@ -34,6 +34,12 @@ EOD;
 
     public function getText()
     {
-        return sprintf(self::PATTERN, $this->xsiType, $this->getSubChunksText());
+        if ($this->xsiType) {
+            $xsiType = sprintf('xsi:type="%s"', $this->xsiType);
+        } else {
+            $xsiType = '';
+        }
+
+        return sprintf(self::PATTERN, $xsiType, $this->getSubChunksText());
     }
 }

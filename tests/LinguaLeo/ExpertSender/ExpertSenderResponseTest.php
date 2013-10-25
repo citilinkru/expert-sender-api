@@ -1,6 +1,4 @@
 <?php
-//
-
 namespace LinguaLeo\ExpertSender\Chunks;
 
 use LinguaLeo\ExpertSender\ExpertSenderResponse;

@@ -1,6 +1,6 @@
 <?php
 
-namespace LinguaLeo\ExpertSender\Chunks;
+namespace LinguaLeo\ExpertSender\Entities;
 
 class Property
 {
