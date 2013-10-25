@@ -1,13 +1,17 @@
-<phpunit>
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php">
     <testsuites>
         <testsuite name="unit">
             <directory>tests/</directory>
             <exclude>tests/LinguaLeo/ExpertSender/ExpertSenderTest.php</exclude>
         </testsuite>
-    </testsuites>
-    <testsuites>
         <testsuite name="integration">
             <file>tests/LinguaLeo/ExpertSender/ExpertSenderTest.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
 </phpunit>

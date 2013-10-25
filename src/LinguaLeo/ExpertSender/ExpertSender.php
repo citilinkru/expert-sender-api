@@ -11,6 +11,7 @@ use LinguaLeo\ExpertSender\Chunks\SimpleChunk;
 use LinguaLeo\ExpertSender\Chunks\SnippetChunk;
 use LinguaLeo\ExpertSender\Chunks\SnippetsChunk;
 use LinguaLeo\ExpertSender\Results\UserIdResult;
+use Psr\Log\LoggerInterface;
 
 class ExpertSender
 {
@@ -18,6 +19,8 @@ class ExpertSender
 
     /** @var HttpTransport */
     protected $transport;
+    /** @var LoggerInterface */
+    protected $logger;
 
     protected $endpointUrl;
     protected $subscribersUrl;
@@ -28,8 +31,9 @@ class ExpertSender
      * @param $endpointUrl - url without /Api
      * @param $apiKey
      * @param $transport
+     * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct($endpointUrl, $apiKey, $transport = null)
+    public function __construct($endpointUrl, $apiKey, $transport = null, LoggerInterface $logger = null)
     {
         if ($endpointUrl[strlen($endpointUrl) - 1] != '/') {
             $endpointUrl .= '/';
@@ -45,6 +49,7 @@ class ExpertSender
         $this->transactionalUrlPattern = $this->endpointUrl . 'Transactionals/%s';
         $this->apiKey = $apiKey;
         $this->transport = $transport;
+        $this->logger = $logger;
     }
 
     /**
@@ -88,7 +93,9 @@ class ExpertSender
 
         $response = $this->transport->post($this->subscribersUrl, $headerChunk->getText());
 
-        return new ApiResult($response);
+        $apiResult = new ApiResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     /**
@@ -106,7 +113,9 @@ class ExpertSender
 
         $response = $this->transport->delete($this->subscribersUrl, $data);
 
-        return new ApiResult($response);
+        $apiResult = new ApiResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     public function getUserId($email)
@@ -117,18 +126,23 @@ class ExpertSender
 
         $response = $this->transport->get($this->subscribersUrl, $data);
 
-        return new UserIdResult($response);
+        $apiResult = new UserIdResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     public function changeEmail($listId, $from, $to)
     {
         $result = $this->getUserId($from);
-        $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
+        $apiResult = $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     /**
      * @param $triggerId
      * @param $receivers
+     * @return \LinguaLeo\ExpertSender\ApiResult
      */
     public function sendTrigger($triggerId, $receivers)
     {
@@ -143,13 +157,18 @@ class ExpertSender
         $headerChunk = $this->getHeaderChunk($dataChunk);
 
         $url = sprintf($this->triggerUrlPattern, $triggerId);
-        $this->transport->post($url, $headerChunk->getText());
+        $response = $this->transport->post($url, $headerChunk->getText());
+
+        $apiResult = new ApiResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     /**
      * @param $transactionId
      * @param $receiver
      * @param $snippets
+     * @return \LinguaLeo\ExpertSender\ApiResult
      */
     public function sendTransactional($transactionId, $receiver, $snippets)
     {
@@ -166,7 +185,11 @@ class ExpertSender
         $headerChunk = $this->getHeaderChunk($dataChunk);
 
         $url = sprintf($this->transactionalUrlPattern, $transactionId);
-        $this->transport->post($url, $headerChunk->getText());
+        $response = $this->transport->post($url, $headerChunk->getText());
+
+        $apiResult = new ApiResult($response);
+        $this->logApiResult(__METHOD__, $apiResult);
+        return $apiResult;
     }
 
     /**
@@ -182,4 +205,23 @@ class ExpertSender
     {
         return ['apiKey' => $this->apiKey];
     }
+
+    /**
+     * @param string $method
+     * @param ApiResult $result
+     */
+    protected function logApiResult($method, ApiResult $result)
+    {
+        if (!$this->logger || $result->isOk()) {
+            return;
+        }
+        $this->logger->error(
+            sprintf(
+                'ES method "%s" error response: %s.',
+                $method,
+                json_encode((array)$result, JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT)
+            )
+        );
+    }
+
 } 
