@@ -26,7 +26,6 @@ class ExpertSender
     protected $subscribersUrl;
     protected $triggerUrlPattern;
 
-
     /**
      * @param $endpointUrl - url without /Api
      * @param $apiKey

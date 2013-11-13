@@ -14,7 +14,13 @@ class ExpertSenderResponse
 
     public function isOk()
     {
-        return ($this->responseCode >= 200) && ($this->responseCode <= 299);
+        $errorCode = $this->getErrorCode();
+
+        return
+            ($this->responseCode >= 200) &&
+            ($this->responseCode <= 299) &&
+            ($errorCode >= 200) &&
+            ($errorCode <= 299);
     }
 
     /**
@@ -23,6 +29,18 @@ class ExpertSenderResponse
     public function getResponseCode()
     {
         return $this->responseCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getErrorCode()
+    {
+        if (preg_match("~<Code>(.+)</Code>~", $this->body, $matches)) {
+            return $matches[1];
+        }
+
+        return 200;
     }
 
     public function getErrorMessage()

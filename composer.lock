@@ -51,12 +51,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "dff200806109072c6f2f788b9499492fd73cae02"
+                "reference": "577fdf3f53ddff207d579f1625fe1398dd2b7613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/dff200806109072c6f2f788b9499492fd73cae02",
-                "reference": "dff200806109072c6f2f788b9499492fd73cae02",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/577fdf3f53ddff207d579f1625fe1398dd2b7613",
+                "reference": "577fdf3f53ddff207d579f1625fe1398dd2b7613",
                 "shasum": ""
             },
             "require": {
@@ -106,7 +106,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-10-04 20:11:09"
+            "time": "2013-11-13 08:05:31"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -297,12 +297,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "052a1ccf7152c94a585f9399badcc9c0c507f8b3"
+                "reference": "24148d91bc58a1a666918e4b6948d343aa6c15fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/052a1ccf7152c94a585f9399badcc9c0c507f8b3",
-                "reference": "052a1ccf7152c94a585f9399badcc9c0c507f8b3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/24148d91bc58a1a666918e4b6948d343aa6c15fa",
+                "reference": "24148d91bc58a1a666918e4b6948d343aa6c15fa",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-10-18 09:39:20"
+            "time": "2013-11-13 08:56:01"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -374,12 +374,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "346591b047bc04e22c0f608110087579f7518dba"
+                "reference": "73e7b0766ad6223e713ac87cfe5d4e211bd18af0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/346591b047bc04e22c0f608110087579f7518dba",
-                "reference": "346591b047bc04e22c0f608110087579f7518dba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/73e7b0766ad6223e713ac87cfe5d4e211bd18af0",
+                "reference": "73e7b0766ad6223e713ac87cfe5d4e211bd18af0",
                 "shasum": ""
             },
             "require": {
@@ -424,7 +424,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2013-08-31 07:18:20"
+            "time": "2013-11-11 13:54:31"
         },
         {
             "name": "sebastian/diff",
@@ -482,12 +482,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "7c801c2db02018e00a91026994eadb9fae51701f"
+                "reference": "1ea51dd3c4c86d5d2d0fdbfd779a277c4c6aadc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/7c801c2db02018e00a91026994eadb9fae51701f",
-                "reference": "7c801c2db02018e00a91026994eadb9fae51701f",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/1ea51dd3c4c86d5d2d0fdbfd779a277c4c6aadc2",
+                "reference": "1ea51dd3c4c86d5d2d0fdbfd779a277c4c6aadc2",
                 "shasum": ""
             },
             "require": {
@@ -537,7 +537,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2013-07-09 05:47:49"
+            "time": "2013-11-06 09:43:40"
         },
         {
             "name": "sebastian/version",

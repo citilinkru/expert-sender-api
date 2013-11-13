@@ -4,6 +4,7 @@ namespace LinguaLeo\ExpertSender;
 class ApiResult
 {
     protected $errorCode;
+    protected $responseCode;
     protected $errorMessage;
     protected $response;
 
@@ -17,9 +18,11 @@ class ApiResult
 
         if ($response->isOk()) {
             $this->errorCode = 0;
+            $this->responseCode = 0;
             $this->errorMessage = '';
         } else {
-            $this->errorCode = $response->getResponseCode();
+            $this->errorCode = $response->getErrorCode();
+            $this->responseCode = $response->getResponseCode();
             $this->errorMessage = $response->getErrorMessage();
         }
     }
@@ -43,5 +46,13 @@ class ApiResult
     public function getErrorMessage()
     {
         return $this->errorMessage;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResponseCode()
+    {
+        return $this->responseCode;
     }
 }
