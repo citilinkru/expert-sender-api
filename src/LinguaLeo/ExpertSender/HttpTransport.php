@@ -3,6 +3,8 @@ namespace LinguaLeo\ExpertSender;
 
 class HttpTransport
 {
+    const CONNECTION_ERROR = 312241;
+
     function __construct()
     {
     }
@@ -22,7 +24,10 @@ class HttpTransport
 
         $context = stream_context_create(['http' => $http]);
 
-        $result = file_get_contents($url, false, $context);
+        $result = @file_get_contents($url, false, $context);
+        if ($result === false) {
+            throw new \Exception("Can't connect to ES", self::CONNECTION_ERROR);
+        }
 
         $headers = $http_response_header;
         $responseCode = 500;
