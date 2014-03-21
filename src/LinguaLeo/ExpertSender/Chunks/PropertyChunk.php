@@ -18,7 +18,7 @@ EOD;
     protected $type;
     protected $value;
 
-    public function __construct($property)
+    public function __construct(Property $property)
     {
         $this->property = $property;
     }

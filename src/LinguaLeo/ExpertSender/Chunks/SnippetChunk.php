@@ -17,12 +17,8 @@ EOD;
     /** @var Snippet */
     protected $snippet;
 
-    public function __construct($snippet)
+    public function __construct(Snippet $snippet)
     {
-        if (!$snippet instanceof Snippet) {
-            throw new ExpertSenderException("Snippet parameter must be instance of Snippet class");
-        }
-
         $this->snippet = $snippet;
     }
 
