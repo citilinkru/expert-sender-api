@@ -2,13 +2,14 @@
 
 namespace LinguaLeo\ExpertSender\Chunks;
 
-class ReceiversChunk extends ArrayChunk
+
+class WhereConditionsChunk extends ArrayChunk
 {
 
     const PATTERN = <<<EOD
-<Receivers>
+<WhereConditions>
             %s
-</Receivers>
+</WhereConditions>
 EOD;
 
     /**

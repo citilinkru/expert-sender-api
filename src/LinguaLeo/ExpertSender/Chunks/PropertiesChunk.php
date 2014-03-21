@@ -1,42 +1,21 @@
 <?php
 namespace LinguaLeo\ExpertSender\Chunks;
 
-class PropertiesChunk implements ChunkInterface
+class PropertiesChunk extends ArrayChunk
 {
+
     const PATTERN = <<<EOD
         <Properties>
             %s
         </Properties>
 EOD;
 
-    protected $propertyChunks;
-
-    public function __construct($propertyChunks = [])
+    /**
+     * @return string
+     */
+    protected function getPattern()
     {
-        $this->propertyChunks = $propertyChunks;
+        return self::PATTERN;
     }
 
-    public function addPropertyChunk($propertyChunk)
-    {
-        $this->propertyChunks[] = $propertyChunk;
-    }
-
-    protected function getSubChunksText()
-    {
-        $texts = [];
-        foreach ($this->propertyChunks as $propertyChunk) {
-            $texts[] = $propertyChunk->getText();
-        }
-
-        return implode("\n", $texts);
-    }
-
-    public function getText()
-    {
-        if (count($this->propertyChunks)) {
-            return sprintf(self::PATTERN, $this->getSubChunksText());
-        } else {
-            return '';
-        }
-    }
 }

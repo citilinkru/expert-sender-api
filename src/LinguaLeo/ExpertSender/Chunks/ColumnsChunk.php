@@ -2,18 +2,15 @@
 
 namespace LinguaLeo\ExpertSender\Chunks;
 
-class ReceiversChunk extends ArrayChunk
+class ColumnsChunk extends ArrayChunk
 {
 
     const PATTERN = <<<EOD
-<Receivers>
+<Columns>
             %s
-</Receivers>
+</Columns>
 EOD;
 
-    /**
-     * @return string
-     */
     protected function getPattern()
     {
         return self::PATTERN;

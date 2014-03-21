@@ -1,45 +1,43 @@
 <?php
 namespace LinguaLeo\ExpertSender\Chunks;
 
-class DataChunk implements ChunkInterface
+class DataChunk extends ArrayChunk
 {
+
     const PATTERN = <<<EOD
     <Data %s>
 %s
     </Data>
 EOD;
 
+    /** @var string */
     protected $xsiType;
-    protected $subChunks = [];
 
-    public function __construct($xsiType = null)
+    /**
+     * @param mixed $xsiType
+     * @param array $chunksArray
+     */
+    public function __construct($xsiType = null, array $chunksArray = [])
     {
+        parent::__construct($chunksArray);
         $this->xsiType = $xsiType;
     }
 
-    public function addSubChunk($chunk)
-    {
-        $this->subChunks[] = $chunk;
-    }
-
-    protected function getSubChunksText()
-    {
-        $texts = [];
-        foreach ($this->subChunks as $subChunk) {
-            $texts[] = $subChunk->getText();
-        }
-
-        return implode("\n", $texts);
-    }
-
+    /**
+     * @return string
+     */
     public function getText()
     {
-        if ($this->xsiType) {
-            $xsiType = sprintf('xsi:type="%s"', $this->xsiType);
-        } else {
-            $xsiType = '';
-        }
-
-        return sprintf(self::PATTERN, $xsiType, $this->getSubChunksText());
+        $xsiType = $this->xsiType ? sprintf('xsi:type="%s"', $this->xsiType) : '';
+        return sprintf($this->getPattern(), $xsiType, $this->getSubChunksText());
     }
+
+    /**
+     * @return string
+     */
+    protected function getPattern()
+    {
+        return self::PATTERN;
+    }
+
 }

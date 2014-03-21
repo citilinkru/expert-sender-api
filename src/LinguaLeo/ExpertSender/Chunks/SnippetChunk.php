@@ -6,6 +6,7 @@ use LinguaLeo\ExpertSender\ExpertSenderException;
 
 class SnippetChunk implements ChunkInterface
 {
+
     const PATTERN = <<<EOD
         <Snippet>
             <Name>%s</Name>
@@ -29,4 +30,5 @@ EOD;
     {
         return sprintf(self::PATTERN, $this->snippet->getName(), $this->snippet->getValue());
     }
+
 }

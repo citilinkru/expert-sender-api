@@ -11,8 +11,8 @@ class DataChunkTest extends \PHPUnit_Framework_TestCase
         $bodyChunk2->expects($this->once())->method('getText')->will($this->returnValue('data2'));
 
         $dataChunk = new DataChunk('subscriber');
-        $dataChunk->addSubChunk($bodyChunk1);
-        $dataChunk->addSubChunk($bodyChunk2);
+        $dataChunk->addChunk($bodyChunk1);
+        $dataChunk->addChunk($bodyChunk2);
 
         $text = $dataChunk->getText();
         $this->assertRegExp('~subscriber~', $text);

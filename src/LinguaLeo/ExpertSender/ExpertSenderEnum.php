@@ -9,6 +9,14 @@ class ExpertSenderEnum
     const TYPE_DATE = 'date';
     const TYPE_DATE_TIME = 'dateTime';
 
+    const OPERATOR_EQUALS = 'Equals';
+    const OPERATOR_GREATER = 'Greater';
+    const OPERATOR_LOWER = 'Lower';
+    const OPERATOR_LIKE = 'Like';
+
+    const ORDER_ASCENDING = 'Ascending';
+    const ORDER_DESCENDING = 'Descending';
+
     const MODE_ADD_AND_UPDATE = 'AddAndUpdate';
     const MODE_ADD_AND_REPLACE = 'AddAndReplace';
     const MODE_ADD_AND_IGNORE = 'AddAndIgnore';

@@ -1,8 +1,11 @@
 <?php
 namespace LinguaLeo\ExpertSender\Chunks;
 
+use LinguaLeo\ExpertSender\Entities\Property;
+
 class PropertyChunk implements ChunkInterface
 {
+
     const PATTERN = <<<EOD
         <Property>
              <Id>%s</Id>
@@ -22,6 +25,12 @@ EOD;
 
     public function getText()
     {
-        return sprintf(self::PATTERN, $this->property->getId(), $this->property->getType(), $this->property->getValue());
+        return sprintf(
+            self::PATTERN,
+            $this->property->getId(),
+            $this->property->getType(),
+            $this->property->getValue()
+        );
     }
+
 }
