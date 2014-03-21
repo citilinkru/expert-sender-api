@@ -19,7 +19,7 @@ abstract class ArrayChunk implements ChunkInterface
     /**
      * @param ChunkInterface $chunk
      */
-    public function addChunk($chunk)
+    public function addChunk(ChunkInterface $chunk)
     {
         $this->chunks[] = $chunk;
     }

@@ -11,16 +11,16 @@ class HeaderChunk implements ChunkInterface
 </ApiRequest>
 EOD;
 
-    /** @var  ChunkInterface */
+    /** @var ChunkInterface */
     protected $bodyChunk;
     /** @var string */
     protected $apiKey;
 
     /**
-     * @param $apiKey
+     * @param string $apiKey
      * @param ChunkInterface $bodyChunk
      */
-    public function __construct($apiKey, $bodyChunk)
+    public function __construct($apiKey, ChunkInterface $bodyChunk)
     {
         $this->apiKey = $apiKey;
         $this->bodyChunk = $bodyChunk;
