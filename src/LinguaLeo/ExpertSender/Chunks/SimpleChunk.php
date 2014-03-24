@@ -3,6 +3,7 @@ namespace LinguaLeo\ExpertSender\Chunks;
 
 class SimpleChunk implements ChunkInterface
 {
+
     const PATTERN = <<<EOD
        <%s>%s</%s>
 EOD;
@@ -20,4 +21,5 @@ EOD;
     {
         return sprintf(self::PATTERN, $this->name, $this->value, $this->name);
     }
+
 } 

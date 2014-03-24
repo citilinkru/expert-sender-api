@@ -6,6 +6,7 @@ use LinguaLeo\ExpertSender\ExpertSenderException;
 
 class SnippetChunk implements ChunkInterface
 {
+
     const PATTERN = <<<EOD
         <Snippet>
             <Name>%s</Name>
@@ -16,12 +17,8 @@ EOD;
     /** @var Snippet */
     protected $snippet;
 
-    public function __construct($snippet)
+    public function __construct(Snippet $snippet)
     {
-        if (!$snippet instanceof Snippet) {
-            throw new ExpertSenderException("Snippet parameter must be instance of Snippet class");
-        }
-
         $this->snippet = $snippet;
     }
 
@@ -29,4 +26,5 @@ EOD;
     {
         return sprintf(self::PATTERN, $this->snippet->getName(), $this->snippet->getValue());
     }
+
 }
