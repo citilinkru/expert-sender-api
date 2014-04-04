@@ -21,16 +21,27 @@ class TableDataResult extends ApiResult
 
     protected function parse()
     {
-        if (!$this->response->isOk()) {
+        $response = $this->removeBOM($this->response->getBody());
+        if (!$this->response->isOk() || !$response) {
             return;
         }
         $temp = tmpfile();
-        fwrite($temp, $this->response->getBody());
+        fwrite($temp, $response);
         fseek($temp, 0);
         while (($row = fgetcsv($temp)) !== false) {
             $this->data[] = $row;
         }
         fclose($temp);
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    private function removeBOM($text)
+    {
+        $bom = pack('H*','EFBBBF');
+        return preg_replace("/^{$bom}/", '', $text);
     }
 
     /**
