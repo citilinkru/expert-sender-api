@@ -8,7 +8,7 @@ class TableDataResult extends ApiResult
 {
 
     /** @var array */
-    protected $data;
+    protected $data = [];
 
     /**
      * @param \LinguaLeo\ExpertSender\ExpertSenderResponse $response
@@ -21,13 +21,20 @@ class TableDataResult extends ApiResult
 
     protected function parse()
     {
-        $this->data = explode("\n", $this->response->getBody());
-        if ($this->data) {
-            unset($this->data[0]);
+        if (!$this->response->isOk()) {
+            return;
         }
-        $this->data = array_filter($this->data, function($e) { return !empty($e); });
-        $this->data = array_map(function($e){ return str_getcsv($e); }, $this->data);
-        $this->data = array_values($this->data);
+        $temp = tmpfile();
+        fwrite($temp, $this->response->getBody());
+        fseek($temp, 0);
+        while (($row = fgetcsv($temp)) !== false) {
+            $this->data[] = $row;
+        }
+        if (isset($this->data[0])) { //removing useless header row
+            unset($this->data[0]);
+            $this->data = array_values($this->data);
+        }
+        fclose($temp);
     }
 
     /**

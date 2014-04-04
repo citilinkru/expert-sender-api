@@ -75,6 +75,9 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('~not found~', $result->getErrorMessage());
     }
 
+    /**
+     * @group table
+     */
     public function testAddTableRow()
     {
         $result = $this->expertSender->addTableRow($this->getTestTableName(), [
@@ -87,6 +90,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group table
      * @depends testAddTableRow
      */
     public function testGetTableData()
@@ -102,6 +106,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group table
      * @depends testAddTableRow
      */
     public function testUpdateTableRow()
@@ -117,6 +122,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group table
      * @depends testUpdateTableRow
      */
     public function testDeleteTableRow()
