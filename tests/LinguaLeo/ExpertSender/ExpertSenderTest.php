@@ -102,7 +102,8 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($result->isOk());
         $tableData = $result->getData();
-        $this->assertEquals(['Alex', 'True'], $tableData[0]);
+        $this->assertEquals(2, count($tableData));
+        $this->assertEquals(['Alex', 'True'], $tableData[1]);
     }
 
     /**

@@ -30,10 +30,6 @@ class TableDataResult extends ApiResult
         while (($row = fgetcsv($temp)) !== false) {
             $this->data[] = $row;
         }
-        if (isset($this->data[0])) { //removing useless header row
-            unset($this->data[0]);
-            $this->data = array_values($this->data);
-        }
         fclose($temp);
     }
 
