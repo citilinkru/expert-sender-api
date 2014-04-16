@@ -78,9 +78,10 @@ class ExpertSender
      * @param string|null $lastName
      * @param string $mode - see ExpertSenderEnum for available values
      * @param integer|null $id
+     * @param string|null $ip
      * @return ApiResult
      */
-    public function addUserToList($email, $listId, $properties, $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE, $id = null)
+    public function addUserToList($email, $listId, $properties, $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE, $id = null, $ip = null)
     {
         $dataChunk = new DataChunk('Subscriber');
         $dataChunk->addChunk(new SimpleChunk('Mode', $mode));
@@ -97,6 +98,10 @@ class ExpertSender
 
         if ($id !== null) {
             $dataChunk->addChunk(new SimpleChunk('Id', $id));
+        }
+
+        if ($ip !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Ip', $ip));
         }
 
         $propertiesChunks = new PropertiesChunk();
