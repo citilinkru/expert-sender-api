@@ -1,0 +1,9 @@
+{
+    "url": null,
+    "key": null,
+    "testList": null,
+    "testTrigger": null,
+    "testTransactional": null,
+    "testGmailEmailPattern": null,
+    "testTableName": null
+}

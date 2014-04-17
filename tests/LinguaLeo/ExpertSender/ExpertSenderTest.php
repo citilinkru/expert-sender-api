@@ -35,35 +35,46 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $paramsPath = __DIR__ . '/params.json';
 
         if (!is_file($paramsPath)) {
-            $this->markTestSkipped('params.json file is required to run this test');
+            $this->markTestSkipped('params.json is required to run this test');
         }
 
         return json_decode(file_get_contents($paramsPath), 1);
     }
 
+    public function getParam($param)
+    {
+        $params = $this->getParams();
+
+        if (!isset($params[$param]) || null === $params[$param]) {
+            $this->markTestSkipped($param.' must be configured in params.json to run this test');
+        }
+
+        return $params[$param];
+    }
+
     public function getTestListId()
     {
-        return $this->getParams()['testList'];
+        return $this->getParam('testList');
     }
 
     public function getTestTrigger()
     {
-        return $this->getParams()['testTrigger'];
+        return $this->getParam('testTrigger');
     }
 
     public function getTestTransactional()
     {
-        return $this->getParams()['testTransactional'];
+        return $this->getParam('testTransactional');
     }
 
     public function getTestEmailPattern()
     {
-        return $this->getParams()['testGmailEmailPattern'];
+        return $this->getParam('testGmailEmailPattern');
     }
 
     public function getTestTableName()
     {
-        return $this->getParams()['testTableName'];
+        return $this->getParam('testTableName');
     }
 
     public function testLists()
