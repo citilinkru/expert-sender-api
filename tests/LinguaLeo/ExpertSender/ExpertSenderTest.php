@@ -9,10 +9,10 @@ use LinguaLeo\ExpertSender\Entities\Where;
 
 class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 {
-    
+
     /** @var ExpertSender */
     protected $expertSender;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -22,7 +22,13 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 
     public function getParams()
     {
-        return json_decode(file_get_contents(__DIR__ . '/params.json'), 1);
+        $paramsPath = __DIR__ . '/params.json';
+
+        if (!is_file($paramsPath)) {
+            $this->markTestSkipped('params.json file is required to run this test');
+        }
+
+        return json_decode(file_get_contents($paramsPath), 1);
     }
 
     public function getTestListId()
@@ -134,7 +140,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         ]);
         $this->assertTrue($result->isOk());
     }
-    
+
     public function testChangeEmail()
     {
         $randomEmail = sprintf("some_random_%s@gmail.com", rand(0, 100000000000) . rand(0, 1000000000000));
