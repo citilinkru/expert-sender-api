@@ -16,17 +16,18 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     /** @var Request\AddUserToList */
     protected $addUserToListRequest;
 
+    /** @var array|null */
+    protected $params = null;
+
     public function setUp()
     {
         parent::setUp();
 
-        $params = $this->getParams();
-
-        $this->expertSender = new ExpertSender($params['url'], $params['key'], new HttpTransport());
+        $this->expertSender = new ExpertSender($this->getParam('url'), $this->getParam('key'), new HttpTransport());
 
         // minimal required request setup
         $this->addUserToListRequest = (new Request\AddUserToList())
-            ->setListId($params['testList'])
+            ->setListId($this->getParam('testList'))
             ->setEmail('example@example.com');
     }
 
@@ -43,13 +44,19 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 
     public function getParam($param)
     {
-        $params = $this->getParams();
-
-        if (!isset($params[$param]) || null === $params[$param]) {
-            $this->markTestSkipped($param.' must be configured in params.json to run this test');
+        if (!$this->params) {
+            $this->params = $this->getParams();
+            if (!$this->params) {
+                $this->params = [];
+            }
         }
 
-        return $params[$param];
+
+        if (!isset($this->params[$param]) || null === $this->params[$param]) {
+            $this->markTestSkipped($param . ' must be configured in params.json to run this test');
+        }
+
+        return $this->params[$param];
     }
 
     public function getTestListId()
@@ -227,5 +234,4 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     {
         $this->expertSender->addUserToList($this->addUserToListRequest, 'additional_argument');
     }
-
 }
