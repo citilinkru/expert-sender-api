@@ -13,11 +13,21 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     /** @var ExpertSender */
     protected $expertSender;
 
+    /** @var Request\AddUserToList */
+    protected $addUserToListRequest;
+
     public function setUp()
     {
         parent::setUp();
+
         $params = $this->getParams();
+
         $this->expertSender = new ExpertSender($params['url'], $params['key'], new HttpTransport());
+
+        // minimal required request setup
+        $this->addUserToListRequest = (new Request\AddUserToList())
+            ->setListId($params['testList'])
+            ->setEmail('example@example.com');
     }
 
     public function getParams()
@@ -25,35 +35,46 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $paramsPath = __DIR__ . '/params.json';
 
         if (!is_file($paramsPath)) {
-            $this->markTestSkipped('params.json file is required to run this test');
+            $this->markTestSkipped('params.json is required to run this test');
         }
 
         return json_decode(file_get_contents($paramsPath), 1);
     }
 
+    public function getParam($param)
+    {
+        $params = $this->getParams();
+
+        if (!isset($params[$param]) || null === $params[$param]) {
+            $this->markTestSkipped($param.' must be configured in params.json to run this test');
+        }
+
+        return $params[$param];
+    }
+
     public function getTestListId()
     {
-        return $this->getParams()['testList'];
+        return $this->getParam('testList');
     }
 
     public function getTestTrigger()
     {
-        return $this->getParams()['testTrigger'];
+        return $this->getParam('testTrigger');
     }
 
     public function getTestTransactional()
     {
-        return $this->getParams()['testTransactional'];
+        return $this->getParam('testTransactional');
     }
 
     public function getTestEmailPattern()
     {
-        return $this->getParams()['testGmailEmailPattern'];
+        return $this->getParam('testGmailEmailPattern');
     }
 
     public function getTestTableName()
     {
-        return $this->getParams()['testTableName'];
+        return $this->getParam('testTableName');
     }
 
     public function testLists()
@@ -188,6 +209,23 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')], 'Vladimir');
         $this->expertSender->sendTransactional($this->getTestTransactional(), new Receiver($randomEmail), [new Snippet('code', 123456)]);
         $this->assertTrue(true);
+    }
+
+    public function testAddUserToListAcceptsAndFreezesRequest()
+    {
+        $result = $this->expertSender->addUserToList($this->addUserToListRequest);
+
+        $this->assertTrue($this->addUserToListRequest->isFrozen());
+
+        $this->assertTrue($result->isOk());
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testAddUserToListAcceptsRequestAndNoOtherArgs()
+    {
+        $this->expertSender->addUserToList($this->addUserToListRequest, 'additional_argument');
     }
 
 }

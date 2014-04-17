@@ -71,48 +71,52 @@ class ExpertSender
     }
 
     /**
-     * @param $email
-     * @param integer $listId
-     * @param array $properties - each element must be instance of Property class
-     * @param string|null $firstName
-     * @param string|null $lastName
-     * @param string $mode - see ExpertSenderEnum for available values
-     * @param integer|null $id
-     * @param string|null $ip
+     * Adds user to list subscribers.
+     *
+     * Calls with many arguments are deprecated. Pass Request\AddUserToList instead.
+     *
+     * @todo Remove many arguments, accept Request\AddUserToList only.
+     *
+     * @param Request\AddUserToList $request
      * @return ApiResult
+     * @throws \BadMethodCallException
      */
-    public function addUserToList($email, $listId, $properties, $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE, $id = null, $ip = null)
+    public function addUserToList($email = null, $listId = null, array $properties = array(), $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE, $id = null, $ip = null)
     {
-        $dataChunk = new DataChunk('Subscriber');
-        $dataChunk->addChunk(new SimpleChunk('Mode', $mode));
-        $dataChunk->addChunk(new SimpleChunk('Email', $email));
-        $dataChunk->addChunk(new SimpleChunk('ListId', $listId));
+        $args = func_get_args();
 
-        if ($firstName !== null) {
-            $dataChunk->addChunk(new SimpleChunk('Firstname', $firstName));
+        if (isset($args[0]) && $args[0] instanceof Request\AddUserToList) {
+            if (count($args) > 1) {
+                throw new \BadMethodCallException();
+            }
+
+            $request = $args[0];
+        } else {
+            if ($this->logger) {
+                $this->logger->warning(sprintf(
+                    'Deprecated passing many arguments to %s. Use %s object instead.',
+                    'ExpertSender->addUserToList()',
+                    'Request\AddUserToList'
+                ));
+            }
+
+            $request = (new Request\AddUserToList())
+                ->setEmail($email)
+                ->setListId($listId)
+                ->setProperties($properties)
+                ->setFirstName($firstName)
+                ->setLastName($lastName)
+                ->setMode($mode)
+                ->setId($id)
+                ->setIp($ip);
         }
 
-        if ($lastName !== null) {
-            $dataChunk->addChunk(new SimpleChunk('Lastname', $lastName));
-        }
+        // we're going to use it, so we don't want it to be changeable anymore
+        // (mutable object -> value object)
+        // plus it gets validated for required fields
+        $request->freeze();
 
-        if ($id !== null) {
-            $dataChunk->addChunk(new SimpleChunk('Id', $id));
-        }
-
-        if ($ip !== null) {
-            $dataChunk->addChunk(new SimpleChunk('Ip', $ip));
-        }
-
-        $propertiesChunks = new PropertiesChunk();
-
-        foreach ($properties as $property) {
-            $propertiesChunks->addChunk(new PropertyChunk($property));
-        }
-
-        $dataChunk->addChunk($propertiesChunks);
-
-        $headerChunk = $this->getHeaderChunk($dataChunk);
+        $headerChunk = $this->getAddUserToListHeaderChunk($request);
 
         $response = $this->transport->post($this->subscribersUrl, $headerChunk->getText());
 
@@ -347,6 +351,45 @@ class ExpertSender
     }
 
     /**
+     * @param AddUserToList $request
+     * @return HeaderChunk
+     */
+    protected function getAddUserToListHeaderChunk(Request\AddUserToList $request)
+    {
+        $dataChunk = new DataChunk('Subscriber');
+
+        $dataChunk->addChunk(new SimpleChunk('Mode', $request->getMode()));
+        $dataChunk->addChunk(new SimpleChunk('Email', $request->getEmail()));
+        $dataChunk->addChunk(new SimpleChunk('ListId', $request->getListId()));
+
+        if ($request->getFirstName() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Firstname', $request->getFirstName()));
+        }
+
+        if ($request->getLastName() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Lastname', $request->getLastName()));
+        }
+
+        if ($request->getId() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Id', $request->getId()));
+        }
+
+        if ($request->getIp() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Ip', $request->getIp()));
+        }
+
+        $propertiesChunks = new PropertiesChunk();
+
+        foreach ($request->getProperties() as $property) {
+            $propertiesChunks->addChunk(new PropertyChunk($property));
+        }
+
+        $dataChunk->addChunk($propertiesChunks);
+
+        return $this->getHeaderChunk($dataChunk);
+    }
+
+    /**
      * @param ChunkInterface $bodyChunk
      * @return HeaderChunk
      */
@@ -382,4 +425,3 @@ class ExpertSender
     }
 
 }
-?>
