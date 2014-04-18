@@ -10,7 +10,7 @@ $expertSender = new ExpertSender('https://api.esv2.com/', $apiKey);
 
 $customProperty = new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female');
 
-$request = new AddUserToListRequest();
+$request = new AddUserToList();
 $request
     ->setEmail('my@email.com')
     ->setListId(1000)
