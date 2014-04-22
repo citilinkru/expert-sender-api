@@ -10,8 +10,6 @@ use BadMethodCallException;
  * Represents adding subscriber to list request attributes.
  *
  * https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/add-subscriber#TOC-Request-data-format
- *
- * @todo Add $name, $force, $trackingCode, $vendor attributes.
  */
 class AddUserToList
 {
@@ -48,7 +46,27 @@ class AddUserToList
     /**
      * @var string|null
      */
+    private $name = null;
+
+    /**
+     * @var string|null
+     */
     private $ip = null;
+
+    /**
+     * @var string|null
+     */
+    private $trackingCode = null;
+
+    /**
+     * @var string|null
+     */
+    private $vendor = null;
+
+    /**
+     * @var boolean
+     */
+    private $force = false;
 
     /**
      * @var string
@@ -202,6 +220,28 @@ class AddUserToList
     }
 
     /**
+     * @param string|null $name
+     * @return AddUserToList
+     * @throws BadMethodCallException
+     */
+    public function setName($name = null)
+    {
+        $this->exceptionIfFrozen();
+
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * @param string|null $ip
      * @return AddUserToList
      * @throws BadMethodCallException
@@ -221,6 +261,82 @@ class AddUserToList
     public function getIp()
     {
         return $this->ip;
+    }
+
+    /**
+     * @param string|null $trackingCode
+     * @return AddUserToList
+     * @throws BadMethodCallException
+     * @throws \InvalidArgumentException
+     */
+    public function setTrackingCode($trackingCode = null)
+    {
+        $this->exceptionIfFrozen();
+
+        if (strlen($trackingCode) > 20) {
+            throw new \InvalidArgumentException('Tracking code is too long, max is 20 characters');
+        }
+
+        $this->trackingCode = $trackingCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTrackingCode()
+    {
+        return $this->trackingCode;
+    }
+
+    /**
+     * @param string|null $vendor
+     * @return AddUserToList
+     * @throws BadMethodCallException
+     */
+    public function setVendor($vendor = null)
+    {
+        $this->exceptionIfFrozen();
+
+        $this->vendor = $vendor;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVendor()
+    {
+        return $this->vendor;
+    }
+
+    /**
+     * @param boolean $force
+     * @return AddUserToList
+     * @throws BadMethodCallException
+     * @throws InvalidArgumentException
+     */
+    public function setForce($force)
+    {
+        $this->exceptionIfFrozen();
+
+        if (!is_bool($force)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->force = $force;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getForce()
+    {
+        return $this->force;
     }
 
     /**

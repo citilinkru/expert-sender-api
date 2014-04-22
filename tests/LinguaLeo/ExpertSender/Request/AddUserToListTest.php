@@ -22,9 +22,26 @@ class AddUserToListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->request->getEmail());
         $this->assertEquals(null, $this->request->getFirstName());
         $this->assertEquals(null, $this->request->getLastName());
+        $this->assertEquals(null, $this->request->getName());
         $this->assertEquals(null, $this->request->getIp());
+        $this->assertEquals(null, $this->request->getTrackingCode());
+        $this->assertEquals(null, $this->request->getVendor());
+        $this->assertEquals(false, $this->request->getForce());
         $this->assertEquals('AddAndUpdate', $this->request->getMode());
         $this->assertEquals([], $this->request->getProperties());
+    }
+
+    /**
+     * @dataProvider provideMethodsValues
+     */
+    public function testValuesAreSet($field, $value)
+    {
+        $setter = 'set'.ucfirst($field);
+        $getter = 'get'.ucfirst($field);
+
+        $this->request->$setter($value);
+
+        $this->assertSame($value, $this->request->$getter());
     }
 
     /**
@@ -51,7 +68,7 @@ class AddUserToListTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideMethodsValues
      * @expectedException \BadMethodCallException
      */
-    public function testCannotBeChangedWhenFrozen($method, $value)
+    public function testCannotBeChangedWhenFrozen($field, $value)
     {
         // minimal setup
         $this->request->setListId(1);
@@ -59,7 +76,9 @@ class AddUserToListTest extends \PHPUnit_Framework_TestCase
 
         $this->request->freeze();
 
-        $this->request->$method($value);
+        $setter = 'set'.ucfirst($field);
+
+        $this->request->$setter($value);
     }
 
     public function testResetProperties()
@@ -123,28 +142,42 @@ class AddUserToListTest extends \PHPUnit_Framework_TestCase
     public function provideMethodsValues()
     {
         return [
-            ['setListId', null],
-            ['setListId', 2],
+            ['listId', null],
+            ['listId', 2],
 
-            ['setId', null],
-            ['setId', 2],
+            ['id', null],
+            ['id', 2],
 
-            ['setEmail', null],
-            ['setEmail', 'test2@example.com'],
+            ['email', null],
+            ['email', 'test2@example.com'],
 
-            ['setFirstName', null],
-            ['setFirstName', 'first_name'],
+            ['firstName', null],
+            ['firstName', 'first_name'],
 
-            ['setLastName', null],
-            ['setLastName', 'last_name'],
+            ['lastName', null],
+            ['lastName', 'last_name'],
 
-            ['setIp', null],
-            ['setIp', '10.20.30.40'],
+            ['name', null],
+            ['name', 'Some_Name'],
 
-            ['setMode', null],
-            ['setMode', 'new_mode'],
+            ['ip', null],
+            ['ip', '10.20.30.40'],
 
-            ['setProperties', []],
+            ['trackingCode', null],
+            ['trackingCode', 'tracking_code'],
+
+            ['vendor', null],
+            ['vendor', 'my_vendor'],
+
+            ['force', true],
+            ['force', false],
+
+            ['mode', ExpertSenderEnum::MODE_ADD_AND_IGNORE],
+            ['mode', ExpertSenderEnum::MODE_IGNORE_AND_UPDATE],
+
+            ['properties', []],
+            ['properties', [new Property(1, 1, 1)]],
+            ['properties', [new Property(2, 2, 2), new Property(3, 3, 3)]],
         ];
     }
 
