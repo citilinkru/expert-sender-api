@@ -52,6 +52,12 @@ class ExpertSenderEnum
      */
     public static function getModes()
     {
-        return [self::MODE_ADD_AND_UPDATE, self::MODE_ADD_AND_REPLACE, self::MODE_ADD_AND_IGNORE, self::MODE_IGNORE_AND_UPDATE, self::MODE_IGNORE_AND_REPLACE];
+        return [
+            self::MODE_ADD_AND_UPDATE,
+            self::MODE_ADD_AND_REPLACE,
+            self::MODE_ADD_AND_IGNORE,
+            self::MODE_IGNORE_AND_UPDATE,
+            self::MODE_IGNORE_AND_REPLACE,
+        ];
     }
 }

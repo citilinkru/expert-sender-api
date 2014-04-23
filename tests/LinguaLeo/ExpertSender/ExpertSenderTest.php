@@ -23,7 +23,11 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->expertSender = new ExpertSender($this->getParam('url'), $this->getParam('key'), new HttpTransport());
+        $this->expertSender = new ExpertSender(
+            $this->getParam('url'),
+            $this->getParam('key'),
+            new HttpTransport()
+        );
 
         // minimal required request setup
         $this->addUserToListRequest = (new Request\AddUserToList())
@@ -86,7 +90,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 
     public function testLists()
     {
-        $randomEmail = sprintf("some_random_%s@gmail.com", rand(0, 100000000000) . rand(0, 1000000000000));
+        $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
 
         $listId = $this->getTestListId();
         $result = $this->expertSender->addUserToList(
@@ -171,8 +175,8 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 
     public function testChangeEmail()
     {
-        $randomEmail = sprintf("some_random_%s@gmail.com", rand(0, 100000000000) . rand(0, 1000000000000));
-        $randomEmail2 = sprintf("some_random_%s@gmail.com", rand(0, 100000000000) . rand(0, 1000000000000));
+        $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
+        $randomEmail2 = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
 
         $listId = $this->getTestListId();
 
@@ -204,8 +208,16 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     {
         $randomEmail = sprintf($this->getTestEmailPattern(), rand(0, 100000000000) . rand(0, 1000000000000));
         $listId = $this->getTestListId();
-        $this->expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')], 'Vladimir');
+
+        $this->expertSender->addUserToList(
+            $randomEmail,
+            $listId,
+            [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')],
+            'Vladimir'
+        );
+
         $this->expertSender->sendTrigger($this->getTestTrigger(), [new Receiver($randomEmail)]);
+
         $this->assertTrue(true);
     }
 
@@ -213,8 +225,20 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     {
         $randomEmail = sprintf($this->getTestEmailPattern(), rand(0, 100000000000) . rand(0, 1000000000000));
         $listId = $this->getTestListId();
-        $this->expertSender->addUserToList($randomEmail, $listId, [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')], 'Vladimir');
-        $this->expertSender->sendTransactional($this->getTestTransactional(), new Receiver($randomEmail), [new Snippet('code', 123456)]);
+
+        $this->expertSender->addUserToList(
+            $randomEmail,
+            $listId,
+            [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'male')],
+            'Vladimir'
+        );
+
+        $this->expertSender->sendTransactional(
+            $this->getTestTransactional(),
+            new Receiver($randomEmail),
+            [new Snippet('code', 123456)]
+        );
+
         $this->assertTrue(true);
     }
 

@@ -81,8 +81,16 @@ class ExpertSender
      * @return ApiResult
      * @throws \BadMethodCallException
      */
-    public function addUserToList($email = null, $listId = null, array $properties = array(), $firstName = null, $lastName = null, $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE, $id = null, $ip = null)
-    {
+    public function addUserToList(
+        $email = null,
+        $listId = null,
+        array $properties = array(),
+        $firstName = null,
+        $lastName = null,
+        $mode = ExpertSenderEnum::MODE_ADD_AND_UPDATE,
+        $id = null,
+        $ip = null
+    ) {
         $args = func_get_args();
 
         if (isset($args[0]) && $args[0] instanceof Request\AddUserToList) {
@@ -292,8 +300,18 @@ class ExpertSender
     public function changeEmail($listId, $from, $to)
     {
         $result = $this->getUserId($from);
-        $apiResult = $this->addUserToList($to, $listId, [], null, null, ExpertSenderEnum::MODE_ADD_AND_UPDATE, $result->getId());
+
+        $request = (new Request\AddUserToList())
+            ->setMode(ExpertSenderEnum::MODE_ADD_AND_UPDATE)
+            ->setId($result->getId())
+            ->setListId($listId)
+            ->setEmail($to)
+            ->freeze();
+
+        $apiResult = $this->addUserToList($request);
+
         $this->logApiResult(__METHOD__, $apiResult);
+
         return $apiResult;
     }
 
@@ -423,5 +441,4 @@ class ExpertSender
             )
         );
     }
-
 }
