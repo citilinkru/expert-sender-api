@@ -34,7 +34,8 @@ EOD;
         }
         $text = [];
         $text[] = (new SimpleChunk('Name', $this->column->getName()))->getText();
-        $text[] = (new SimpleChunk('Value', $this->column->getValue()))->getText();
+        $value = sprintf('<![CDATA[ %s ]]>', $this->column->getValue());
+        $text[] = (new SimpleChunk('Value', $value))->getText();
         return sprintf(self::PATTERN, implode(PHP_EOL, $text));
     }
 
