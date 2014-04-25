@@ -20,7 +20,7 @@ class ColumnsChunkTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('<Columns>', $text);
         $this->assertContains('<Column>', $text);
         $this->assertContains('<Name>name</Name>', $text);
-        $this->assertContains('<Value><![CDATA[ Alex<br/>Aksef ]]></Value>', $text);
+        $this->assertContains('<Value><![CDATA[Alex<br/>Aksef]]></Value>', $text);
         $this->assertContains('<Name>sex</Name>', $text);
         $this->assertContains('<Value>male</Value>', $text);
         $this->assertContains('<Name>age</Name>', $text);

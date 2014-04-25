@@ -36,7 +36,7 @@ EOD;
         $text[] = (new SimpleChunk('Name', $this->column->getName()))->getText();
         $value = $this->column->getValue();
         if ($value != strip_tags($value)) {
-            $value = sprintf('<![CDATA[ %s ]]>', $value);
+            $value = sprintf('<![CDATA[%s]]>', $value);
         }
         $text[] = (new SimpleChunk('Value', $value))->getText();
         return sprintf(self::PATTERN, implode(PHP_EOL, $text));

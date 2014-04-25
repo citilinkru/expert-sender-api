@@ -10,7 +10,7 @@ class Snippet
     {
         $this->name = $name;
         if ($isHtml) {
-            $this->value = sprintf('<![CDATA[ %s ]]>', $value);
+            $this->value = sprintf('<![CDATA[%s]]>', $value);
         } else {
             $this->value = $value;
         }

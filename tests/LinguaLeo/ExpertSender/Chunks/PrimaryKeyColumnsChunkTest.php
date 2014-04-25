@@ -25,7 +25,7 @@ class PrimaryKeyColumnsChunkTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('<PrimaryKeyColumns>', $text);
         $this->assertContains('<Column>', $text);
         $this->assertContains('<Name>name</Name>', $text);
-        $this->assertContains('<Value><![CDATA[ Alex<br/> ]]></Value>', $text);
+        $this->assertContains('<Value><![CDATA[Alex<br/>]]></Value>', $text);
         $this->assertContains('<Name>sex</Name>', $text);
         $this->assertContains('<Value>male</Value>', $text);
         $this->assertContains('<Name>age</Name>', $text);
