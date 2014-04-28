@@ -88,29 +88,60 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         return $this->getParam('testTableName');
     }
 
-    public function testLists()
+    public function testListsOldApi()
     {
         $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
 
-        $listId = $this->getTestListId();
-        $result = $this->expertSender->addUserToList(
+        $addResult = $this->expertSender->addUserToList(
             $randomEmail,
-            $listId,
+            $this->getTestListId(),
             [new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female')],
             'Alex'
         );
 
-        $this->assertTrue($result->isOk());
-        $this->assertEquals(0, $result->getErrorCode());
-        $this->assertEquals('', $result->getErrorMessage());
+        $this->assertTrue($addResult->isOk());
+        $this->assertEquals(0, $addResult->getErrorCode());
+        $this->assertEquals('', $addResult->getErrorMessage());
 
-        $result = $this->expertSender->deleteUser($randomEmail);
-        $this->assertTrue($result->isOk());
+        $deleteResult = $this->expertSender->deleteUser($randomEmail);
+        $this->assertTrue($deleteResult->isOk());
 
-        $result = $this->expertSender->deleteUser($randomEmail);
-        $this->assertFalse($result->isOk());
-        $this->assertEquals(404, $result->getErrorCode());
-        $this->assertRegExp('~not found~', $result->getErrorMessage());
+        $invalidDeleteResult = $this->expertSender->deleteUser($randomEmail);
+        $this->assertFalse($invalidDeleteResult->isOk());
+        $this->assertEquals(404, $invalidDeleteResult->getErrorCode());
+        $this->assertRegExp('~not found~', $invalidDeleteResult->getErrorMessage());
+    }
+
+    public function testLists()
+    {
+        $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
+
+        $trackingCode = 'phpunit'.time();
+
+        $request = (new Request\AddUserToList())
+            ->setEmail($randomEmail)
+            ->setListId($this->getTestListId())
+            ->addProperty(new Property(1775, ExpertSenderEnum::TYPE_STRING, 'female'))
+            ->setFirstName('Alex')
+            ->setLastName('Lastname')
+            ->setName('Alex Lastname')
+            ->setVendor('phpunit tests')
+            ->setTrackingCode($trackingCode)
+            ->setForce(false);
+
+        $addResult = $this->expertSender->addUserToList($request);
+
+        $this->assertTrue($addResult->isOk());
+        $this->assertEquals(0, $addResult->getErrorCode());
+        $this->assertEquals('', $addResult->getErrorMessage());
+
+        $deleteResult = $this->expertSender->deleteUser($randomEmail);
+        $this->assertTrue($deleteResult->isOk());
+
+        $invalidDeleteResult = $this->expertSender->deleteUser($randomEmail);
+        $this->assertFalse($invalidDeleteResult->isOk());
+        $this->assertEquals(404, $invalidDeleteResult->getErrorCode());
+        $this->assertRegExp('~not found~', $invalidDeleteResult->getErrorMessage());
     }
 
     /**

@@ -388,13 +388,27 @@ class ExpertSender
             $dataChunk->addChunk(new SimpleChunk('Lastname', $request->getLastName()));
         }
 
+        if ($request->getName() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Name', $request->getName()));
+        }
+
         if ($request->getId() !== null) {
             $dataChunk->addChunk(new SimpleChunk('Id', $request->getId()));
+        }
+
+        if ($request->getTrackingCode() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('TrackingCode', $request->getTrackingCode()));
+        }
+
+        if ($request->getVendor() !== null) {
+            $dataChunk->addChunk(new SimpleChunk('Vendor', $request->getVendor()));
         }
 
         if ($request->getIp() !== null) {
             $dataChunk->addChunk(new SimpleChunk('Ip', $request->getIp()));
         }
+
+        $dataChunk->addChunk(new SimpleChunk('Force', $request->getForce() ? 'true' : 'false'));
 
         $propertiesChunks = new PropertiesChunk();
 
