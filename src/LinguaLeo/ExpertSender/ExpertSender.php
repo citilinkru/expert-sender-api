@@ -71,6 +71,14 @@ class ExpertSender
     }
 
     /**
+     * @return array
+     */
+    public function getRequestData()
+    {
+        return stream_context_get_options($this->transport->getContext());
+    }
+
+    /**
      * Adds user to list subscribers.
      *
      * Calls with many arguments are deprecated. Pass Request\AddUserToList instead.

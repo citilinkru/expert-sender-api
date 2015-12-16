@@ -5,8 +5,18 @@ class HttpTransport
 {
     const CONNECTION_ERROR = 312241;
 
+    private $context;
+
     function __construct()
     {
+    }
+
+    /**
+     * @return resource
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 
     public function query($url, $method = 'GET', $content = null)
@@ -22,9 +32,9 @@ class HttpTransport
             $http['content'] = $content;
         }
 
-        $context = stream_context_create(['http' => $http]);
+        $this->context = stream_context_create(['http' => $http]);
 
-        $result = @file_get_contents($url, false, $context);
+        $result = @file_get_contents($url, false, $this->context);
         if ($result === false) {
             throw new \Exception("Can't connect to ES", self::CONNECTION_ERROR);
         }

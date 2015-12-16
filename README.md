@@ -23,7 +23,7 @@ $result = $expertSender->addUserToList($request);
 if ($result->isOk()) {
     ...
 } else {
-    ...
+    $requestData = $expertSender->getRequestData();
 }
 ```
 
