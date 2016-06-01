@@ -22,16 +22,19 @@ use LinguaLeo\ExpertSender\Chunks\WhereConditionsChunk;
 use LinguaLeo\ExpertSender\Entities\Column;
 use LinguaLeo\ExpertSender\Results\TableDataResult;
 use LinguaLeo\ExpertSender\Results\UserIdResult;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class ExpertSender
+class ExpertSender implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     protected $apiKey;
 
     /** @var HttpTransport */
     protected $transport;
-    /** @var LoggerInterface */
-    protected $logger;
 
     protected $endpointUrl;
     protected $subscribersUrl;
@@ -67,7 +70,7 @@ class ExpertSender
         $this->getTableDataUrl = $this->endpointUrl . 'DataTablesGetData';
         $this->apiKey = $apiKey;
         $this->transport = $transport;
-        $this->logger = $logger;
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
@@ -108,13 +111,11 @@ class ExpertSender
 
             $request = $args[0];
         } else {
-            if ($this->logger) {
-                $this->logger->warning(sprintf(
-                    'Deprecated passing many arguments to %s. Use %s object instead.',
-                    'ExpertSender->addUserToList()',
-                    'Request\AddUserToList'
-                ));
-            }
+            $this->logger->warning(sprintf(
+                'Deprecated passing many arguments to %s. Use %s object instead.',
+                'ExpertSender->addUserToList()',
+                'Request\AddUserToList'
+            ));
 
             $request = (new Request\AddUserToList())
                 ->setEmail($email)
@@ -452,9 +453,10 @@ class ExpertSender
      */
     protected function logApiResult($method, ApiResult $result)
     {
-        if (!$this->logger || $result->isOk()) {
+        if ($result->isOk()) {
             return;
         }
+
         $this->logger->error(
             sprintf(
                 'ES method "%s" error response: %s.',
