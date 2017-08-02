@@ -6,19 +6,29 @@
         {
             "name": "LinugaLeo",
             "email": "backend@lingualeo.com"
+        },
+        {
+            "name": "Citilink",
+            "email": "devops@citilink.ru"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0",
-        "psr/log": "1.0.0"
+        "php": "^7.1.0",
+        "psr/log": "^1.0.0",
+        "myclabs/php-enum": "^1.5.2",
+        "guzzlehttp/guzzle": "^6.0.0"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "*"
+        "phpunit/phpunit" : "^5.0.0"
     },
     "autoload": {
-        "psr-0": {
-            "LinguaLeo\\": "src/"
+        "psr-4": {
+            "Citilink\\ExpertSenderApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "Citilink\\ExpertSenderApi\\Tests\\": "tests/"
         }
     }
 }
