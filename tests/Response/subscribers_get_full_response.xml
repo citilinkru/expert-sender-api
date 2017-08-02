@@ -1,0 +1,103 @@
+<ApiResponse xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Data>
+        <BlackList>false</BlackList>
+        <StateOnLists>
+            <StateOnList>
+                <ListId>15</ListId>
+                <Name>Registration Регистрация</Name>
+                <Status>Active</Status>
+                <SubscriptionDate>2014-11-12T11:27:05.457</SubscriptionDate>
+            </StateOnList>
+            <StateOnList>
+                <ListId>143</ListId>
+                <Name>НЕ_Купил_БТ</Name>
+                <Status>Snoozed</Status>
+                <SubscriptionDate>2015-11-03T19:31:22.35</SubscriptionDate>
+            </StateOnList>
+            <StateOnList>
+                <ListId>153</ListId>
+                <Name>В2В_СС</Name>
+                <Status>Unsubscribed</Status>
+                <SubscriptionDate>2015-11-24T10:32:50.267</SubscriptionDate>
+            </StateOnList>
+            <StateOnList>
+                <ListId>157</ListId>
+                <Name>Корпоративные клиенты</Name>
+                <Status>NotConfirmed</Status>
+                <SubscriptionDate>2015-11-27T13:41:06.46</SubscriptionDate>
+            </StateOnList>
+        </StateOnLists>
+        <EmailInSuppressionLists>
+            <SuppressionList>
+                <Id>1</Id>
+                <Name>Тестовый стоп-лист 1</Name>
+            </SuppressionList>
+            <SuppressionList>
+                <Id>2</Id>
+                <Name>Тестовый стоп-лист 2</Name>
+            </SuppressionList>
+        </EmailInSuppressionLists>
+        <Id>1208798</Id>
+        <Firstname>FIRSTNAME</Firstname>
+        <Lastname>ID905079</Lastname>
+        <Vendor>есть</Vendor>
+        <Ip>92.242.35.180</Ip>
+        <Properties>
+            <Property>
+                <Id>2</Id>
+                <Source>Import</Source>
+                <StringValue xsi:type="xsd:string">russia_cl</StringValue>
+                <Type>Text</Type>
+                <FriendlyName>Город</FriendlyName>
+                <Description>Описание</Description>
+                <Name>city</Name>
+                <DefaultStringValue xsi:type="xsd:string"></DefaultStringValue>
+            </Property>
+            <Property>
+                <Id>3</Id>
+                <Source>Panel</Source>
+                <IntValue xsi:type="xsd:integer">1</IntValue>
+                <Type>Number</Type>
+                <FriendlyName>Клубная карта</FriendlyName>
+                <Description>Наличие Клубной Карты</Description>
+                <Name>club_card</Name>
+                <DefaultIntValue xsi:type="xsd:string">2</DefaultIntValue>
+            </Property>
+            <Property>
+                <Id>7</Id>
+                <Source>Web</Source>
+                <DateTimeValue xsi:type="xsd:dateTime">2017-05-16T11:11:11</DateTimeValue>
+                <Type>Datetime</Type>
+                <FriendlyName>Статус физического лица</FriendlyName>
+                <Description>Гарантированный статус участника Клуба Ситилинк в следующем квартале, считается на
+                    основании объема покупок в текущем квартале.
+                </Description>
+                <Name>status_fizik</Name>
+                <DefaultDateTimeValue xsi:type="xsd:dateTime">2000-05-16T11:11:11</DefaultDateTimeValue>
+            </Property>
+            <Property>
+                <Id>12</Id>
+                <Source>PrefCenter</Source>
+                <DecimalValue xsi:type="xsd:decimal">12.3</DecimalValue>
+                <Type>Money</Type>
+                <FriendlyName>Действие статуса физ лица</FriendlyName>
+                <Description>Что будет происходить с текущим статуса участника Клуба - понижение, сохранение или
+                    повышение
+                </Description>
+                <Name>actions_fizik</Name>
+                <DefaultDecimalValue xsi:type="xsd:decimal">14.5</DefaultDecimalValue>
+            </Property>
+            <Property>
+                <Id>15</Id>
+                <Source>Import</Source>
+                <StringValue xsi:type="xsd:string">1</StringValue>
+                <Type>Text</Type>
+                <FriendlyName>B2B кабинет</FriendlyName>
+                <Description>Наличие B2B кабинета</Description>
+                <Name>b2b</Name>
+                <DefaultStringValue xsi:type="xsd:string"></DefaultStringValue>
+            </Property>
+        </Properties>
+    </Data>
+</ApiResponse>
