@@ -10,6 +10,7 @@ use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
+use Citilink\ExpertSenderApi\Response\SubscribersGetEventsHistoryResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetLongResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetShortResponse;
@@ -74,13 +75,14 @@ class SubscribersResource extends AbstractResource
      *
      * @param string $email Email
      *
-     * @return ResponseInterface Events history of subscriber
+     * @return SubscribersGetEventsHistoryResponse Events history of subscriber
      */
-    public function getEventHistory(string $email): ResponseInterface
+    public function getEventHistory(string $email): SubscribersGetEventsHistoryResponse
     {
         Assert::notEmpty($email);
+        $request = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::EVENTS_HISTORY()));
 
-        return $this->requestSender->send(new SubscribersGetRequest($email, DataOption::EVENTS_HISTORY()));
+        return new SubscribersGetEventsHistoryResponse($request);
     }
 
     /**
