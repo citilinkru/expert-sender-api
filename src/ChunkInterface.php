@@ -12,7 +12,7 @@ namespace Citilink\ExpertSenderApi;
 interface ChunkInterface
 {
     /**
-     * Return xml representation of chunk
+     * Get xml representation of chunk
      *
      * @return string Xxml representation of chunk
      */

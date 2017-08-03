@@ -1,6 +1,6 @@
 {
-    "name": "lingualeo/expert-sender-api",
-    "description": "Simple API for expert sender service",
+    "name": "citilink/expert-sender-api",
+    "description": "API for expert sender service",
     "license": "MIT",
     "authors": [
         {

@@ -13,7 +13,7 @@ use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException
 class SubscribersGetLongResponse extends SubscribersGetShortResponse
 {
     /**
-     * Return stop-lists which contains subscriber
+     * Get stop-lists which contains subscriber
      *
      * @return array Stop-lists which contains subscriber [<suppresion-list-id> => '<suppresion-list-name>']
      */

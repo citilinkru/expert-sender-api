@@ -15,7 +15,7 @@ use Citilink\ExpertSenderApi\Response\TimeGetResponse;
 class TimeResource extends AbstractResource
 {
     /**
-     * Return time response
+     * Get time response
      *
      * @return TimeGetResponse Time response
      */

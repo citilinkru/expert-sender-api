@@ -2,14 +2,14 @@
 
 namespace Citilink\ExpertSenderApi\Tests;
 
+use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
-use Citilink\ExpertSenderApi\Enum\SubscribersRequest\Mode;
 use Citilink\ExpertSenderApi\ExpertSender;
 use Citilink\ExpertSenderApi\ExpertSenderApi;
 use Citilink\ExpertSenderApi\HttpTransport;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\SubscriberInfo;
-use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\RequestSender;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
@@ -18,9 +18,6 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ExpertSender */
     protected $expertSender;
-
-    /** @var SubscribersPostRequest */
-    protected $addUserToListRequest;
 
     /** @var array|null */
     protected $params = null;
@@ -104,24 +101,19 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
         $trackingCode = 'phpunit'.time();
 
-        $subscriberData = new SubscriberInfo();
+        $subscriberData = new SubscriberInfo(Identifier::createEmail($randomEmail), $this->getTestListId());
         $subscriberData->setFirstName('Test');
         $subscriberData->setLastName('TestTest');
         $subscriberData->setVendor('phpunit tests');
         $subscriberData->setTrackingCode($trackingCode);
 
-        $addResult = $this->api->subscribers()->add(
-            $randomEmail,
-            $this->getTestListId(),
-            $subscriberData,
-            Mode::ADD_AND_UPDATE()
-        );
+        $addResult = $this->api->subscribers()->addOrEdit([$subscriberData]);
 
         $deleteResult = $this->api->subscribers()->deleteByEmail($randomEmail);
 
         $this->assertTrue($addResult->isOk());
         $this->assertSame(null, $addResult->getErrorCode());
-        $this->assertSame(null, $addResult->getErrorMessage());
+        $this->assertEquals([], $addResult->getErrorMessages());
 
         $this->assertTrue($deleteResult->isOk());
 
@@ -198,15 +190,21 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 
         $listId = $this->getTestListId();
 
-        $subscriberData = new SubscriberInfo();
+        $subscriberData = new SubscriberInfo(Identifier::createEmail($randomEmail), $listId);
         $subscriberData->setName('Test');
-        $this->api->subscribers()->add($randomEmail, $listId, $subscriberData);
+        $this->api->subscribers()->addOrEdit([$subscriberData]);
 
         $subscriberInfo = $this->api->subscribers()->getFull($randomEmail);
         $oldId = $subscriberInfo->getId();
         $this->assertTrue(is_numeric($oldId));
 
-        $this->api->subscribers()->changeEmail($oldId, $randomEmail2, $listId);
+        $subscriberInfoForChangeEmail = new SubscriberInfo(
+            Identifier::createId($oldId),
+            $listId,
+            Mode::IGNORE_AND_UPDATE()
+        );
+        $subscriberInfoForChangeEmail->setEmail($randomEmail2);
+        $this->api->subscribers()->addOrEdit([$subscriberInfoForChangeEmail]);
         $subscriberInfo2 = $this->api->subscribers()->getFull($randomEmail2);
         $this->assertEquals($subscriberInfo2->getId(), $oldId);
         $this->api->subscribers()->deleteByEmail($randomEmail2);
@@ -235,9 +233,9 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     {
         $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
         $listId = $this->getTestListId();
-        $subscriberData = new SubscriberInfo();
+        $subscriberData = new SubscriberInfo(Identifier::createEmail($randomEmail), $listId);
         $subscriberData->setFirstName('Test');
-        $this->api->subscribers()->add($randomEmail, $listId, $subscriberData);
+        $this->api->subscribers()->addOrEdit([$subscriberData]);
 
         $response = $this->api->transactionals()->sendMessage(
             $this->getTestTransactional(),

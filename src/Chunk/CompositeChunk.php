@@ -51,7 +51,7 @@ class CompositeChunk implements ChunkInterface
     }
 
     /**
-     * Return string, that insert before all chunks as xml
+     * Get string, that insert before all chunks as xml
      *
      * @return string String, that insert before all chunks as xml
      */
@@ -61,7 +61,7 @@ class CompositeChunk implements ChunkInterface
     }
 
     /**
-     * Return string, that insert after all chunks as xml
+     * Get string, that insert after all chunks as xml
      *
      * @return string String, that insert after all chunks as xml
      */

@@ -48,7 +48,7 @@ class Attachment
     }
 
     /**
-     * Return filename
+     * Get filename
      *
      * @return string Filename
      */
@@ -58,7 +58,7 @@ class Attachment
     }
 
     /**
-     * Return MIME type
+     * Get MIME type
      *
      * @return null|string MIME type
      */
@@ -68,7 +68,7 @@ class Attachment
     }
 
     /**
-     * Return content
+     * Get content
      *
      * @return string Content
      */

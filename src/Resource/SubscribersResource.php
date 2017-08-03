@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Resource;
 
 use Citilink\ExpertSenderApi\AbstractResource;
-use Citilink\ExpertSenderApi\Enum\SubscribersRequest\Mode;
-use Citilink\ExpertSenderApi\Enum\SubscribersRequest\SubscribersGetOption;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\Options;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Enum\SubscribersGetRequest\DataOption;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetLongResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetShortResponse;
+use Citilink\ExpertSenderApi\Response\SubscribersPostResponse;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Webmozart\Assert\Assert;
 
@@ -25,7 +25,7 @@ use Webmozart\Assert\Assert;
 class SubscribersResource extends AbstractResource
 {
     /**
-     * Return short information about subscriber
+     * Get short information about subscriber
      *
      * @param string $email Email
      *
@@ -34,13 +34,13 @@ class SubscribersResource extends AbstractResource
     public function getShort(string $email): SubscribersGetShortResponse
     {
         Assert::notEmpty($email);
-        $response = $this->requestSender->send(new SubscribersGetRequest($email, SubscribersGetOption::SHORT()));
+        $response = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::SHORT()));
 
         return new SubscribersGetShortResponse($response);
     }
 
     /**
-     * Return long information of subscriber
+     * Get long information of subscriber
      *
      * @param string $email Email
      *
@@ -49,13 +49,13 @@ class SubscribersResource extends AbstractResource
     public function getLong(string $email): SubscribersGetLongResponse
     {
         Assert::notEmpty($email);
-        $response = $this->requestSender->send(new SubscribersGetRequest($email, SubscribersGetOption::LONG()));
+        $response = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::LONG()));
 
         return new SubscribersGetLongResponse($response);
     }
 
     /**
-     * Return full info about subscriber
+     * Get full info about subscriber
      *
      * @param string $email Email
      *
@@ -64,13 +64,13 @@ class SubscribersResource extends AbstractResource
     public function getFull(string $email): SubscribersGetFullResponse
     {
         Assert::notEmpty($email);
-        $response = $this->requestSender->send(new SubscribersGetRequest($email, SubscribersGetOption::FULL()));
+        $response = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::FULL()));
 
         return new SubscribersGetFullResponse($response);
     }
 
     /**
-     * Return events history of subscriber
+     * Get events history of subscriber
      *
      * @param string $email Email
      *
@@ -80,101 +80,22 @@ class SubscribersResource extends AbstractResource
     {
         Assert::notEmpty($email);
 
-        return $this->requestSender->send(new SubscribersGetRequest($email, SubscribersGetOption::EVENTS_HISTORY()));
+        return $this->requestSender->send(new SubscribersGetRequest($email, DataOption::EVENTS_HISTORY()));
     }
 
     /**
-     * Add subscriber
+     * Add or edit subscriber
      *
-     * @param string $email Email
-     * @param int $listId List ID
-     * @param SubscriberInfo $subscriberInfo Subscriber info
-     * @param Mode|null $mode Adding mode
+     * @param SubscriberInfo[] $subscriberInfos Subscribers information list
      * @param Options|null $options Options
      *
-     * @return ResponseInterface Response
+     * @return SubscribersPostResponse Response
      */
-    public function add(
-        string $email,
-        int $listId,
-        SubscriberInfo $subscriberInfo,
-        Mode $mode = null,
-        Options $options = null
-    ) {
-        return $this->requestSender->send(
-            SubscribersPostRequest::createAddSubscriber($email, $listId, $subscriberInfo, $mode, $options)
+    public function addOrEdit(array $subscriberInfos, Options $options = null): SubscribersPostResponse
+    {
+        return new SubscribersPostResponse(
+            $this->requestSender->send(new SubscribersPostRequest($subscriberInfos, $options))
         );
-    }
-
-    /**
-     * Edit subscriber
-     *
-     * @param string $email Email
-     * @param int $listId ListID
-     * @param SubscriberInfo $subscriberInfo Subscriber info
-     * @param Mode|null $mode Adding mode
-     * @param Options|null $options Options
-     *
-     * @return ResponseInterface Response
-     */
-    public function editWithEmail(
-        string $email,
-        int $listId,
-        SubscriberInfo $subscriberInfo,
-        Mode $mode = null,
-        Options $options = null
-    ) {
-        return $this->requestSender->send(
-            SubscribersPostRequest::createEditSubscriberWithEmail($email, $listId, $subscriberInfo, $mode, $options)
-        );
-    }
-
-    /**
-     * Edit subscriber
-     *
-     * @param string $emailMd5 Md5 of email
-     * @param int $listId List ID
-     * @param SubscriberInfo $subscriberInfo Subscriber info
-     * @param Mode|null $mode Adding mode
-     * @param Options|null $options Options
-     *
-     * @return ResponseInterface Response
-     */
-    public function editWithEmailMd5(
-        string $emailMd5,
-        int $listId,
-        SubscriberInfo $subscriberInfo,
-        Mode $mode = null,
-        Options $options = null
-    ) {
-        return $this->requestSender->send(
-            SubscribersPostRequest::createEditSubscriberWithEmailMd5(
-                $emailMd5,
-                $listId,
-                $subscriberInfo,
-                $mode,
-                $options
-            )
-        );
-    }
-
-    /**
-     * Change email
-     *
-     * @param int $id Subscriber ID
-     * @param string $email Email
-     * @param int $listId List ID
-     * @param Options|null $options Options
-     *
-     * @return ResponseInterface Response
-     */
-    public function changeEmail(
-        int $id,
-        string $email,
-        int $listId,
-        Options $options = null
-    ) {
-        return $this->requestSender->send(SubscribersPostRequest::createChangeEmail($id, $email, $listId, $options));
     }
 
     /**
@@ -185,7 +106,7 @@ class SubscribersResource extends AbstractResource
      *
      * @return ResponseInterface Response
      */
-    public function deleteById(int $id, int $listId = null)
+    public function deleteById(int $id, int $listId = null): ResponseInterface
     {
         return $this->requestSender->send(SubscribersDeleteRequest::createFromId($id, $listId));
     }
@@ -198,7 +119,7 @@ class SubscribersResource extends AbstractResource
      *
      * @return ResponseInterface Response
      */
-    public function deleteByEmail(string $email, int $listId = null)
+    public function deleteByEmail(string $email, int $listId = null): ResponseInterface
     {
         return $this->requestSender->send(SubscribersDeleteRequest::createFromEmail($email, $listId));
     }

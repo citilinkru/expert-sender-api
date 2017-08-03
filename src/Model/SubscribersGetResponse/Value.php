@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersResponse;
+namespace Citilink\ExpertSenderApi\Model\SubscribersGetResponse;
 
 use Citilink\ExpertSenderApi\Enum\DataType;
 use Citilink\ExpertSenderApi\Exception\ExpertSenderApiException;
@@ -166,7 +166,7 @@ class Value
     }
 
     /**
-     * Return integer value
+     * Get integer value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -182,7 +182,7 @@ class Value
     }
 
     /**
-     * Return string value
+     * Get string value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -198,7 +198,7 @@ class Value
     }
 
     /**
-     * Return decimal value
+     * Get decimal value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -214,7 +214,7 @@ class Value
     }
 
     /**
-     * Return datetime value
+     * Get datetime value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -230,7 +230,7 @@ class Value
     }
 
     /**
-     * Return default integer value
+     * Get default integer value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -246,7 +246,7 @@ class Value
     }
 
     /**
-     * Return default string value
+     * Get default string value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -262,7 +262,7 @@ class Value
     }
 
     /**
-     * Return default decimal value
+     * Get default decimal value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *
@@ -278,7 +278,7 @@ class Value
     }
 
     /**
-     * Return dafault datetime value
+     * Get dafault datetime value
      *
      * @throws ExpertSenderApiException Wrong expected data type of value
      *

@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Request;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
-use Citilink\ExpertSenderApi\Enum\SubscribersRequest\Mode;
+use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\MatchingMode;
 use Citilink\ExpertSenderApi\Exception\ExpertSenderApiException;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\Options;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\RequestInterface;
 use Citilink\ExpertSenderApi\Utils;
+use Webmozart\Assert\Assert;
 
 /**
  * Request for add/edit subscriber
@@ -21,184 +22,26 @@ use Citilink\ExpertSenderApi\Utils;
 class SubscribersPostRequest implements RequestInterface
 {
     /**
-     * @var int List Id
-     */
-    private $listId;
-
-    /**
-     * Subscriber ID
-     *
-     * If you want to change Email address for a subscriber you have to provide BOTH Email and Id fields
-     *
-     * @var int|null
-     */
-    private $id;
-
-    /**
-     * @var string|null Email
-     */
-    private $email;
-
-    /**
-     * @var string|null Email MD5
-     */
-    private $emailMd5;
-
-    /**
-     * @var Mode Adding mode
-     */
-    private $mode;
-
-    /**
      * @var Options Options
      */
     private $options;
 
     /**
-     * @var SubscriberInfo Subscriber data for add/edit subscriber request
+     * @var SubscriberInfo[] Subscribers information list
      */
-    private $subscriberInfo;
-
-    /**
-     * Create request for add/edit subscriber
-     *
-     * @param string $email Email
-     * @param int $listId List ID
-     * @param SubscriberInfo $subscriberData Subscriber data for add/edit subscriber request
-     * @param Mode|null $mode Adding mode
-     * @param Options|null $options Options
-     *
-     * @throws ExpertSenderApiException If mode doesn't have add modifier
-     *
-     * @return static Request for add/edit subscriber
-     */
-    public static function createAddSubscriber(
-        string $email,
-        int $listId,
-        SubscriberInfo $subscriberData,
-        Mode $mode = null,
-        Options $options = null
-    ) {
-        if ($mode === null) {
-            $mode = Mode::ADD_AND_UPDATE();
-        }
-
-        if (!$mode->isAddEnabled()) {
-            throw new ExpertSenderApiException('Choose another mod, which has add modifier');
-        }
-
-        $obj = new static($listId, $mode, $subscriberData, $options);
-        $obj->email = $email;
-
-        return $obj;
-    }
-
-    /**
-     * Create request for change subscriber's email
-     *
-     * @param int $id Subscriber ID
-     * @param string $email Email
-     * @param int $listId List ID
-     * @param Options|null $options Options
-     *
-     * @return static Request for change subscriber's email
-     */
-    public static function createChangeEmail(
-        int $id,
-        string $email,
-        int $listId,
-        Options $options = null
-    ) {
-        $obj = new static($listId, Mode::IGNORE_AND_UPDATE(), new SubscriberInfo(), $options);
-        $obj->id = $id;
-        $obj->email = $email;
-
-        return $obj;
-    }
-
-    /**
-     * Create request for edit subscriber by email
-     *
-     * @param string $email Email
-     * @param int $listId List ID
-     * @param SubscriberInfo $subscriberData Subscriber data
-     * @param Mode|null $mode Adding mode
-     * @param Options|null $options Options
-     *
-     * @throws ExpertSenderApiException If mode doesn't have edit modifier
-     *
-     * @return static Request for edit subscriber by email
-     */
-    public static function createEditSubscriberWithEmail(
-        string $email,
-        int $listId,
-        SubscriberInfo $subscriberData,
-        Mode $mode = null,
-        Options $options = null
-    ) {
-        if ($mode === null) {
-            $mode = Mode::ADD_AND_UPDATE();
-        }
-
-        if (!$mode->isEditEnabled()) {
-            throw new ExpertSenderApiException('Choose another mod, which has edit modifier');
-        }
-
-        $obj = new static($listId, $mode, $subscriberData, $options);
-        $obj->email = $email;
-
-        return $obj;
-    }
-
-    /**
-     * Create request for edit subscriber by md5 of email
-     *
-     * @param string $emailMd5 Email MD5
-     * @param int $listId List ID
-     * @param SubscriberInfo $subscriberData Subscriber data
-     * @param Mode|null $mode Adding mode
-     * @param Options|null $options Options
-     *
-     * @return static Request for edit subscriber by md5 of email
-     */
-    public static function createEditSubscriberWithEmailMd5(
-        string $emailMd5,
-        int $listId,
-        SubscriberInfo $subscriberData,
-        Mode $mode = null,
-        Options $options = null
-    ) {
-        if ($mode === null) {
-            $mode = Mode::ADD_AND_UPDATE();
-        }
-        if (!$mode->isEditEnabled()) {
-            throw new ExpertSenderApiException('Choose another mod, which has edit modifier');
-        }
-
-        $obj = new static($listId, $mode, $subscriberData, $options);
-        $obj->emailMd5 = $emailMd5;
-
-        return $obj;
-    }
+    private $subscriberInfos;
 
     /**
      * Constructor
      *
-     * @param int $listId List ID
-     * @param Mode $mode Adding mode
-     * @param SubscriberInfo $subscriberInfo Subscriber information
+     * @param SubscriberInfo[] $subscriberInfos Subscribers information list
      * @param Options $options Options
      */
-    private function __construct(
-        int $listId,
-        Mode $mode,
-        SubscriberInfo $subscriberInfo,
-        Options $options = null
-    ) {
-        $this->listId = $listId;
-        $this->mode = $mode;
+    public function __construct(array $subscriberInfos, Options $options = null)
+    {
+        Assert::allIsInstanceOf($subscriberInfos, SubscriberInfo::class);
         $this->options = $options ?: new Options();
-        $this->subscriberInfo = $subscriberInfo;
+        $this->subscriberInfos = $subscriberInfos;
     }
 
     /**
@@ -208,81 +51,14 @@ class SubscribersPostRequest implements RequestInterface
     {
         $xmlWriter = new \XMLWriter();
         $xmlWriter->openMemory();
-        $xmlWriter->startElement('Data');
-        $xmlWriter->writeAttributeNS('xsi', 'type', null, 'Subscriber');
-        $xmlWriter->writeElement('Mode', $this->mode->getValue());
-        $xmlWriter->writeElement('ListId', strval($this->listId));
-
-        if ($this->options->isForce()) {
-            $xmlWriter->writeElement('Force', Utils::convertBoolToStringEquivalent($this->options->isForce()));
+        $xmlWriter->startElement('MultiData');
+        foreach ($this->subscriberInfos as $subscriberInfo) {
+            $xmlWriter->startElement('Subscriber');
+            $this->writeSubscriberDataToXml($xmlWriter, $subscriberInfo);
+            $xmlWriter->endElement(); // Subscriber
         }
 
-        if (!$this->options->isAllowAddUserThatWasUnsubscribed()) {
-            $xmlWriter->writeElement(
-                'AllowUnsubscribed',
-                Utils::convertBoolToStringEquivalent($this->options->isAllowAddUserThatWasUnsubscribed())
-            );
-        }
-
-        if (!$this->options->isAllowAddUserThatWasDeleted()) {
-            $xmlWriter->writeElement(
-                'AllowRemoved',
-                Utils::convertBoolToStringEquivalent($this->options->isAllowAddUserThatWasDeleted())
-            );
-        }
-
-        if (!empty($this->id)) {
-            $xmlWriter->writeElement('Id', strval($this->id));
-        }
-
-        if (!empty($this->email)) {
-            $xmlWriter->writeElement('Email', $this->email);
-        }
-
-        if (!empty($this->emailMd5)) {
-            $xmlWriter->writeElement('EmailMd5', $this->emailMd5);
-        }
-
-        if (!empty($this->subscriberInfo->getFirstName())) {
-            $xmlWriter->writeElement('FirstName', $this->subscriberInfo->getFirstName());
-        }
-
-        if (!empty($this->subscriberInfo->getLastName())) {
-            $xmlWriter->writeElement('LastName', $this->subscriberInfo->getLastName());
-        }
-
-        if (!empty($this->subscriberInfo->getName())) {
-            $xmlWriter->writeElement('Name', $this->subscriberInfo->getName());
-        }
-
-        if (!empty($this->subscriberInfo->getIp())) {
-            $xmlWriter->writeElement('Ip', $this->subscriberInfo->getIp());
-        }
-
-        if (!empty($this->subscriberInfo->getTrackingCode())) {
-            $xmlWriter->writeElement('TrackingCode', $this->subscriberInfo->getTrackingCode());
-        }
-
-        if (!empty($this->subscriberInfo->getVendor())) {
-            $xmlWriter->writeElement('Vendor', $this->subscriberInfo->getVendor());
-        }
-
-        $properties = $this->subscriberInfo->getProperties();
-        if(!empty($properties)) {
-            $xmlWriter->startElement('Properties');
-            foreach ($properties as $property) {
-                $xmlWriter->startElement('Property');
-                $xmlWriter->writeElement('Id', strval($property->getId()));
-                $xmlWriter->startElement('Value');
-                $xmlWriter->writeAttributeNS('xsi', 'type', null, 'xs:' . $property->getValue()->getType()->getValue());
-                $xmlWriter->text($property->getValue()->getValue());
-                $xmlWriter->endElement(); // Value
-                $xmlWriter->endElement(); // Property
-            }
-
-            $xmlWriter->endElement(); // Properties
-        }
-        $xmlWriter->endElement(); // Data
+        $xmlWriter->endElement(); // MultiData
         if ($this->options->isUseVerboseErrors()) {
             $xmlWriter->writeElement(
                 'VerboseErrors',
@@ -298,6 +74,128 @@ class SubscribersPostRequest implements RequestInterface
         }
 
         return $xmlWriter->flush(true);
+    }
+
+    /**
+     * Writer in XMLWriter elements with subscriber info
+     *
+     * @param \XMLWriter $xmlWriter Xml writer
+     * @param SubscriberInfo $subscriberInfo Subscriber info
+     */
+    private function writeSubscriberDataToXml(\XMLWriter $xmlWriter, SubscriberInfo $subscriberInfo)
+    {
+        $xmlWriter->writeElement('Mode', $subscriberInfo->getMode()->getValue());
+        $xmlWriter->writeElement('ListId', strval($subscriberInfo->getListId()));
+        $xmlWriter->writeElement('MatchingMode', $subscriberInfo->getIdentifier()->getMatchingMode()->getValue());
+
+        switch ($subscriberInfo->getIdentifier()->getMatchingMode()->getValue()) {
+            case MatchingMode::CUSTOMER_SUBSCRIBER_ID:
+                $xmlWriter->writeElement(
+                    'CustomSubscriberId',
+                    $subscriberInfo->getIdentifier()->getCustomSubscriberId()
+                );
+                break;
+            case MatchingMode::ID:
+                $xmlWriter->writeElement('Id', strval($subscriberInfo->getIdentifier()->getId()));
+                break;
+            case MatchingMode::EMAIL:
+                if (!empty($subscriberInfo->getIdentifier()->getEmail())) {
+                    $xmlWriter->writeElement('Email', $subscriberInfo->getIdentifier()->getEmail());
+                } elseif (!empty($subscriberInfo->getIdentifier()->getEmailMd5())) {
+                    $xmlWriter->writeElement('EmailMd5', $subscriberInfo->getIdentifier()->getEmailMd5());
+                } else {
+                    throw new ExpertSenderApiException('Both email and md5 of email are empty');
+                }
+                break;
+            case MatchingMode::PHONE():
+                $xmlWriter->writeElement('Phone', $subscriberInfo->getIdentifier()->getPhone());
+                break;
+            default:
+                throw new ExpertSenderApiException(
+                    sprintf(
+                        'Unknown matching mode "%s"',
+                        $subscriberInfo->getIdentifier()->getMatchingMode()->getValue()
+                    )
+                );
+        }
+
+        if ($subscriberInfo->isForce()) {
+            $xmlWriter->writeElement('Force', Utils::convertBoolToStringEquivalent($subscriberInfo->isForce()));
+        }
+
+        if (!$subscriberInfo->isAllowAddUserThatWasUnsubscribed()) {
+            $xmlWriter->writeElement(
+                'AllowUnsubscribed',
+                Utils::convertBoolToStringEquivalent($subscriberInfo->isAllowAddUserThatWasUnsubscribed())
+            );
+        }
+
+        if (!$subscriberInfo->isAllowAddUserThatWasDeleted()) {
+            $xmlWriter->writeElement(
+                'AllowRemoved',
+                Utils::convertBoolToStringEquivalent($subscriberInfo->isAllowAddUserThatWasDeleted())
+            );
+        }
+
+        // ignore, if identifier is email
+        if (!empty($subscriberInfo->getEmail())
+            && !$subscriberInfo->getIdentifier()->getMatchingMode()->equals(MatchingMode::EMAIL())
+        ) {
+            $xmlWriter->writeElement('Email', $subscriberInfo->getEmail());
+        }
+
+        // ignore, if identifier is custom subscriber id
+        if (!empty($subscriberInfo->getCustomSubscriberId())
+            && !$subscriberInfo->getIdentifier()->getMatchingMode()->equals(MatchingMode::CUSTOMER_SUBSCRIBER_ID())) {
+            $xmlWriter->writeElement('CustomSubscriberId', $subscriberInfo->getCustomSubscriberId());
+        }
+
+        // ignore, if identifier is phone
+        if (!empty($subscriberInfo->getPhone())
+            && !$subscriberInfo->getIdentifier()->getMatchingMode()->equals(MatchingMode::PHONE())
+        ) {
+            $xmlWriter->writeElement('Phone', $subscriberInfo->getPhone());
+        }
+
+        if (!empty($subscriberInfo->getFirstName())) {
+            $xmlWriter->writeElement('FirstName', $subscriberInfo->getFirstName());
+        }
+
+        if (!empty($subscriberInfo->getLastName())) {
+            $xmlWriter->writeElement('LastName', $subscriberInfo->getLastName());
+        }
+
+        if (!empty($subscriberInfo->getName())) {
+            $xmlWriter->writeElement('Name', $subscriberInfo->getName());
+        }
+
+        if (!empty($subscriberInfo->getIp())) {
+            $xmlWriter->writeElement('Ip', $subscriberInfo->getIp());
+        }
+
+        if (!empty($subscriberInfo->getTrackingCode())) {
+            $xmlWriter->writeElement('TrackingCode', $subscriberInfo->getTrackingCode());
+        }
+
+        if (!empty($subscriberInfo->getVendor())) {
+            $xmlWriter->writeElement('Vendor', $subscriberInfo->getVendor());
+        }
+
+        $properties = $subscriberInfo->getProperties();
+        if (!empty($properties)) {
+            $xmlWriter->startElement('Properties');
+            foreach ($properties as $property) {
+                $xmlWriter->startElement('Property');
+                $xmlWriter->writeElement('Id', strval($property->getId()));
+                $xmlWriter->startElement('Value');
+                $xmlWriter->writeAttributeNS('xsi', 'type', null, 'xs:' . $property->getValue()->getType()->getValue());
+                $xmlWriter->text($property->getValue()->getValue());
+                $xmlWriter->endElement(); // Value
+                $xmlWriter->endElement(); // Property
+            }
+
+            $xmlWriter->endElement(); // Properties
+        }
     }
 
     /**

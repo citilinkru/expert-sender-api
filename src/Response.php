@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi;
 
+use Citilink\ExpertSenderApi\Exception\ParseResponseException;
+use Citilink\ExpertSenderApi\Model\ErrorMessage;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Webmozart\Assert\Assert;
@@ -25,14 +27,14 @@ class Response implements ResponseInterface
     private $stream;
 
     /**
-     * @var int|null Error code
+     * @var \SimpleXMLElement XML
      */
-    private $errorCode;
+    private $simpleXml;
 
     /**
-     * @var string|null Error message
+     * @var string|null Response content
      */
-    private $errorMessage;
+    private $content;
 
     /**
      * Creates response from string
@@ -62,27 +64,6 @@ class Response implements ResponseInterface
         $this->httpStatusCode = $httpStatusCode;
         $this->stream = $stream;
         $this->stream->rewind();
-
-        $this->parseErrorMessage();
-    }
-
-    /**
-     * Parse response for errors
-     */
-    private function parseErrorMessage(): void
-    {
-        $content = $this->getContent();
-        $this->errorCode = null;
-        if (preg_match("~<Code>(.+)</Code>~", $content, $matches)) {
-            $this->errorCode = (int)$matches[1];
-        }
-
-        $this->errorMessage = null;
-        if (preg_match("~<Message>(.+)</Message>~", $content, $matches)) {
-            $this->errorMessage = $matches[1];
-        }
-
-        return;
     }
 
     /**
@@ -106,15 +87,42 @@ class Response implements ResponseInterface
      */
     public function getErrorCode(): ?int
     {
-        return $this->errorCode;
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        $nodes = $this->getSimpleXml()->xpath('/ApiResponse/ErrorMessage/Code');
+        if (count($nodes) === 0) {
+            return null;
+        }
+
+        return intval($nodes[0]);
     }
 
     /**
-     * @inheritdoc
+     * Get error messages
+     *
+     * @return ErrorMessage[] Error messages
      */
-    public function getErrorMessage(): ?string
+    public function getErrorMessages(): array
     {
-        return $this->errorMessage;
+        if ($this->isEmpty()) {
+            return [];
+        }
+
+        $xml = $this->getSimpleXml();
+        $oneMessageNodes = $xml->xpath('/ApiResponse/ErrorMessage/Message');
+        if (count($oneMessageNodes) !== 0) {
+            return [new ErrorMessage(strval(reset($oneMessageNodes)))];
+        }
+
+        $messageNodes = $xml->xpath('/ApiResponse/ErrorMessage/Messages/Message');
+        $messages = [];
+        foreach ($messageNodes as $messageNode) {
+            $messages[] = new ErrorMessage(strval($messageNode), iterator_to_array($messageNode->attributes()));
+        }
+
+        return $messages;
     }
 
     /**
@@ -122,18 +130,48 @@ class Response implements ResponseInterface
      */
     public function getContent(): string
     {
-        $this->stream->rewind();
+        if ($this->content === null) {
+            $this->stream->rewind();
 
-        return $this->getStream()->getContents();
+            $this->content = $this->getStream()->getContents();
+        }
+
+        return $this->content;
     }
 
     /**
      * @inheritdoc
      */
-    public function getStream()
+    public function getStream(): StreamInterface
     {
         $this->stream->rewind();
 
         return $this->stream;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSimpleXml(): \SimpleXMLElement
+    {
+        if ($this->simpleXml === null) {
+            if ($this->isEmpty()) {
+                throw new ParseResponseException(
+                    'Response is empty, it\'s impossible to create simpleXML element. Maybe it is error, or response '
+                    . 'does not have content. You can use method isEmpty before trying to get SimpleXML'
+                );
+            }
+            $this->simpleXml = simplexml_load_string($this->getContent());
+        }
+
+        return $this->simpleXml;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isEmpty(): bool
+    {
+        return $this->getContent() === '';
     }
 }
