@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Enum\SubscribersRequest;
+namespace Citilink\ExpertSenderApi\Enum\SubscribersGetRequest;
 
 use MyCLabs\Enum\Enum;
 
@@ -10,14 +10,14 @@ use MyCLabs\Enum\Enum;
  *
  * This option changes response content
  *
- * @method static SubscribersGetOption SHORT()
- * @method static SubscribersGetOption LONG()
- * @method static SubscribersGetOption FULL()
- * @method static SubscribersGetOption EVENTS_HISTORY()
+ * @method static DataOption SHORT()
+ * @method static DataOption LONG()
+ * @method static DataOption FULL()
+ * @method static DataOption EVENTS_HISTORY()
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-final class SubscribersGetOption extends Enum
+final class DataOption extends Enum
 {
     /**
      * Short

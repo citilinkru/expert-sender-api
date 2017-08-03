@@ -6,7 +6,7 @@ namespace Citilink\ExpertSenderApi\Response;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\StateOnListStatus;
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
-use Citilink\ExpertSenderApi\Model\SubscribersResponse\StateOnList;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\StateOnList;
 use Citilink\ExpertSenderApi\SpecificMethodResponse;
 
 /**
@@ -37,7 +37,7 @@ class SubscribersGetShortResponse extends SpecificMethodResponse
     }
 
     /**
-     * Return all state on list
+     * Get all state on list
      *
      * @return StateOnList[] States on list
      */

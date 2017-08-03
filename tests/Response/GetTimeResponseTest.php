@@ -23,7 +23,7 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
         Assert::assertTrue($response->isOk());
         Assert::assertEquals('2013-04-24T10:33:09', $response->getServerTime()->format('Y-m-d\TH:i:s'));
         Assert::assertEquals(200, $response->getHttpStatusCode());
-        Assert::assertNull($response->getErrorMessage());
+        Assert::assertCount(0, $response->getErrorMessages());
         Assert::assertNull($response->getErrorCode());
     }
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersRequest;
+namespace Citilink\ExpertSenderApi\Model\SubscribersPostRequest;
 
 use Webmozart\Assert\Assert;
 
@@ -36,7 +36,7 @@ class Property
     }
 
     /**
-     * Return ID
+     * Get ID
      *
      * @return int ID
      */
@@ -46,7 +46,7 @@ class Property
     }
 
     /**
-     * Return value
+     * Get value
      *
      * @return Value Value
      */

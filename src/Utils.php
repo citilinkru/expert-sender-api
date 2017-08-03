@@ -21,4 +21,16 @@ class Utils
     {
         return $bool ? 'true' : 'false';
     }
+
+    /**
+     * Convert boolean string equivalent to boolean value
+     *
+     * @param string $boolStringEquivalent Equivalent of boolean value from API
+     *
+     * @return bool Boolean value
+     */
+    public static function convertStringBooleanEquivalentToBool(string $boolStringEquivalent): bool
+    {
+        return $boolStringEquivalent === 'true';
+    }
 }

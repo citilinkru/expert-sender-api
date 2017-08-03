@@ -30,7 +30,7 @@ class ExpertSenderApi
     }
 
     /**
-     * Return Subscribers resource
+     * Get Subscribers resource
      *
      * @return SubscribersResource Subscribers resource
      */
@@ -40,7 +40,7 @@ class ExpertSenderApi
     }
 
     /**
-     * Return Transaction resource
+     * Get Transaction resource
      *
      * @return TransactionalsResource Transaction resource
      */
@@ -50,7 +50,7 @@ class ExpertSenderApi
     }
 
     /**
-     * Return Time resource
+     * Get Time resource
      *
      * @return TimeResource Time resource
      */

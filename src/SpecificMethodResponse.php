@@ -16,11 +16,6 @@ class SpecificMethodResponse implements ResponseInterface
     protected $response;
 
     /**
-     * @var \SimpleXMLElement XML
-     */
-    private $simpleXml;
-
-    /**
      * Constructor
      *
      * @param ResponseInterface $response Response of ExpertSender API
@@ -49,14 +44,6 @@ class SpecificMethodResponse implements ResponseInterface
     /**
      * @inheritdoc
      */
-    public function getErrorMessage(): ?string
-    {
-        return $this->response->getErrorMessage();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getHttpStatusCode(): int
     {
         return $this->response->getHttpStatusCode();
@@ -79,16 +66,26 @@ class SpecificMethodResponse implements ResponseInterface
     }
 
     /**
-     * Return SimpleXML object of response content
-     *
-     * @return \SimpleXMLElement XML
+     * @inheritdoc
      */
-    protected function getSimpleXml()
+    public function getSimpleXml()
     {
-        if ($this->simpleXml === null) {
-            $this->simpleXml = simplexml_load_string($this->getContent());
-        }
+        return $this->response->getSimpleXml();
+    }
 
-        return $this->simpleXml;
+    /**
+     * @inheritdoc
+     */
+    public function getErrorMessages(): array
+    {
+        return $this->response->getErrorMessages();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isEmpty(): bool
+    {
+        return $this->response->isEmpty();
     }
 }
