@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersRequest;
+namespace Citilink\ExpertSenderApi\Model\SubscribersPostRequest;
 
 /**
  * Options of {@see SubscriberPostRequest}

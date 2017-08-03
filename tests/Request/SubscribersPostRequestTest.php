@@ -8,8 +8,8 @@ use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Property;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Value;
 use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\Options;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
 use PHPUnit\Framework\Assert;
 
