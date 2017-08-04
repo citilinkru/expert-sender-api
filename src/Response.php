@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi;
 
-use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Model\ErrorMessage;
-use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * Default response of ExpertSender API
@@ -17,17 +14,7 @@ use Webmozart\Assert\Assert;
 class Response implements ResponseInterface
 {
     /**
-     * @var int HTTP status code
-     */
-    private $httpStatusCode;
-
-    /**
-     * @var resource Stream
-     */
-    private $stream;
-
-    /**
-     * @var \SimpleXMLElement XML
+     * @var \SimpleXMLElement SimpleXML
      */
     private $simpleXml;
 
@@ -37,33 +24,18 @@ class Response implements ResponseInterface
     private $content;
 
     /**
-     * Creates response from string
-     *
-     * @param string $content Response content
-     * @param int $httpStatusCode HTTP status code
-     *
-     * @return static Default response of ExpertSender API
+     * @var \Psr\Http\Message\ResponseInterface Http response
      */
-    public static function createFromString(string $content, int $httpStatusCode)
-    {
-        $stream = new Stream(fopen('php://temp', 'w+'));
-        $stream->write($content);
-
-        return new static($stream, $httpStatusCode);
-    }
+    private $httpResponse;
 
     /**
      * Constructor.
      *
-     * @param StreamInterface $stream Stream
-     * @param int $httpStatusCode HTTP status code
+     * @param \Psr\Http\Message\ResponseInterface $httpResponse Http response
      */
-    public function __construct(StreamInterface $stream, int $httpStatusCode)
+    public function __construct(\Psr\Http\Message\ResponseInterface $httpResponse)
     {
-        Assert::greaterThan($httpStatusCode, 0);
-        $this->httpStatusCode = $httpStatusCode;
-        $this->stream = $stream;
-        $this->stream->rewind();
+        $this->httpResponse = $httpResponse;
     }
 
     /**
@@ -71,7 +43,8 @@ class Response implements ResponseInterface
      */
     public function isOk(): bool
     {
-        return $this->httpStatusCode >= 200 && $this->httpStatusCode <= 299 && $this->getErrorCode() === null;
+        return $this->httpResponse->getStatusCode() >= 200 && $this->httpResponse->getStatusCode() <= 299
+            && $this->getErrorCode() === null;
     }
 
     /**
@@ -79,7 +52,7 @@ class Response implements ResponseInterface
      */
     public function getHttpStatusCode(): int
     {
-        return $this->httpStatusCode;
+        return $this->httpResponse->getStatusCode();
     }
 
     /**
@@ -87,7 +60,8 @@ class Response implements ResponseInterface
      */
     public function getErrorCode(): ?int
     {
-        if ($this->isEmpty()) {
+        // all errors from api returning as xml, and if it is not xml, then no errors exist
+        if (!$this->isXml()) {
             return null;
         }
 
@@ -106,7 +80,8 @@ class Response implements ResponseInterface
      */
     public function getErrorMessages(): array
     {
-        if ($this->isEmpty()) {
+        // all errors from api returning as xml, and if it is not xml, then no errors exist
+        if (!$this->isXml()) {
             return [];
         }
 
@@ -131,9 +106,9 @@ class Response implements ResponseInterface
     public function getContent(): string
     {
         if ($this->content === null) {
-            $this->stream->rewind();
+            $this->httpResponse->getBody()->rewind();
 
-            $this->content = $this->getStream()->getContents();
+            $this->content = $this->httpResponse->getBody()->getContents();
         }
 
         return $this->content;
@@ -144,24 +119,20 @@ class Response implements ResponseInterface
      */
     public function getStream(): StreamInterface
     {
-        $this->stream->rewind();
+        $this->httpResponse->getBody()->rewind();
 
-        return $this->stream;
+        return $this->httpResponse->getBody();
     }
 
     /**
-     * @inheritdoc
+     * Get SimpleXML object of response content
+     *
+     * @return \SimpleXMLElement XML
      */
-    public function getSimpleXml(): \SimpleXMLElement
+    private function getSimpleXml(): \SimpleXMLElement
     {
         if ($this->simpleXml === null) {
-            if ($this->isEmpty()) {
-                throw new ParseResponseException(
-                    'Response is empty, it\'s impossible to create simpleXML element. Maybe it is error, or response '
-                    . 'does not have content. You can use method isEmpty before trying to get SimpleXML'
-                );
-            }
-            $this->simpleXml = simplexml_load_string($this->getContent());
+            $this->simpleXml = Utils::createSimpleXml($this->getContent());
         }
 
         return $this->simpleXml;
@@ -172,6 +143,23 @@ class Response implements ResponseInterface
      */
     public function isEmpty(): bool
     {
-        return $this->getContent() === '';
+        return intval($this->httpResponse->getHeader('Content-Length')) === 0;
+    }
+
+    /**
+     * Is content is xml
+     *
+     * @return bool Is content is xml
+     */
+    private function isXml(): bool
+    {
+        $contentTypeHeaders = $this->httpResponse->getHeader('Content-Type');
+        if (empty($contentTypeHeaders)) {
+            return false;
+        }
+
+        $firstContentType = reset($contentTypeHeaders);
+
+        return !$this->isEmpty() && strpos($firstContentType, 'text/xml') !== false;
     }
 }

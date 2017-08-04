@@ -215,6 +215,11 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(400, $subscriberInfoByOldEmail->getErrorCode());
     }
 
+    public function testBouncesGet()
+    {
+//        $response = $this->api->bounces()->getBouncesList(new \DateTime('2016-01-01'), new \DateTime('2016-02-01'));
+    }
+
 //    public function testSendTrigger()
 //    {
 //        $randomEmail = sprintf($this->getTestEmailPattern(), rand(0, 100000000000) . rand(0, 1000000000000));

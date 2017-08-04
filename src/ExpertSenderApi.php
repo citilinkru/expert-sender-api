@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi;
 
+use Citilink\ExpertSenderApi\Resource\BouncesResource;
 use Citilink\ExpertSenderApi\Resource\SubscribersResource;
 use Citilink\ExpertSenderApi\Resource\TimeResource;
 use Citilink\ExpertSenderApi\Resource\TransactionalsResource;
@@ -57,5 +58,15 @@ class ExpertSenderApi
     public function time(): TimeResource
     {
         return new TimeResource($this->requestSender);
+    }
+
+    /**
+     * Get Bounces resource
+     *
+     * @return BouncesResource Bounces resource
+     */
+    public function bounces(): BouncesResource
+    {
+        return new BouncesResource($this->requestSender);
     }
 }

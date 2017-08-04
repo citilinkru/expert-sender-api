@@ -5,14 +5,14 @@ namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
-use Citilink\ExpertSenderApi\SpecificMethodResponse;
+use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
 
 /**
  * Time of server response
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class TimeGetResponse extends SpecificMethodResponse
+class TimeGetResponse extends SpecificXmlMethodResponse
 {
     /**
      * Get server time

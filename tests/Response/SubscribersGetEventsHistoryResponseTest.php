@@ -46,7 +46,9 @@ class SubscribersGetEventsHistoryResponseTest extends \PHPUnit_Framework_TestCas
           </Data>
         </ApiResponse>';
 
-        $response = new SubscribersGetEventsHistoryResponse(Response::createFromString($xml, 200));
+        $response = new SubscribersGetEventsHistoryResponse(new Response(
+            new \GuzzleHttp\Psr7\Response(200, ['Content-Length' => strlen($xml)], $xml)
+        ));
         Assert::assertTrue($response->isOk());
         Assert::assertFalse($response->isEmpty());
         /** @var Event[] $events */

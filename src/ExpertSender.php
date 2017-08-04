@@ -78,7 +78,7 @@ class ExpertSender implements LoggerAwareInterface
      * @param string $tableName
      * @param ColumnChunk[] $columns
      *
-     * @return \Citilink\ExpertSenderApi\SpecificMethodResponse
+     * @return SpecificXmlMethodResponse
      */
     public function addTableRow($tableName, array $columns)
     {
@@ -92,7 +92,7 @@ class ExpertSender implements LoggerAwareInterface
         $headerChunk = $this->getHeaderChunk([$tableNameChunk, $dataChunk]);
 
         $response = $this->transport->post($this->addTableRowUrl, $headerChunk->toXml());
-        $apiResult = new SpecificMethodResponse($response);
+        $apiResult = new SpecificXmlMethodResponse($response);
         $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
@@ -151,7 +151,8 @@ class ExpertSender implements LoggerAwareInterface
      * @param string $tableName
      * @param ColumnChunk[] $primaryKeyColumns
      * @param ColumnChunk[] $columns
-     * @return SpecificMethodResponse
+     *
+     * @return SpecificXmlMethodResponse
      */
     public function updateTableRow($tableName, array $primaryKeyColumns, array $columns)
     {
@@ -168,7 +169,7 @@ class ExpertSender implements LoggerAwareInterface
         $headerChunk = $this->getHeaderChunk([$tableNameChunk, $primaryKeyColumnsChunk, $columnsChunk]);
 
         $response = $this->transport->post($this->updateTableRowUrl, $headerChunk->toXml());
-        $apiResult = new SpecificMethodResponse($response);
+        $apiResult = new SpecificXmlMethodResponse($response);
         $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
@@ -176,7 +177,8 @@ class ExpertSender implements LoggerAwareInterface
     /**
      * @param string $tableName
      * @param ColumnChunk[] $primaryKeyColumns
-     * @return \Citilink\ExpertSenderApi\SpecificMethodResponse
+     *
+     * @return SpecificXmlMethodResponse
      */
     public function deleteTableRow($tableName, array $primaryKeyColumns)
     {
@@ -189,7 +191,7 @@ class ExpertSender implements LoggerAwareInterface
         $headerChunk = $this->getHeaderChunk([$tableNameChunk, $primaryKeyColumnsChunk]);
 
         $response = $this->transport->post($this->deleteTableRowUrl, $headerChunk->toXml());
-        $apiResult = new SpecificMethodResponse($response);
+        $apiResult = new SpecificXmlMethodResponse($response);
         $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
@@ -198,7 +200,7 @@ class ExpertSender implements LoggerAwareInterface
      * @param $triggerId
      * @param Receiver[] $receiverChunks
      *
-     * @return \Citilink\ExpertSenderApi\SpecificMethodResponse
+     * @return SpecificXmlMethodResponse
      */
     public function sendTrigger($triggerId, $receiverChunks)
     {
@@ -208,7 +210,7 @@ class ExpertSender implements LoggerAwareInterface
         $url = sprintf($this->triggerUrlPattern, $triggerId);
         $response = $this->transport->post($url, $headerChunk->toXml());
 
-        $apiResult = new SpecificMethodResponse($response);
+        $apiResult = new SpecificXmlMethodResponse($response);
         $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
@@ -225,9 +227,9 @@ class ExpertSender implements LoggerAwareInterface
 
     /**
      * @param string $method
-     * @param SpecificMethodResponse $result
+     * @param SpecificXmlMethodResponse $result
      */
-    protected function logApiResult($method, SpecificMethodResponse $result)
+    protected function logApiResult($method, SpecificXmlMethodResponse $result)
     {
         if ($result->isOk()) {
             return;

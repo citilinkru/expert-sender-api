@@ -59,7 +59,7 @@ class HttpTransport
             }
         }
 
-        return Response::createFromString($result, $responseCode);
+        return new Response(new \GuzzleHttp\Psr7\Response($responseCode, [], $result));
     }
 
     public function post($url, $body)

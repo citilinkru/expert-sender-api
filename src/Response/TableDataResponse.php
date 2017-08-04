@@ -3,7 +3,7 @@
 namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\ResponseInterface;
-use Citilink\ExpertSenderApi\SpecificMethodResponse;
+use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
 
 /**
  * Table data response
@@ -12,7 +12,7 @@ use Citilink\ExpertSenderApi\SpecificMethodResponse;
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class TableDataResponse extends SpecificMethodResponse
+class TableDataResponse extends SpecificXmlMethodResponse
 {
     /**
      * @var array

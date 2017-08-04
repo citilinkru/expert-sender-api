@@ -3,14 +3,14 @@
 namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\Exception\ExpertSenderApiException;
-use Citilink\ExpertSenderApi\SpecificMethodResponse;
+use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
 
 /**
  * @deprecated Do not use it, this class will be deleted soon.
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class UserIdResult extends SpecificMethodResponse
+class UserIdResult extends SpecificXmlMethodResponse
 {
     protected $id;
 

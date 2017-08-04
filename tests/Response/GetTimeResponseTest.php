@@ -19,7 +19,7 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
             <Data>2013-04-24T10:33:09.4338472Z</Data>
             </ApiResponse>';
 
-        $response = new TimeGetResponse(Response::createFromString($body, 200));
+        $response = new TimeGetResponse(new Response(new \GuzzleHttp\Psr7\Response(200, [], $body)));
         Assert::assertTrue($response->isOk());
         Assert::assertEquals('2013-04-24T10:33:09', $response->getServerTime()->format('Y-m-d\TH:i:s'));
         Assert::assertEquals(200, $response->getHttpStatusCode());
@@ -39,7 +39,7 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
             <Data></Data>
             </ApiResponse>';
 
-        $response = new TimeGetResponse(Response::createFromString($body, 200));
+        $response = new TimeGetResponse(new Response(new \GuzzleHttp\Psr7\Response(200, [], $body)));
 
         Assert::assertTrue($response->isOk());
         Assert::assertEquals(200, $response->getHttpStatusCode());
@@ -58,7 +58,7 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
             <Data>WRONG_DATA</Data>
             </ApiResponse>';
 
-        $response = new TimeGetResponse(Response::createFromString($body, 200));
+        $response = new TimeGetResponse(new Response(new \GuzzleHttp\Psr7\Response(200, [], $body)));
         Assert::assertTrue($response->isOk());
         Assert::assertEquals('2013-04-24T10:33:09', $response->getServerTime()->format('Y-m-d\TH:i:s'));
         Assert::assertEquals(200, $response->getHttpStatusCode());
@@ -71,7 +71,7 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowExceptionIfTryingGetServerTimeOnNotOkResponse()
     {
-        $response = new TimeGetResponse(Response::createFromString('', 500));
+        $response = new TimeGetResponse(new Response(new \GuzzleHttp\Psr7\Response(500, [], '')));
         $response->getServerTime();
     }
 }
