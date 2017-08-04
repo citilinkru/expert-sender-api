@@ -39,7 +39,7 @@ class Snippet
     }
 
     /**
-     * Return name
+     * Get name
      *
      * @return string Name
      */
@@ -49,7 +49,7 @@ class Snippet
     }
 
     /**
-     * Return value
+     * Get value
      *
      * @return string Value
      */

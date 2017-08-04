@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Model\SubscribersRequest;
 
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\Property;
+use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Property;
 
 /**
  * Subscriber data for add/edit subscriber request
@@ -12,6 +14,26 @@ use Citilink\ExpertSenderApi\Model\SubscribersRequest\Property;
  */
 class SubscriberInfo
 {
+    /**
+     * @var int List ID
+     */
+    private $listId;
+
+    /**
+     * @var string|null Email
+     */
+    private $email;
+
+    /**
+     * @var string|null Custom subscriber ID
+     */
+    private $customSubscriberId;
+
+    /**
+     * @var Mode Adding mode
+     */
+    private $mode;
+
     /**
      * @var string|null Firstname
      */
@@ -48,7 +70,50 @@ class SubscriberInfo
     private $propertyChunks = [];
 
     /**
-     * Return firstname
+     * @var bool Allow add subscriber, that was unsubscribed
+     */
+    private $allowAddUserThatWasUnsubscribed = true;
+
+    /**
+     * @var bool Allow add subscriber, that was deleted
+     */
+    private $allowAddUserThatWasDeleted = true;
+
+    /**
+     * Force sending another confirmation email to subscriber
+     *
+     * Applies only to Double Opt-In lists and non-confirmed subscribers
+     *
+     * @var bool
+     */
+    private $force = false;
+
+    /**
+     * @var Identifier Identifier of subscriber
+     */
+    private $identifier;
+
+    /**
+     * @var string|null Phone
+     */
+    private $phone;
+
+    /**
+     * Constructor
+     *
+     * @param Identifier $identifier Identifier of subscriber
+     * @param int $listId List ID
+     * @param Mode $mode Adding mode (AddAndUpdate by default)
+     */
+    public function __construct(Identifier $identifier, int $listId, Mode $mode = null)
+    {
+        $this->identifier = $identifier;
+        $this->listId = $listId;
+        $this->mode = $mode ?: Mode::ADD_AND_UPDATE();
+    }
+
+    /**
+     * Get firstname
      *
      * @return null|string Firstname
      */
@@ -68,7 +133,7 @@ class SubscriberInfo
     }
 
     /**
-     * Return lastname
+     * Get lastname
      *
      * @return null|string Lastname
      */
@@ -88,7 +153,7 @@ class SubscriberInfo
     }
 
     /**
-     * Return full name ("Firstname Lastname")
+     * Get full name ("Firstname Lastname")
      *
      * @return null|string Full name ("Firstname Lastname")
      */
@@ -108,7 +173,7 @@ class SubscriberInfo
     }
 
     /**
-     * Return IP
+     * Get IP
      *
      * @return null|string IP
      */
@@ -128,7 +193,7 @@ class SubscriberInfo
     }
 
     /**
-     * Return identifier of source of subscriber (e.g. particular webform on a webpage)
+     * Get identifier of source of subscriber (e.g. particular webform on a webpage)
      *
      * @return null|string Identifier of source of subscriber (e.g. particular webform on a webpage)
      */
@@ -152,7 +217,7 @@ class SubscriberInfo
     }
 
     /**
-     * Return identifier/name of traffic vendor the subscriber came from
+     * Get identifier/name of traffic vendor the subscriber came from
      *
      * @return null|string Identifier/name of traffic vendor the subscriber came from
      */
@@ -182,12 +247,162 @@ class SubscriberInfo
     }
 
     /**
-     * Return subscriber's properties
+     * Get subscriber's properties
      *
      * @return Property[] Subscriber's properties
      */
     public function getProperties(): array
     {
         return $this->propertyChunks;
+    }
+
+    /**
+     * Set allow add subscriber, that was unsubscribed
+     *
+     * @param bool $allowAddUserThatWasUnsubscribed Allow add subscriber, that was unsubscribed
+     */
+    public function setAllowAddUserThatWasUnsubscribed(bool $allowAddUserThatWasUnsubscribed): void
+    {
+        $this->allowAddUserThatWasUnsubscribed = $allowAddUserThatWasUnsubscribed;
+    }
+
+    /**
+     * Set allow add subscriber, that was deleted
+     *
+     * @param bool $allowAddUserThatWasDeleted Allow add subscriber, that was deleted
+     */
+    public function setAllowAddUserThatWasDeleted(bool $allowAddUserThatWasDeleted): void
+    {
+        $this->allowAddUserThatWasDeleted = $allowAddUserThatWasDeleted;
+    }
+
+    /**
+     * Set force sending another confirmation email to subscriber
+     *
+     * @param bool $force Force sending another confirmation email to subscriber
+     */
+    public function setForce(bool $force): void
+    {
+        $this->force = $force;
+    }
+
+    /**
+     * Allow add subscriber, that was unsubscribe
+     *
+     * @return bool Allow add subscriber, that was unsubscribe
+     */
+    public function isAllowAddUserThatWasUnsubscribed(): bool
+    {
+        return $this->allowAddUserThatWasUnsubscribed;
+    }
+
+    /**
+     * Allow add subscriber, that was deleted
+     *
+     * @return bool Allow add subscriber, that was deleted
+     */
+    public function isAllowAddUserThatWasDeleted(): bool
+    {
+        return $this->allowAddUserThatWasDeleted;
+    }
+
+    /**
+     * Force sending another confirmation email to subscriber
+     *
+     * @return bool Force sending another confirmation email to subscriber
+     */
+    public function isForce(): bool
+    {
+        return $this->force;
+    }
+
+    /**
+     * Get list ID
+     *
+     * @return int List ID
+     */
+    public function getListId(): int
+    {
+        return $this->listId;
+    }
+
+    /**
+     * Get email
+     *
+     * @return null|string Email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get adding mode
+     *
+     * @return Mode Adding mode
+     */
+    public function getMode(): Mode
+    {
+        return $this->mode;
+    }
+
+    /**
+     * Get custom subscriber ID
+     *
+     * @return string Custom subscriber ID
+     */
+    public function getCustomSubscriberId(): ?string
+    {
+        return $this->customSubscriberId;
+    }
+
+    /**
+     * Set custom subscriber ID
+     *
+     * @param string $customSubscriberId Custom subscriber ID
+     */
+    public function setCustomSubscriberId(string $customSubscriberId): void
+    {
+        $this->customSubscriberId = $customSubscriberId;
+    }
+
+    /**
+     * Get identifier of subscriber
+     *
+     * @return Identifier Identifier of subscriber
+     */
+    public function getIdentifier(): Identifier
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string Phone
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone Phone
+     */
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email Email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 }

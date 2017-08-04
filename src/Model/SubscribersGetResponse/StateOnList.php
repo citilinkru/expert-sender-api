@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersResponse;
+namespace Citilink\ExpertSenderApi\Model\SubscribersGetResponse;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\StateOnListStatus;
 
@@ -49,7 +49,7 @@ class StateOnList
     }
 
     /**
-     * Return list ID
+     * Get list ID
      *
      * @return int List ID
      */
@@ -59,7 +59,7 @@ class StateOnList
     }
 
     /**
-     * Return list name
+     * Get list name
      *
      * @return string List name
      */
@@ -69,7 +69,7 @@ class StateOnList
     }
 
     /**
-     * Return status
+     * Get status
      *
      * @return StateOnListStatus Status
      */
@@ -79,7 +79,7 @@ class StateOnList
     }
 
     /**
-     * Return subscription date
+     * Get subscription date
      *
      * @return \DateTime Subscription date
      */

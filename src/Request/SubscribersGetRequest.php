@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Request;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
-use Citilink\ExpertSenderApi\Enum\SubscribersRequest\SubscribersGetOption;
+use Citilink\ExpertSenderApi\Enum\SubscribersGetRequest\DataOption;
 use Citilink\ExpertSenderApi\RequestInterface;
 use Webmozart\Assert\Assert;
 
@@ -21,7 +21,7 @@ class SubscribersGetRequest implements RequestInterface
     private $email;
 
     /**
-     * @var SubscribersGetOption DataType of response
+     * @var DataOption DataType of response
      */
     private $option;
 
@@ -29,9 +29,9 @@ class SubscribersGetRequest implements RequestInterface
      * Constructor
      *
      * @param string $email Email
-     * @param SubscribersGetOption $option DataType of response
+     * @param DataOption $option DataType of response
      */
-    public function __construct(string $email, SubscribersGetOption $option)
+    public function __construct(string $email, DataOption $option)
     {
         Assert::notEmpty($email);
         $this->email = $email;

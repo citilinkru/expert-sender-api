@@ -13,28 +13,28 @@ use Citilink\ExpertSenderApi\Enum\HttpMethod;
 interface RequestInterface
 {
     /**
-     * Return XML representation
+     * Get XML representation
      *
      * @return string XML representation
      */
     public function toXml(): string;
 
     /**
-     * Return query parameters
+     * Get query parameters
      *
      * @return string[] Query parameters
      */
     public function getQueryParams(): array;
 
     /**
-     * Return HTTP method
+     * Get HTTP method
      *
      * @return HttpMethod HTTP method
      */
     public function getMethod(): HttpMethod;
 
     /**
-     * Return URI
+     * Get URI
      *
      * @return string URI
      */

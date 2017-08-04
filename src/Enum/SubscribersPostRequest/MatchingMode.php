@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Enum\SubscribersRequest;
+namespace Citilink\ExpertSenderApi\Enum\SubscribersPostRequest;
 
 use MyCLabs\Enum\Enum;
 
 /**
- * Matching mode in add/edit subscriber requests
+ * Matching mode
+ *
+ * This mod choose which data should use as primary key
  *
  * @method static MatchingMode EMAIL()
  * @method static MatchingMode CUSTOMER_SUBSCRIBER_ID()

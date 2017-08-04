@@ -14,7 +14,7 @@ use Citilink\ExpertSenderApi\SpecificMethodResponse;
 class TransactionalPostResponse extends SpecificMethodResponse
 {
     /**
-     * Return GUID of sent message
+     * Get GUID of sent message
      *
      * This GUID only shows when set returnGuid=true in {@see PostTransactionalRequest}
      *

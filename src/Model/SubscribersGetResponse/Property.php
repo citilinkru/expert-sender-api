@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersResponse;
+namespace Citilink\ExpertSenderApi\Model\SubscribersGetResponse;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Source;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
@@ -82,7 +82,7 @@ class Property
     }
 
     /**
-     * Return ID
+     * Get ID
      *
      * @return int ID
      */
@@ -92,7 +92,7 @@ class Property
     }
 
     /**
-     * Return property type
+     * Get property type
      *
      * @return \Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type Property type
      */
@@ -102,7 +102,7 @@ class Property
     }
 
     /**
-     * Return friendly name
+     * Get friendly name
      *
      * @return string Friendly name
      */
@@ -112,7 +112,7 @@ class Property
     }
 
     /**
-     * Return system name
+     * Get system name
      *
      * @return string System name
      */
@@ -122,7 +122,7 @@ class Property
     }
 
     /**
-     * Return source
+     * Get source
      *
      * @return Source Source
      */
@@ -132,7 +132,7 @@ class Property
     }
 
     /**
-     * Return value
+     * Get value
      *
      * @return Value Value
      */
@@ -142,7 +142,7 @@ class Property
     }
 
     /**
-     * Return description
+     * Get description
      *
      * @return string Description
      */

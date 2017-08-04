@@ -89,7 +89,7 @@ class Receiver
     }
 
     /**
-     * Return ID
+     * Get ID
      *
      * @return int|null ID
      */
@@ -99,7 +99,7 @@ class Receiver
     }
 
     /**
-     * Return email
+     * Get email
      *
      * @return null|string Email
      */
@@ -109,7 +109,7 @@ class Receiver
     }
 
     /**
-     * Return Md5 of email
+     * Get Md5 of email
      *
      * @return null|string Md5 of email
      */
@@ -119,7 +119,7 @@ class Receiver
     }
 
     /**
-     * Return list ID
+     * Get list ID
      *
      * @return int|null List ID
      */

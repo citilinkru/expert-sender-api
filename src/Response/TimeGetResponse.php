@@ -15,7 +15,7 @@ use Citilink\ExpertSenderApi\SpecificMethodResponse;
 class TimeGetResponse extends SpecificMethodResponse
 {
     /**
-     * Return server time
+     * Get server time
      *
      * @throws ParseResponseException If response is invalid, or Data content is not valid datetime string
      *

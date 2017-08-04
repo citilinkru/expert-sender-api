@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersRequest;
+namespace Citilink\ExpertSenderApi\Model\SubscribersPostRequest;
 
 use Citilink\ExpertSenderApi\Enum\DataType;
 
@@ -107,7 +107,7 @@ class Value
     }
 
     /**
-     * Return value as string
+     * Get value as string
      *
      * @return string Value as string
      */
@@ -117,7 +117,7 @@ class Value
     }
 
     /**
-     * Return data type
+     * Get data type
      *
      * @return DataType Data type
      */

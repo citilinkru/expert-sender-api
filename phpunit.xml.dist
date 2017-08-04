@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php">
+<phpunit bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="unit">
             <directory>tests/</directory>
-            <exclude>tests/LinguaLeo/ExpertSender/ExpertSenderTest.php</exclude>
+            <exclude>tests/ExpertSenderTest.php</exclude>
         </testsuite>
         <testsuite name="integration">
-            <file>tests/LinguaLeo/ExpertSender/ExpertSenderTest.php</file>
+            <file>tests/ExpertSenderTest.php</file>
         </testsuite>
     </testsuites>
     <filter>

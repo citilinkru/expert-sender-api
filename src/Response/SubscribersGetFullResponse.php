@@ -7,8 +7,8 @@ use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Source;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
-use Citilink\ExpertSenderApi\Model\SubscribersResponse\Property;
-use Citilink\ExpertSenderApi\Model\SubscribersResponse\Value;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\Property;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\Value;
 
 /**
  * Full info about subscriber
@@ -18,7 +18,7 @@ use Citilink\ExpertSenderApi\Model\SubscribersResponse\Value;
 class SubscribersGetFullResponse extends SubscribersGetLongResponse
 {
     /**
-     * Return firstname of subscriber
+     * Get firstname of subscriber
      *
      * @return string Firstname of subscriber
      */
@@ -36,7 +36,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
     }
 
     /**
-     * Return lastname of subscriber
+     * Get lastname of subscriber
      *
      * @return string Lastname of subscriber
      */
@@ -54,7 +54,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
     }
 
     /**
-     * Return IP of subscriber
+     * Get IP of subscriber
      *
      * @return string IP of subscriber
      */
@@ -72,7 +72,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
     }
 
     /**
-     * Return ID of subscriber
+     * Get ID of subscriber
      *
      * @return int ID of subscriber
      */
@@ -90,7 +90,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
     }
 
     /**
-     * Return vendor of subscriber
+     * Get vendor of subscriber
      *
      * @return string Vendor of subscriber
      */
@@ -108,7 +108,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
     }
 
     /**
-     * Return subscriber properties
+     * Get subscriber properties
      *
      * @return Property[] Properties
      */
