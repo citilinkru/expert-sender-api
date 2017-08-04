@@ -5,8 +5,8 @@ namespace Citilink\ExpertSenderApi\Resource;
 
 use Citilink\ExpertSenderApi\AbstractResource;
 use Citilink\ExpertSenderApi\Enum\SubscribersGetRequest\DataOption;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\Options;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;

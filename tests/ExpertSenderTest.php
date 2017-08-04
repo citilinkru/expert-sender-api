@@ -9,7 +9,7 @@ use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
 use Citilink\ExpertSenderApi\ExpertSender;
 use Citilink\ExpertSenderApi\ExpertSenderApi;
 use Citilink\ExpertSenderApi\HttpTransport;
-use Citilink\ExpertSenderApi\Model\SubscribersRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\RequestSender;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
