@@ -234,7 +234,7 @@ class Identifier
             throw new ExpertSenderApiException(
                 sprintf(
                     'Can\'t use getCustomSubscriberId method, because Matching mode is "%s", if you want use '
-                    .'custom subscriber id as identifier create object with static method createCustomSubscriberId',
+                    . 'custom subscriber id as identifier create object with static method createCustomSubscriberId',
                     $this->matchingMode->getValue()
                 )
             );

@@ -11,43 +11,45 @@ namespace Citilink\ExpertSenderApi\Model\SubscribersPostResponse;
 class SubscriberData
 {
     /**
-     * @var string
+     * @var string Email
      */
     private $email;
 
     /**
-     * @var int
+     * @var int ID
      */
     private $id;
 
     /**
-     * @var bool
+     * @var bool Subscriber was added
      */
-    private $wasAdded;
+    private $isWasAdded;
 
     /**
-     * @var bool
+     * @var bool Subscriber was ignored
      */
-    private $wasIgnored;
+    private $isWasIgnored;
 
     /**
-     * Конструктор.
+     * Constructor.
      *
-     * @param string $email
-     * @param int $id
-     * @param bool $wasAdded
-     * @param bool $wasIgnored
+     * @param string $email Email
+     * @param int $id Id
+     * @param bool $isWasAdded Subscriber was added
+     * @param bool $isWasIgnored Subscriber was ignored
      */
-    public function __construct(string $email, int $id, bool $wasAdded, bool $wasIgnored)
+    public function __construct(string $email, int $id, bool $isWasAdded, bool $isWasIgnored)
     {
         $this->email = $email;
         $this->id = $id;
-        $this->wasAdded = $wasAdded;
-        $this->wasIgnored = $wasIgnored;
+        $this->isWasAdded = $isWasAdded;
+        $this->isWasIgnored = $isWasIgnored;
     }
 
     /**
-     * @return string
+     * Get email
+     *
+     * @return string Email
      */
     public function getEmail(): string
     {
@@ -55,7 +57,9 @@ class SubscriberData
     }
 
     /**
-     * @return int
+     * Get ID
+     *
+     * @return int ID
      */
     public function getId(): int
     {
@@ -63,19 +67,22 @@ class SubscriberData
     }
 
     /**
-     * @return bool
+     * Is subscriber was added
+     *
+     * @return bool Is subscriber was added
      */
     public function isWasAdded(): bool
     {
-        return $this->wasAdded;
+        return $this->isWasAdded;
     }
 
     /**
-     * @return bool
+     * Is subscriber was ignored
+     *
+     * @return bool Is subscriber was ignored
      */
     public function isWasIgnored(): bool
     {
-        return $this->wasIgnored;
+        return $this->isWasIgnored;
     }
-
 }
