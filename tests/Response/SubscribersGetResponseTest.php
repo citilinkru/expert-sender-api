@@ -7,6 +7,7 @@ use Citilink\ExpertSenderApi\Enum\SubscribersResponse\StateOnListStatus;
 use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertyType;
 use Citilink\ExpertSenderApi\Enum\DataType;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberProperty;
 use Citilink\ExpertSenderApi\Response;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
 use PHPUnit\Framework\Assert;
@@ -73,14 +74,15 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
         Assert::assertCount(2, $stopLists);
         Assert::assertEquals([1 => 'Тестовый стоп-лист 1', 2 => 'Тестовый стоп-лист 2'], $stopLists);
 
-        $properties = $response->getProperties();
+        /** @var SubscriberProperty[] $properties */
+        $properties = \iter\toArray($response->getSubscriberData()->getProperties());
         Assert::assertCount(5, $properties);
 
-        Assert::assertEquals(1208798, $response->getId());
-        Assert::assertEquals('FIRSTNAME', $response->getFirstname());
-        Assert::assertEquals('ID905079', $response->getLastname());
-        Assert::assertEquals('есть', $response->getVendor());
-        Assert::assertEquals('92.242.35.180', $response->getIp());
+        Assert::assertEquals(1208798, $response->getSubscriberData()->getId());
+        Assert::assertEquals('FIRSTNAME', $response->getSubscriberData()->getFirstname());
+        Assert::assertEquals('ID905079', $response->getSubscriberData()->getLastname());
+        Assert::assertEquals('есть', $response->getSubscriberData()->getVendor());
+        Assert::assertEquals('92.242.35.180', $response->getSubscriberData()->getIp());
 
         foreach ($properties as $property) {
             switch ($property->getId()) {
@@ -151,6 +153,6 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
         $response = new SubscribersGetFullResponse(new Response(
             new \GuzzleHttp\Psr7\Response(200, [], $xml)
         ));
-        $response->getProperties();
+        \iter\toArray($response->getSubscriberData()->getProperties());
     }
 }

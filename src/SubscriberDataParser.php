@@ -6,6 +6,7 @@ namespace Citilink\ExpertSenderApi;
 use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertyType;
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
+use Citilink\ExpertSenderApi\Model\SubscriberData;
 use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberProperty;
 use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberPropertyValue;
 
@@ -17,79 +18,34 @@ use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberPropertyValu
 class SubscriberDataParser
 {
     /**
-     * @var \SimpleXMLElement Xml
-     */
-    private $xml;
-
-    /**
-     * Constructor
+     * Parse xml element into subscriber's data object
      *
-     * @param \SimpleXMLElement $xml Xml
-     */
-    public function __construct(\SimpleXMLElement $xml)
-    {
-        $this->xml = $xml;
-    }
-
-    /**
-     * Get firstname of subscriber
+     * @param \SimpleXMLElement $xml Xml element with subscriber data
      *
-     * @return string Firstname of subscriber
+     * @return SubscriberData Subscriber's data
      */
-    public function getFirstname(): string
+    public function parse(\SimpleXMLElement $xml)
     {
-        return strval($this->xml->Firstname);
-    }
-
-    /**
-     * Get lastname of subscriber
-     *
-     * @return string Lastname of subscriber
-     */
-    public function getLastname(): string
-    {
-        return strval($this->xml->Lastname);
-    }
-
-    /**
-     * Get IP of subscriber
-     *
-     * @return string IP of subscriber
-     */
-    public function getIp(): string
-    {
-        return strval($this->xml->Ip);
-    }
-
-    /**
-     * Get ID of subscriber
-     *
-     * @return int ID of subscriber
-     */
-    public function getId(): int
-    {
-        return intval($this->xml->Id);
-    }
-
-    /**
-     * Get vendor of subscriber
-     *
-     * @return string Vendor of subscriber
-     */
-    public function getVendor(): string
-    {
-        return strval($this->xml->Vendor);
+        return new SubscriberData(
+            intval($xml->Id),
+            strval($xml->Firstname),
+            strval($xml->Lastname),
+            strval($xml->Ip),
+            strval($xml->Vendor),
+            $this->getProperties($xml)
+        );
     }
 
     /**
      * Get subscriber properties
      *
-     * @return SubscriberProperty[] Properties
+     * @param \SimpleXmlElement $xml Xml element with properties
+     *
+     * @return SubscriberProperty[]|\Generator Properties
      */
-    public function getProperties(): array
+    private function getProperties(\SimpleXmlElement $xml): \Generator
     {
-        $nodes = $this->xml->xpath('Properties/Property');
-        $properties = [];
+        $nodes = $xml->xpath('Properties/Property');
         foreach ($nodes as $node) {
             $id = intval($node->Id);
             $source = new SubscriberPropertySource(strval($node->Source));
@@ -109,6 +65,7 @@ class SubscriberDataParser
                     );
                     break;
                 case SubscriberPropertyType::NUMBER:
+                case SubscriberPropertyType::BOOLEAN:
                     $value = SubscriberPropertyValue::createInt(
                         intval($node->IntValue),
                         intval($node->DefaultIntValue)
@@ -136,9 +93,7 @@ class SubscriberDataParser
                     );
             }
 
-            $properties[] = new SubscriberProperty($id, $type, $friendlyName, $name, $description, $source, $value);
+            yield new SubscriberProperty($id, $type, $friendlyName, $name, $description, $source, $value);
         }
-
-        return $properties;
     }
 }

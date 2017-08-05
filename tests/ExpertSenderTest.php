@@ -196,7 +196,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->api->subscribers()->addOrEdit([$subscriberData]);
 
         $subscriberInfo = $this->api->subscribers()->getFull($randomEmail);
-        $oldId = $subscriberInfo->getId();
+        $oldId = $subscriberInfo->getSubscriberData()->getId();
         $this->assertTrue(is_numeric($oldId));
 
         $subscriberInfoForChangeEmail = new SubscriberInfo(
@@ -207,7 +207,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $subscriberInfoForChangeEmail->setEmail($randomEmail2);
         $this->api->subscribers()->addOrEdit([$subscriberInfoForChangeEmail]);
         $subscriberInfo2 = $this->api->subscribers()->getFull($randomEmail2);
-        $this->assertEquals($subscriberInfo2->getId(), $oldId);
+        $this->assertEquals($subscriberInfo2->getSubscriberData()->getId(), $oldId);
         $this->api->subscribers()->deleteByEmail($randomEmail2);
 
         $subscriberInfoByOldEmail = $this->api->subscribers()->getFull($randomEmail);
