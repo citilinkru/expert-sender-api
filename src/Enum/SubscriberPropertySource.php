@@ -13,6 +13,7 @@ use MyCLabs\Enum\Enum;
  * @method static SubscriberPropertySource IMPORT()
  * @method static SubscriberPropertySource API()
  * @method static SubscriberPropertySource PREF_CENTER()
+ * @method static SubscriberPropertySource NOT_SET()
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
@@ -42,4 +43,9 @@ final class SubscriberPropertySource extends Enum
      * Subscriber added/modified the property on Preference Center page
      */
     const PREF_CENTER = 'PrefCenter';
+
+    /**
+     * Source not set
+     */
+    const NOT_SET = 'NotSet';
 }
