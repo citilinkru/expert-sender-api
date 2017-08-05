@@ -21,7 +21,7 @@ class TransactionalsResource extends AbstractResource
      * Send transactional message
      *
      * @param int $transactionMessageId Transaction message ID
-     * @param Receiver $receiverChunk Receiver
+     * @param Receiver $receiver Receiver
      * @param Snippet[] $snippets Snippets
      * @param Attachment[] $attachments Attachments
      * @param bool $returnGuid Should return GUID in Response
@@ -30,7 +30,7 @@ class TransactionalsResource extends AbstractResource
      */
     public function send(
         int $transactionMessageId,
-        Receiver $receiverChunk,
+        Receiver $receiver,
         array $snippets = [],
         array $attachments = [],
         bool $returnGuid = false
@@ -38,7 +38,7 @@ class TransactionalsResource extends AbstractResource
         return new TransactionalPostResponse(
             $this->requestSender->send(
                 new TransactionalPostRequest(
-                    $transactionMessageId, $receiverChunk, $snippets, $attachments, $returnGuid
+                    $transactionMessageId, $receiver, $snippets, $attachments, $returnGuid
                 )
             )
         );
