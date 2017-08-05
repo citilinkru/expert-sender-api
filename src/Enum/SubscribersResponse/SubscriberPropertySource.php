@@ -8,15 +8,15 @@ use MyCLabs\Enum\Enum;
 /**
  * Source of subscriber's property
  *
- * @method static Source WEB()
- * @method static Source PANEL()
- * @method static Source IMPORT()
- * @method static Source API()
- * @method static Source PREF_CENTER()
+ * @method static SubscriberPropertySource WEB()
+ * @method static SubscriberPropertySource PANEL()
+ * @method static SubscriberPropertySource IMPORT()
+ * @method static SubscriberPropertySource API()
+ * @method static SubscriberPropertySource PREF_CENTER()
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-final class Source extends Enum
+final class SubscriberPropertySource extends Enum
 {
     /**
      * Property was added/modified using a subscription webform

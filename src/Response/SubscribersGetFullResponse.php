@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Response;
 
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Source;
+use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
@@ -124,7 +124,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
         $properties = [];
         foreach ($nodes as $node) {
             $id = intval($node->Id);
-            $source = new Source(strval($node->Source));
+            $source = new SubscriberPropertySource(strval($node->Source));
             $type = new Type(strval($node->Type));
             $friendlyName = strval($node->FriendlyName);
             $name = strval($node->Name);

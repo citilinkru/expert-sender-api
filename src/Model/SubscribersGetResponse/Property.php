@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Model\SubscribersGetResponse;
 
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Source;
+use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
 use Webmozart\Assert\Assert;
 
@@ -35,7 +35,7 @@ class Property
     private $name;
 
     /**
-     * @var Source Source
+     * @var SubscriberPropertySource Source
      */
     private $source;
 
@@ -57,7 +57,7 @@ class Property
      * @param string $friendlyName Friendly name
      * @param string $name System name
      * @param string $description Description
-     * @param Source $source Source
+     * @param SubscriberPropertySource $source Source
      * @param Value $value Value
      */
     public function __construct(
@@ -66,7 +66,7 @@ class Property
         string $friendlyName,
         string $name,
         string $description,
-        Source $source,
+        SubscriberPropertySource $source,
         Value $value
     ) {
         Assert::notEmpty($id);
@@ -124,9 +124,9 @@ class Property
     /**
      * Get source
      *
-     * @return Source Source
+     * @return SubscriberPropertySource Source
      */
-    public function getSource(): Source
+    public function getSource(): SubscriberPropertySource
     {
         return $this->source;
     }
