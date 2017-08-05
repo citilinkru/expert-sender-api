@@ -28,7 +28,7 @@ class TransactionalsResource extends AbstractResource
      *
      * @return TransactionalPostResponse Response
      */
-    public function sendMessage(
+    public function send(
         int $transactionMessageId,
         Receiver $receiverChunk,
         array $snippets = [],

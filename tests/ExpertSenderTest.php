@@ -221,7 +221,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testBouncesGet()
     {
-        $response = $this->api->bounces()->getBouncesList(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
+        $response = $this->api->bounces()->get(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
         Assert::assertTrue($response->isOk());
         Assert::assertFalse($response->isEmpty());
         /** @var Bounce[] $rows */
@@ -251,7 +251,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $subscriberData->setFirstName('Test');
         $this->api->subscribers()->addOrEdit([$subscriberData]);
 
-        $response = $this->api->transactionals()->sendMessage(
+        $response = $this->api->transactionals()->send(
             $this->getTestTransactional(),
             Receiver::createWithEmail($randomEmail),
             [new Snippet('code', 123456)],
