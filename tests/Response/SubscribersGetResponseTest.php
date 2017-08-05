@@ -25,7 +25,9 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
     {
         $xml = file_get_contents(__DIR__ . '/subscribers_get_full_response.xml');
 
-        $response = new SubscribersGetFullResponse(Response::createFromString($xml, 200));
+        $response = new SubscribersGetFullResponse(new Response(
+            new \GuzzleHttp\Psr7\Response(200, [], $xml)
+        ));
         Assert::assertFalse($response->isInBlackList());
         $stateOnLists = $response->getStateOnLists();
         Assert::assertCount(4, $stateOnLists);
@@ -146,7 +148,9 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                 <Name>city</Name>
                 <DefaultStringValue xsi:type="xsd:string"></DefaultStringValue>
             </Property></Properties></Data></ApiResponse>';
-        $response = new SubscribersGetFullResponse(Response::createFromString($xml, 200));
+        $response = new SubscribersGetFullResponse(new Response(
+            new \GuzzleHttp\Psr7\Response(200, [], $xml)
+        ));
         $response->getProperties();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi;
 
 use Citilink\ExpertSenderApi\Model\ErrorMessage;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Response of ExpertSender API
@@ -43,16 +44,9 @@ interface ResponseInterface
     /**
      * Stream of content
      *
-     * @return resource Stream of content
+     * @return StreamInterface Stream of content
      */
-    public function getStream();
-
-    /**
-     * Get SimpleXML object of response content
-     *
-     * @return \SimpleXMLElement XML
-     */
-    public function getSimpleXml();
+    public function getStream(): StreamInterface;
 
     /**
      * Get error messages

@@ -22,6 +22,12 @@ class ParseResponseException extends ExpertSenderApiException
      */
     public static function createFromResponse(string $message, ResponseInterface $response)
     {
-        return new static(sprintf('%s. Content: [%s]', $message, $response->getContent()));
+        return new static(
+            sprintf(
+                '%s. Content: [%s...]',
+                $message,
+                substr($response->getContent(), 0, 100)
+            )
+        );
     }
 }

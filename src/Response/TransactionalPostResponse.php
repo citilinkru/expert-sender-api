@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
-use Citilink\ExpertSenderApi\SpecificMethodResponse;
+use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
 
 /**
  * Response of POST request in transactions resource
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class TransactionalPostResponse extends SpecificMethodResponse
+class TransactionalPostResponse extends SpecificXmlMethodResponse
 {
     /**
      * Get GUID of sent message

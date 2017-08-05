@@ -62,10 +62,10 @@ class RequestSender
         try {
             $response = $this->httpClient->request($request->getMethod()->getValue(), $request->getUri(), $options);
         } catch (RequestException $e) {
-            return new Response($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
+            return new Response($e->getResponse());
         }
 
-        return new Response($response->getBody(), $response->getStatusCode());
+        return new Response($response);
     }
 
     /**

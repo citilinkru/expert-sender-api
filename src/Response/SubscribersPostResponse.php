@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\Model\SubscribersPostResponse\SubscriberData;
-use Citilink\ExpertSenderApi\SpecificMethodResponse;
+use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
 use Citilink\ExpertSenderApi\Utils;
 
 /**
@@ -12,7 +12,7 @@ use Citilink\ExpertSenderApi\Utils;
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class SubscribersPostResponse extends SpecificMethodResponse
+class SubscribersPostResponse extends SpecificXmlMethodResponse
 {
     /**
      * Get subscribers info after add/edit

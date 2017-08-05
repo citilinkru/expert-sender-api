@@ -36,7 +36,9 @@ class SubscribersPostResponseTest extends \PHPUnit_Framework_TestCase
             </SubscriberData>
           </Data>
         </ApiResponse>';
-        $response = new SubscribersPostResponse(Response::createFromString($xml, 201));
+        $response = new SubscribersPostResponse(
+            new Response(new \GuzzleHttp\Psr7\Response(201, ['Content-Length' => strlen($xml)], $xml))
+        );
         Assert::assertTrue($response->isOk());
         $subscriberDataList = $response->getChangedSubscribersData();
         Assert::assertCount(2, $subscriberDataList);
