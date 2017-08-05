@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\SubscribersRequest;
+namespace Citilink\ExpertSenderApi\Model\SubscribersPostRequest;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
-use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
-use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Property;
 
 /**
  * Subscriber data for add/edit subscriber request
