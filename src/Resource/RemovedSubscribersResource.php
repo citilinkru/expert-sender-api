@@ -31,7 +31,7 @@ class RemovedSubscribersResource extends AbstractResource
      *
      * @return RemovedSubscribersGetResponse Response with removed subscribers data
      */
-    public function getRemovedSubscribers(
+    public function get(
         array $listIds = [],
         array $removeTypes = [],
         \DateTime $startDate = null,
