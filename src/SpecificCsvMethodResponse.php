@@ -23,7 +23,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     /**
      * Constructor.
      *
-     * @param ResponseInterface $response
+     * @param ResponseInterface $response Response
      */
     public function __construct(ResponseInterface $response)
     {
@@ -81,6 +81,8 @@ class SpecificCsvMethodResponse implements ResponseInterface
 
     /**
      * Get csv line values without header
+     *
+     * @throws TryToAccessDataFromErrorResponseException If response has errors
      *
      * @return string[][]|\Generator Csv line values
      */

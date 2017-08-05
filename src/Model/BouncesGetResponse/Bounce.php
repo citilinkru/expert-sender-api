@@ -87,7 +87,4 @@ class Bounce
     {
         return $this->bounceType;
     }
-
-
-
 }

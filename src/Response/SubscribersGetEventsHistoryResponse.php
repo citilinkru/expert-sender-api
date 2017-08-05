@@ -17,6 +17,8 @@ class SubscribersGetEventsHistoryResponse extends SpecificXmlMethodResponse
     /**
      * Get events
      *
+     * @throws TryToAccessDataFromErrorResponseException If response has errors
+     *
      * @return Event[]|\Generator Events
      */
     public function getEvents(): \Generator

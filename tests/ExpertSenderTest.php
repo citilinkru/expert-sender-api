@@ -3,6 +3,7 @@
 namespace Citilink\ExpertSenderApi\Tests;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
+use Citilink\ExpertSenderApi\Model\BouncesGetResponse\Bounce;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
@@ -215,9 +216,17 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(400, $subscriberInfoByOldEmail->getErrorCode());
     }
 
+    /**
+     * Test
+     */
     public function testBouncesGet()
     {
-//        $response = $this->api->bounces()->getBouncesList(new \DateTime('2016-01-01'), new \DateTime('2016-02-01'));
+        $response = $this->api->bounces()->getBouncesList(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
+        Assert::assertTrue($response->isOk());
+        Assert::assertFalse($response->isEmpty());
+        /** @var Bounce[] $rows */
+        $rows = iterator_to_array($response->getBounces());
+        Assert::assertGreaterThan(0, count($rows));
     }
 
 //    public function testSendTrigger()
