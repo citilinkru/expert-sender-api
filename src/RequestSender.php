@@ -12,7 +12,7 @@ use GuzzleHttp\Exception\RequestException;
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class RequestSender
+class RequestSender implements RequestSenderInterface
 {
     /**
      * @var ClientInterface Http client
@@ -37,11 +37,7 @@ class RequestSender
     }
 
     /**
-     * Send request
-     *
-     * @param RequestInterface $request Request
-     *
-     * @return ResponseInterface Response
+     * @inheritdoc
      */
     public function send(RequestInterface $request): ResponseInterface
     {
