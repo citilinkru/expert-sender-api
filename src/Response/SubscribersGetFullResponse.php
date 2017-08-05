@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Response;
 
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertySource;
+use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Tests\Response;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\StateOnListStatus;
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertySource;
+use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
 use Citilink\ExpertSenderApi\Enum\DataType;
 use Citilink\ExpertSenderApi\Response;

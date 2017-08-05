@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Enum\SubscribersResponse;
+namespace Citilink\ExpertSenderApi\Enum;
 
 use MyCLabs\Enum\Enum;
 
