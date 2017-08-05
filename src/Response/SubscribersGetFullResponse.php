@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
+use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertyType;
 use Citilink\ExpertSenderApi\Exception\ParseResponseException;
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
-use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\Property;
-use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\Value;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberProperty;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberPropertyValue;
+use Citilink\ExpertSenderApi\ResponseInterface;
+use Citilink\ExpertSenderApi\SubscriberDataParser;
 
 /**
  * Full info about subscriber
@@ -17,6 +19,27 @@ use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\Value;
  */
 class SubscribersGetFullResponse extends SubscribersGetLongResponse
 {
+    /**
+     * @var SubscriberDataParser Subscriber data parser
+     */
+    private $subscriberDataParser;
+
+    /**
+     * Constructor
+     *
+     * @param ResponseInterface $response Response
+     */
+    public function __construct(ResponseInterface $response)
+    {
+        parent::__construct($response);
+
+        if ($this->isOk()) {
+            $this->subscriberDataParser = new SubscriberDataParser(
+                $this->getSimpleXml()->xpath('/ApiResponse/Data')[0]
+            );
+        }
+    }
+
     /**
      * Get firstname of subscriber
      *
@@ -28,11 +51,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        $xml = $this->getSimpleXml();
-        $nodes = $xml->xpath('/ApiResponse/Data/Firstname');
-        $node = reset($nodes);
-
-        return strval($node);
+        return $this->subscriberDataParser->getFirstname();
     }
 
     /**
@@ -46,11 +65,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        $xml = $this->getSimpleXml();
-        $nodes = $xml->xpath('/ApiResponse/Data/Lastname');
-        $node = reset($nodes);
-
-        return strval($node);
+        return $this->subscriberDataParser->getLastname();
     }
 
     /**
@@ -64,11 +79,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        $xml = $this->getSimpleXml();
-        $nodes = $xml->xpath('/ApiResponse/Data/Ip');
-        $node = reset($nodes);
-
-        return strval($node);
+        return $this->subscriberDataParser->getIp();
     }
 
     /**
@@ -82,11 +93,7 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        $xml = $this->getSimpleXml();
-        $nodes = $xml->xpath('/ApiResponse/Data/Id');
-        $node = reset($nodes);
-
-        return intval($node);
+        return $this->subscriberDataParser->getId();
     }
 
     /**
@@ -100,17 +107,13 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        $xml = $this->getSimpleXml();
-        $nodes = $xml->xpath('/ApiResponse/Data/Vendor');
-        $node = reset($nodes);
-
-        return strval($node);
+        return $this->subscriberDataParser->getVendor();
     }
 
     /**
      * Get subscriber properties
      *
-     * @return Property[] Properties
+     * @return SubscriberProperty[] Properties
      */
     public function getProperties(): array
     {
@@ -118,59 +121,6 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        $xml = $this->getSimpleXml();
-
-        $nodes = $xml->xpath('/ApiResponse/Data/Properties/Property');
-        $properties = [];
-        foreach ($nodes as $node) {
-            $id = intval($node->Id);
-            $source = new SubscriberPropertySource(strval($node->Source));
-            $type = new Type(strval($node->Type));
-            $friendlyName = strval($node->FriendlyName);
-            $name = strval($node->Name);
-            $description = strval($node->Description);
-
-            $value = null;
-            switch ($type->getValue()) {
-                case Type::TEXT:
-                case Type::URL:
-                case Type::SINGLE_SELECT:
-                    $value = Value::createString(
-                        strval($node->StringValue),
-                        strval($node->DefaultStringValue)
-                    );
-                    break;
-                case Type::NUMBER:
-                    $value = Value::createInt(
-                        intval($node->IntValue),
-                        intval($node->DefaultIntValue)
-                    );
-                    break;
-                case Type::MONEY:
-                    $value = Value::createDecimal(
-                        floatval($node->DecimalValue),
-                        floatval($node->DefaultDecimalValue)
-                    );
-                    break;
-                case Type::DATE:
-                case Type::DATETIME:
-                    $value = Value::createDatetime(
-                        new \DateTime(strval($node->DateTimeValue)),
-                        new \DateTime(strval($node->DefaultDateTimeValue))
-                    );
-                    break;
-                default:
-                    throw new ParseResponseException(
-                        sprintf(
-                            'Невозможно опрелить тип и создать значение для свойства подписчика. XML: [%s]',
-                            $node->asXML()
-                        )
-                    );
-            }
-
-            $properties[] = new Property($id, $type, $friendlyName, $name, $description, $source, $value);
-        }
-
-        return $properties;
+        return $this->subscriberDataParser->getProperties();
     }
 }

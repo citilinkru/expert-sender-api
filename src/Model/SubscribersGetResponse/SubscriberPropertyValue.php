@@ -11,7 +11,7 @@ use Citilink\ExpertSenderApi\Exception\ExpertSenderApiException;
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class Value
+class SubscriberPropertyValue
 {
     /**
      * @var int|null Integer value
