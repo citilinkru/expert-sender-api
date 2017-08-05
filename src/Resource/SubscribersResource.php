@@ -77,7 +77,7 @@ class SubscribersResource extends AbstractResource
      *
      * @return SubscribersGetEventsHistoryResponse Events history of subscriber
      */
-    public function getEventHistory(string $email): SubscribersGetEventsHistoryResponse
+    public function getEventsHistory(string $email): SubscribersGetEventsHistoryResponse
     {
         Assert::notEmpty($email);
         $request = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::EVENTS_HISTORY()));
