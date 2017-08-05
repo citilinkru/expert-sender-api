@@ -125,7 +125,7 @@ $snippets[] = new Snippet('name2', 'value2');
 
 // attachments are optional
 $attachments = [];
-$attachments[] = new Attachment('filename.jpge', base64_encode('content'), 'image/jpeg');
+$attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'image/jpeg');
 
 // should response has guid of sent message
 $returnGuid = true;
