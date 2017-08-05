@@ -27,27 +27,8 @@ class TimeGetResponse extends SpecificXmlMethodResponse
             throw new TryToAccessDataFromErrorResponseException();
         }
 
-        $xmlReader = new \XMLReader();
-        $xmlReader->XML($this->getContent());
-        $dataAsString = null;
-        while ($xmlReader->read()) {
-            if ($xmlReader->nodeType === \XMLReader::ELEMENT && $xmlReader->localName === 'Data') {
-                $xmlReader->read();
-                if ($xmlReader->nodeType === \XMLReader::TEXT) {
-                    $dataAsString = $xmlReader->value;
-                    break;
-                }
-            }
-        }
-
-        if ($dataAsString === null) {
-            throw ParseResponseException::createFromResponse(
-                'Can\'t find Data element in response',
-                $this
-            );
-        }
-
-        try{
+        $dataAsString = strval($this->getSimpleXml()->xpath('/ApiResponse/Data')[0]);
+        try {
             return new \DateTime($dataAsString);
         } catch (\Exception $e) {
             throw new ParseResponseException(

@@ -32,25 +32,6 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Citilink\ExpertSenderApi\Exception\ParseResponseException
      */
-    public function testThrowExceptionWhenDataIsEmpty()
-    {
-        $body = '<ApiResponse xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-            . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <Data></Data>
-            </ApiResponse>';
-
-        $response = new TimeGetResponse(new Response(new \GuzzleHttp\Psr7\Response(200, [], $body)));
-
-        Assert::assertTrue($response->isOk());
-        Assert::assertEquals(200, $response->getHttpStatusCode());
-        $response->getServerTime();
-    }
-
-    /**
-     * Test
-     *
-     * @expectedException \Citilink\ExpertSenderApi\Exception\ParseResponseException
-     */
     public function testThrowExceptionIfDateStringIsWrong()
     {
         $body = '<ApiResponse xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
@@ -58,7 +39,15 @@ class TimeGetResponseTest extends \PHPUnit_Framework_TestCase
             <Data>WRONG_DATA</Data>
             </ApiResponse>';
 
-        $response = new TimeGetResponse(new Response(new \GuzzleHttp\Psr7\Response(200, [], $body)));
+        $response = new TimeGetResponse(
+            new Response(
+                new \GuzzleHttp\Psr7\Response(
+                    200,
+                    ['Content-Type' => 'text/xml', 'Content-Length' => strlen($body)],
+                    $body
+                )
+            )
+        );
         Assert::assertTrue($response->isOk());
         Assert::assertEquals('2013-04-24T10:33:09', $response->getServerTime()->format('Y-m-d\TH:i:s'));
         Assert::assertEquals(200, $response->getHttpStatusCode());
