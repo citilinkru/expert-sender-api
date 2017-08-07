@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Model\SubscribersGetResponse;
 
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Source;
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
+use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
+use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertyType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class Property
+class SubscriberProperty
 {
     /**
      * @var int ID
@@ -20,7 +20,7 @@ class Property
     private $id;
 
     /**
-     * @var Type Property type
+     * @var SubscriberPropertyType Property type
      */
     private $type;
 
@@ -35,12 +35,12 @@ class Property
     private $name;
 
     /**
-     * @var Source Source
+     * @var SubscriberPropertySource Source
      */
     private $source;
 
     /**
-     * @var Value Value
+     * @var SubscriberPropertyValue Value
      */
     private $value;
 
@@ -53,21 +53,21 @@ class Property
      * Constructor
      *
      * @param int $id ID
-     * @param Type $type Property type
+     * @param SubscriberPropertyType $type Property type
      * @param string $friendlyName Friendly name
      * @param string $name System name
      * @param string $description Description
-     * @param Source $source Source
-     * @param Value $value Value
+     * @param SubscriberPropertySource $source Source
+     * @param SubscriberPropertyValue $value Value
      */
     public function __construct(
         int $id,
-        Type $type,
+        SubscriberPropertyType $type,
         string $friendlyName,
         string $name,
         string $description,
-        Source $source,
-        Value $value
+        SubscriberPropertySource $source,
+        SubscriberPropertyValue $value
     ) {
         Assert::notEmpty($id);
         Assert::notEmpty($friendlyName);
@@ -94,9 +94,9 @@ class Property
     /**
      * Get property type
      *
-     * @return \Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type Property type
+     * @return SubscriberPropertyType Property type
      */
-    public function getType(): Type
+    public function getType(): SubscriberPropertyType
     {
         return $this->type;
     }
@@ -124,9 +124,9 @@ class Property
     /**
      * Get source
      *
-     * @return Source Source
+     * @return SubscriberPropertySource Source
      */
-    public function getSource(): Source
+    public function getSource(): SubscriberPropertySource
     {
         return $this->source;
     }
@@ -134,9 +134,9 @@ class Property
     /**
      * Get value
      *
-     * @return Value Value
+     * @return SubscriberPropertyValue Value
      */
-    public function getValue(): Value
+    public function getValue(): SubscriberPropertyValue
     {
         return $this->value;
     }

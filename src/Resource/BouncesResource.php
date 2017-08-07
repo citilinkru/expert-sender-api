@@ -16,13 +16,15 @@ use Citilink\ExpertSenderApi\Response\BouncesGetResponse;
 class BouncesResource extends AbstractResource
 {
     /**
+     * Get bounces data
+     *
      * @param \DateTime $startDate Start date
      * @param \DateTime $endDate End date
      * @param BounceType|null $bounceType Bounce type
      *
      * @return BouncesGetResponse Bounces data
      */
-    public function getBouncesList(
+    public function get(
         \DateTime $startDate,
         \DateTime $endDate,
         BounceType $bounceType = null

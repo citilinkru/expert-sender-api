@@ -9,9 +9,16 @@ Expert Sender Api
 - [Usage](#usage)
 - [Documentation](#documentation)
     - [Create API object](#create-api)
+    - [Get server time](#get-server-time)
+    - [Messages](#messages)
+        - [Send transactional messages](#send-transactional-messages)
     - [Subscribers](#subscribers)
-        - [Add/Edit](#addedit-subscriber)
-        - [How to change email or phone](#How-to-change-Email-or-Phone)
+        - [Get subscriber information](#get-subscriber-information)
+        - [Add/Edit subscriber](#addedit-subscriber)
+        - [How to change email or phone](#how-to-change-Email-or-Phone)
+        - [Delete subscriber](#delete-subscriber)
+        - [Get removed subscribers](#get-removed-subscribers)
+    - [Get bounces list](#get-bounces-list)
         
 ## Requirements
 
@@ -84,9 +91,70 @@ $requestSender = new RequestSender($httpClient, 'api-key');
 // now we have api object and can access to all methods of api
 $api = new ExpertSenderApi($requestSender);
 ```
-### Subscribers
-#### Add/Edit subscriber
+### Get server time
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-server-time)
+```php
+$dateTime = $api->time()->get()->getServerTime();
+echo $dateTime->format('Y-m-d H:i:s');
+```
+### Messages
+#### Send transactional messages
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/messages/send-transactional-messages)
+```php
+// ...
 
+use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
+use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
+use Citilink\ExpertSenderApi\Model\TransactionalRequest\Attachment;
+
+// ...
+
+// message id is required
+$messageId = 15;
+
+// list id is optional, read documentation to get more inforamtion
+$listId = 24;
+$receiverByEmail = Receiver::createByEmail('mail@mail.com', $listId);
+$receiverByEmailMd5 = Receiver::createByEmailMd5('md5');
+$receiverById = Receiver::createById(862547);
+
+// snippets are optional
+$snippets = [];
+$snippets[] = new Snippet('name1', 'value1');
+$snippets[] = new Snippet('name2', 'value2');
+
+// attachments are optional
+$attachments = [];
+$attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'image/jpeg');
+
+// should response has guid of sent message
+$returnGuid = true;
+
+$response = $api->transactionals()->send($messageId, $receiverById, $snippets, $attachments, $returnGuid);
+
+// guid available, only if returnGuid=true in request
+$guid = $response->getGuid();
+```
+
+### Subscribers
+#### Get subscriber information
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/get-subscriber-information)
+```php
+$subscriberEmail = 'mail@mail.com';
+
+// get short info about subscriber
+$shortInfo = $api->subscribers->getShort($subscriberEmail);
+
+// get long info about subscriber
+$longInfo = $api->subscribers->getLong($subscriberEmail);
+
+// get full info about subscriber
+$fullInfo = $api->subscribers->getFull($subscriberEmail);
+
+// get events history
+$eventsHistory = $api->subscribers->getEventsHistory($subscriberEmail);
+```
+#### Add/Edit subscriber
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/add-subscriber)
 ```php
 // ...
@@ -99,8 +167,9 @@ use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
 
 $listId = 25;
 
-// to add new subscriber you can use one of identifiers email or phone (but not others, read documentation for more 
-// information). You can use phone identifier, if sms channel is turned on, otherwise api return 400 response.
+// to add new subscriber you can use one of identifiers email or phone (but not others, read documentation 
+// for more information). You can use phone identifier, if sms channel is turned on, otherwise api 
+// return 400 response.
 $emailIdentifier = Identifier::createEmail('mail@mail.com');
 $phoneIdentifier = Identifier::createPhone('89159109933');
 
@@ -159,15 +228,70 @@ Code examples:
     $subscriberData->setEmail('new_email@mail.com');
     $api->subscriber->addOrEdit([$subscriberData]); 
     ```
+#### Delete subscriber
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/delete-subscriber)
+```php
+$listId = 25;
+$subscriberId = 5839274;
+$subscriberEmail = 'mail@mail.com';
 
-## Implemented functions
+// delete by subscriber's ID from list
+$api->subscribers->deleteById($subscriberId, $listId);
 
-* subscribers
-    * add and edit
-    * delete
-    * get
-        * short
-        * long
-        * full
-* transactionals
-    * send
+// delete by subscriber's email from every list
+$api->subscribers->deleteByEmail($subscriberEmail);
+```
+#### Get removed subscribers
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/get-removed-subscribers)
+```php
+// ...
+
+use Citilink\ExpertSenderApi\Enum\RemovedSubscribersGetRequest\RemoveType;
+use Citilink\ExpertSenderApi\Enum\RemovedSubscribersGetRequest\Option;
+
+// ...
+
+// you can choose list ids
+$listIds = [1, 2, 3];
+
+// and/or you can choose remove types (reasons)
+$removeTypes = [RemoveType::OPT_OUT_LINK(), RemoveType::USER_UNKNOWN()];
+
+// and/or start date
+$startDate = new \DateTime('2015-01-01');
+
+// and/or end date
+$endDate = new \DateTime('2016-01-01');
+
+// and/or option. If specified, additional subscriber information will be returned
+$option = Option::CUSTOMS();
+
+$response = $api->removedSubscribers()->get($listIds, $removeTypes, $startDate, $endDate, $option);
+
+foreach ($response->getRemovedSubscribers() as $removedSubscriber) {
+    $email = $removedSubscriber->getEmail();
+    // subscriber data present, only if Customs option specified
+    $subscriberData = $removedSubscriber->getSubscriberData();
+    $id = $subscriberData->getId();
+    $properties = $subscriberData->getProperties();
+}
+```
+### Get bounces list
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-bounces-list)
+```php
+// ...
+use Citilink\ExpertSenderApi\Enum\BouncesGetRequest\BounceType;
+// ...
+$startDate = new \DateTime('2015-01-01');
+$endDate = new \DateTime('2016-01-01');
+// bounce type is optional, null by defalt
+$bounceType = RequestBounceType::MAILBOX_FULL();
+
+$response = $api->bounces->get($startDate, $endDate, $bounceType);
+
+foreach ($response->getBounces() as $bounce) {
+    $date = $bounce->getDate();
+    $email = $bounce->getEmail();
+    // etc
+}
+```

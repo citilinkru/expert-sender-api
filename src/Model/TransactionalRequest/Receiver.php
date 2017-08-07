@@ -93,7 +93,7 @@ class Receiver
      *
      * @return int|null ID
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -103,7 +103,7 @@ class Receiver
      *
      * @return null|string Email
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -113,7 +113,7 @@ class Receiver
      *
      * @return null|string Md5 of email
      */
-    public function getEmailMd5()
+    public function getEmailMd5(): ?string
     {
         return $this->emailMd5;
     }
@@ -123,7 +123,7 @@ class Receiver
      *
      * @return int|null List ID
      */
-    public function getListId()
+    public function getListId(): ?int
     {
         return $this->listId;
     }

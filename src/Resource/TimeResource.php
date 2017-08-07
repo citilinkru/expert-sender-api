@@ -19,7 +19,7 @@ class TimeResource extends AbstractResource
      *
      * @return TimeGetResponse Time response
      */
-    public function getTime()
+    public function get(): TimeGetResponse
     {
         return new TimeGetResponse($this->requestSender->send(new TimeGetRequest()));
     }

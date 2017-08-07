@@ -8,18 +8,18 @@ use MyCLabs\Enum\Enum;
 /**
  * Subscriber property type
  *
- * @method static Type TEXT()
- * @method static Type NUMBER()
- * @method static Type MONEY()
- * @method static Type URL()
- * @method static Type DATE()
- * @method static Type DATETIME()
- * @method static Type SINGLE_SELECT()
- * @method static Type BOOLEAN()
+ * @method static SubscriberPropertyType TEXT()
+ * @method static SubscriberPropertyType NUMBER()
+ * @method static SubscriberPropertyType MONEY()
+ * @method static SubscriberPropertyType URL()
+ * @method static SubscriberPropertyType DATE()
+ * @method static SubscriberPropertyType DATETIME()
+ * @method static SubscriberPropertyType SINGLE_SELECT()
+ * @method static SubscriberPropertyType BOOLEAN()
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-final class Type extends Enum
+final class SubscriberPropertyType extends Enum
 {
     /**
      * Text (string) property

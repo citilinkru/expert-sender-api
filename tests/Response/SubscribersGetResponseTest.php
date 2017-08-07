@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Tests\Response;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\StateOnListStatus;
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Source;
-use Citilink\ExpertSenderApi\Enum\SubscribersResponse\Type;
+use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
+use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertyType;
 use Citilink\ExpertSenderApi\Enum\DataType;
+use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberProperty;
 use Citilink\ExpertSenderApi\Response;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
 use PHPUnit\Framework\Assert;
@@ -73,21 +74,22 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
         Assert::assertCount(2, $stopLists);
         Assert::assertEquals([1 => 'Тестовый стоп-лист 1', 2 => 'Тестовый стоп-лист 2'], $stopLists);
 
-        $properties = $response->getProperties();
+        /** @var SubscriberProperty[] $properties */
+        $properties = \iter\toArray($response->getSubscriberData()->getProperties());
         Assert::assertCount(5, $properties);
 
-        Assert::assertEquals(1208798, $response->getId());
-        Assert::assertEquals('FIRSTNAME', $response->getFirstname());
-        Assert::assertEquals('ID905079', $response->getLastname());
-        Assert::assertEquals('есть', $response->getVendor());
-        Assert::assertEquals('92.242.35.180', $response->getIp());
+        Assert::assertEquals(1208798, $response->getSubscriberData()->getId());
+        Assert::assertEquals('FIRSTNAME', $response->getSubscriberData()->getFirstname());
+        Assert::assertEquals('ID905079', $response->getSubscriberData()->getLastname());
+        Assert::assertEquals('есть', $response->getSubscriberData()->getVendor());
+        Assert::assertEquals('92.242.35.180', $response->getSubscriberData()->getIp());
 
         foreach ($properties as $property) {
             switch ($property->getId()) {
                 case 2:
-                    Assert::assertTrue($property->getSource()->equals(Source::IMPORT()));
+                    Assert::assertTrue($property->getSource()->equals(SubscriberPropertySource::IMPORT()));
                     Assert::assertTrue($property->getValue()->getType()->equals(DataType::STRING()));
-                    Assert::assertTrue($property->getType()->equals(Type::TEXT()));
+                    Assert::assertTrue($property->getType()->equals(SubscriberPropertyType::TEXT()));
                     Assert::assertEquals('russia_cl', $property->getValue()->getStringValue());
                     Assert::assertEquals('', $property->getValue()->getDefaultStringValue());
                     Assert::assertEquals('Город', $property->getFriendlyName());
@@ -95,16 +97,16 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                     Assert::assertEquals('Описание', $property->getDescription());
                     break;
                 case 3:
-                    Assert::assertTrue($property->getSource()->equals(Source::PANEL()));
+                    Assert::assertTrue($property->getSource()->equals(SubscriberPropertySource::PANEL()));
                     Assert::assertTrue($property->getValue()->getType()->equals(DataType::INTEGER()));
-                    Assert::assertTrue($property->getType()->equals(Type::NUMBER()));
+                    Assert::assertTrue($property->getType()->equals(SubscriberPropertyType::NUMBER()));
                     Assert::assertEquals(1, $property->getValue()->getIntValue());
                     Assert::assertEquals(2, $property->getValue()->getDefaultIntValue());
                     break;
                 case 7:
-                    Assert::assertTrue($property->getSource()->equals(Source::WEB()));
+                    Assert::assertTrue($property->getSource()->equals(SubscriberPropertySource::WEB()));
                     Assert::assertTrue($property->getValue()->getType()->equals(DataType::DATETIME()));
-                    Assert::assertTrue($property->getType()->equals(Type::DATETIME()));
+                    Assert::assertTrue($property->getType()->equals(SubscriberPropertyType::DATETIME()));
                     Assert::assertEquals(
                         '2017-05-16 11:11:11',
                         $property->getValue()->getDatetimeValue()->format('Y-m-d H:i:s')
@@ -115,8 +117,8 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                     );
                     break;
                 case 12:
-                    Assert::assertTrue($property->getSource()->equals(Source::PREF_CENTER()));
-                    Assert::assertTrue($property->getType()->equals(Type::MONEY()));
+                    Assert::assertTrue($property->getSource()->equals(SubscriberPropertySource::PREF_CENTER()));
+                    Assert::assertTrue($property->getType()->equals(SubscriberPropertyType::MONEY()));
                     Assert::assertTrue($property->getValue()->getType()->equals(DataType::DECIMAL()));
                     Assert::assertEquals(
                         12.3,
@@ -151,6 +153,6 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
         $response = new SubscribersGetFullResponse(new Response(
             new \GuzzleHttp\Psr7\Response(200, [], $xml)
         ));
-        $response->getProperties();
+        \iter\toArray($response->getSubscriberData()->getProperties());
     }
 }

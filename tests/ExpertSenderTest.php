@@ -196,7 +196,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $this->api->subscribers()->addOrEdit([$subscriberData]);
 
         $subscriberInfo = $this->api->subscribers()->getFull($randomEmail);
-        $oldId = $subscriberInfo->getId();
+        $oldId = $subscriberInfo->getSubscriberData()->getId();
         $this->assertTrue(is_numeric($oldId));
 
         $subscriberInfoForChangeEmail = new SubscriberInfo(
@@ -207,7 +207,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $subscriberInfoForChangeEmail->setEmail($randomEmail2);
         $this->api->subscribers()->addOrEdit([$subscriberInfoForChangeEmail]);
         $subscriberInfo2 = $this->api->subscribers()->getFull($randomEmail2);
-        $this->assertEquals($subscriberInfo2->getId(), $oldId);
+        $this->assertEquals($subscriberInfo2->getSubscriberData()->getId(), $oldId);
         $this->api->subscribers()->deleteByEmail($randomEmail2);
 
         $subscriberInfoByOldEmail = $this->api->subscribers()->getFull($randomEmail);
@@ -221,7 +221,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testBouncesGet()
     {
-        $response = $this->api->bounces()->getBouncesList(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
+        $response = $this->api->bounces()->get(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
         Assert::assertTrue($response->isOk());
         Assert::assertFalse($response->isEmpty());
         /** @var Bounce[] $rows */
@@ -251,7 +251,7 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         $subscriberData->setFirstName('Test');
         $this->api->subscribers()->addOrEdit([$subscriberData]);
 
-        $response = $this->api->transactionals()->sendMessage(
+        $response = $this->api->transactionals()->send(
             $this->getTestTransactional(),
             Receiver::createWithEmail($randomEmail),
             [new Snippet('code', 123456)],

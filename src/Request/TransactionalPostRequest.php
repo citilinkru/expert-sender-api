@@ -31,7 +31,7 @@ class TransactionalPostRequest implements RequestInterface
     /**
      * @var Receiver Receiver
      */
-    private $receiverChunk;
+    private $receiver;
 
     /**
      * @var Snippet[] Snippets
@@ -47,14 +47,14 @@ class TransactionalPostRequest implements RequestInterface
      * Constructor
      *
      * @param int $transactionMessageId Transaction message ID
-     * @param Receiver $receiverChunk Receiver
+     * @param Receiver $receiver Receiver
      * @param Snippet[] $snippets Snippets
      * @param Attachment[] $attachments Attachments
      * @param bool $returnGuid Should return GUID in Response
      */
     public function __construct(
         int $transactionMessageId,
-        Receiver $receiverChunk,
+        Receiver $receiver,
         array $snippets = [],
         array $attachments = [],
         bool $returnGuid = false
@@ -64,7 +64,7 @@ class TransactionalPostRequest implements RequestInterface
         Assert::allIsInstanceOf($attachments, Attachment::class);
         $this->transactionMessageId = $transactionMessageId;
         $this->returnGuid = $returnGuid;
-        $this->receiverChunk = $receiverChunk;
+        $this->receiver = $receiver;
         $this->snippets = $snippets;
         $this->attachments = $attachments;
     }
@@ -79,20 +79,20 @@ class TransactionalPostRequest implements RequestInterface
 
         $xmlWriter->startElement('Data');
         $xmlWriter->startElement('Receiver');
-        if (!empty($this->receiverChunk->getId())) {
-            $xmlWriter->writeElement('Id', strval($this->receiverChunk->getId()));
+        if (!empty($this->receiver->getId())) {
+            $xmlWriter->writeElement('Id', strval($this->receiver->getId()));
         }
 
-        if (!empty($this->receiverChunk->getEmail())) {
-            $xmlWriter->writeElement('Email', $this->receiverChunk->getEmail());
+        if (!empty($this->receiver->getEmail())) {
+            $xmlWriter->writeElement('Email', $this->receiver->getEmail());
         }
 
-        if (!empty($this->receiverChunk->getEmailMd5())) {
-            $xmlWriter->writeElement('EmailMd5', $this->receiverChunk->getEmailMd5());
+        if (!empty($this->receiver->getEmailMd5())) {
+            $xmlWriter->writeElement('EmailMd5', $this->receiver->getEmailMd5());
         }
 
-        if (!empty($this->receiverChunk->getListId())) {
-            $xmlWriter->writeElement('ListId', strval($this->receiverChunk->getListId()));
+        if (!empty($this->receiver->getListId())) {
+            $xmlWriter->writeElement('ListId', strval($this->receiver->getListId()));
         }
 
         $xmlWriter->endElement(); // Receiver
