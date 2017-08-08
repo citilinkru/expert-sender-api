@@ -143,16 +143,16 @@ $guid = $response->getGuid();
 $subscriberEmail = 'mail@mail.com';
 
 // get short info about subscriber
-$shortInfo = $api->subscribers->getShort($subscriberEmail);
+$shortInfo = $api->subscribers()->getShort($subscriberEmail);
 
 // get long info about subscriber
-$longInfo = $api->subscribers->getLong($subscriberEmail);
+$longInfo = $api->subscribers()->getLong($subscriberEmail);
 
 // get full info about subscriber
-$fullInfo = $api->subscribers->getFull($subscriberEmail);
+$fullInfo = $api->subscribers()->getFull($subscriberEmail);
 
 // get events history
-$eventsHistory = $api->subscribers->getEventsHistory($subscriberEmail);
+$eventsHistory = $api->subscribers()->getEventsHistory($subscriberEmail);
 ```
 #### Add/Edit subscriber
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/add-subscriber)
@@ -193,7 +193,7 @@ $options = new Options($returnAdditionalDataOnResponse, $useVerboseErrors);
 $mode = Mode::ADD_AND_UPDATE();
 
 // you can add more than one subscriber to request
-$addResult = $api->subscribers->addOrEdit([$subscriberData], $options, $mode);
+$addResult = $api->subscribers()->addOrEdit([$subscriberData], $options, $mode);
 
 // after that you use response for read additional data, or errors.
 ```
@@ -209,7 +209,7 @@ Code examples:
     $identifier = Identifier::createId(45603);
     $subscriberData = new SubscriberData($identifier, $listId);
     $subscriberData->setEmail('new_email@mail.com');
-    $api->subscriber->addOrEdit([$subscriberData]); 
+    $api->subscribers()->addOrEdit([$subscriberData]); 
     ```
 
 - Change phone with EmailMd5:
@@ -217,7 +217,7 @@ Code examples:
     $identifier = Identifier::createEmailMd5('md5');
     $subscriberData = new SubscriberData($identifier, $listId);
     $subscriberData->setPhone('9153452412');
-    $api->subscriber->addOrEdit([$subscriberData]); 
+    $api->subscribers()->addOrEdit([$subscriberData]); 
     ```
 
 - Change both with ID
@@ -226,7 +226,7 @@ Code examples:
     $subscriberData = new SubscriberData($identifier, $listId);
     $subscriberData->setPhone('9153452412');
     $subscriberData->setEmail('new_email@mail.com');
-    $api->subscriber->addOrEdit([$subscriberData]); 
+    $api->subscribers()->addOrEdit([$subscriberData]); 
     ```
 #### Delete subscriber
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/delete-subscriber)
@@ -236,10 +236,10 @@ $subscriberId = 5839274;
 $subscriberEmail = 'mail@mail.com';
 
 // delete by subscriber's ID from list
-$api->subscribers->deleteById($subscriberId, $listId);
+$api->subscribers()->deleteById($subscriberId, $listId);
 
 // delete by subscriber's email from every list
-$api->subscribers->deleteByEmail($subscriberEmail);
+$api->subscribers()->deleteByEmail($subscriberEmail);
 ```
 #### Get removed subscribers
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/get-removed-subscribers)
@@ -287,7 +287,7 @@ $endDate = new \DateTime('2016-01-01');
 // bounce type is optional, null by defalt
 $bounceType = RequestBounceType::MAILBOX_FULL();
 
-$response = $api->bounces->get($startDate, $endDate, $bounceType);
+$response = $api->bounces()->get($startDate, $endDate, $bounceType);
 
 foreach ($response->getBounces() as $bounce) {
     $date = $bounce->getDate();
