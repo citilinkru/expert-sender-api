@@ -285,7 +285,7 @@ use Citilink\ExpertSenderApi\Enum\BouncesGetRequest\BounceType;
 $startDate = new \DateTime('2015-01-01');
 $endDate = new \DateTime('2016-01-01');
 // bounce type is optional, null by defalt
-$bounceType = RequestBounceType::MAILBOX_FULL();
+$bounceType = BounceType::MAILBOX_FULL();
 
 $response = $api->bounces()->get($startDate, $endDate, $bounceType);
 
