@@ -31,5 +31,13 @@
         "psr-4" : {
             "Citilink\\ExpertSenderApi\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "phpunit": [
+            "vendor/bin/phpunit"
+        ],
+        "test": [
+            "@phpunit"
+        ]
     }
 }
