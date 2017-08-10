@@ -65,7 +65,7 @@ class SubscriberInfo
     /**
      * @var Property[] Collection of custom subscriber properties
      */
-    private $propertyChunks = [];
+    private $properties = [];
 
     /**
      * @var bool Allow add subscriber, that was unsubscribed
@@ -237,11 +237,23 @@ class SubscriberInfo
     /**
      * Add subscriber's property
      *
-     * @param Property $propertyChunk Subscriber's property
+     * @deprecated Use {@see SubscriberInfo::addProperty} instead
+     *
+     * @param Property $property Subscriber's property
      */
-    public function addPropertyChunk(Property $propertyChunk): void
+    public function addPropertyChunk(Property $property): void
     {
-        $this->propertyChunks[] = $propertyChunk;
+        $this->addProperty($property);
+    }
+
+    /**
+     * Add subscriber's property
+     *
+     * @param Property $property Subscriber's property
+     */
+    public function addProperty(Property $property): void
+    {
+        $this->properties[] = $property;
     }
 
     /**
@@ -251,7 +263,7 @@ class SubscriberInfo
      */
     public function getProperties(): array
     {
-        return $this->propertyChunks;
+        return $this->properties;
     }
 
     /**
