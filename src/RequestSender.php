@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
+use Citilink\ExpertSenderApi\Event\ResponseReceivedEvent;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Expert Sender request sender
@@ -25,15 +28,26 @@ class RequestSender implements RequestSenderInterface
     private $apiKey;
 
     /**
+     * @var EventDispatcherInterface Event dispatcher
+     */
+    private $eventDispatcher;
+
+    /**
      * Constructor.
      *
      * @param ClientInterface $httpClient Http client
      * @param string $apiKey API Key
+     * @param EventDispatcherInterface $eventDispatcher Event dispatcher (optional, specify only if you want
+     *      listen events)
      */
-    public function __construct(ClientInterface $httpClient, string $apiKey)
-    {
+    public function __construct(
+        ClientInterface $httpClient,
+        string $apiKey,
+        EventDispatcherInterface $eventDispatcher = null
+    ) {
         $this->httpClient = $httpClient;
         $this->apiKey = $apiKey;
+        $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
     }
 
     /**
@@ -56,12 +70,18 @@ class RequestSender implements RequestSenderInterface
         }
 
         try {
-            $response = $this->httpClient->request($request->getMethod()->getValue(), $request->getUri(), $options);
+            $httpResponse = $this->httpClient->request($request->getMethod()->getValue(), $request->getUri(), $options);
         } catch (RequestException $e) {
-            return new Response($e->getResponse());
+            $httpResponse = $e->getResponse();
         }
 
-        return new Response($response);
+        $apiResponse = new Response($httpResponse);
+        $this->eventDispatcher->dispatch(
+            'expert_sender_api.response.received',
+            new ResponseReceivedEvent($apiResponse)
+        );
+
+        return $apiResponse;
     }
 
     /**
