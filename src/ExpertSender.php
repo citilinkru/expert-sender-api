@@ -93,7 +93,6 @@ class ExpertSender implements LoggerAwareInterface
 
         $response = $this->transport->post($this->addTableRowUrl, $headerChunk->toXml());
         $apiResult = new SpecificXmlMethodResponse($response);
-        $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
 
@@ -143,7 +142,6 @@ class ExpertSender implements LoggerAwareInterface
 
         $response = $this->transport->post($this->getTableDataUrl, $headerChunk->toXml());
         $apiResult = new TableDataResponse($response);
-        $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
 
@@ -170,7 +168,6 @@ class ExpertSender implements LoggerAwareInterface
 
         $response = $this->transport->post($this->updateTableRowUrl, $headerChunk->toXml());
         $apiResult = new SpecificXmlMethodResponse($response);
-        $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
 
@@ -192,7 +189,6 @@ class ExpertSender implements LoggerAwareInterface
 
         $response = $this->transport->post($this->deleteTableRowUrl, $headerChunk->toXml());
         $apiResult = new SpecificXmlMethodResponse($response);
-        $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
 
@@ -211,7 +207,6 @@ class ExpertSender implements LoggerAwareInterface
         $response = $this->transport->post($url, $headerChunk->toXml());
 
         $apiResult = new SpecificXmlMethodResponse($response);
-        $this->logApiResult(__METHOD__, $apiResult);
         return $apiResult;
     }
 
@@ -223,24 +218,5 @@ class ExpertSender implements LoggerAwareInterface
     protected function getHeaderChunk(array $chunks)
     {
         return new HeaderChunk($this->apiKey, [$chunks]);
-    }
-
-    /**
-     * @param string $method
-     * @param SpecificXmlMethodResponse $result
-     */
-    protected function logApiResult($method, SpecificXmlMethodResponse $result)
-    {
-        if ($result->isOk()) {
-            return;
-        }
-
-        $this->logger->error(
-            sprintf(
-                'ES method "%s" error response: %s.',
-                $method,
-                json_encode((array)$result, JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT)
-            )
-        );
     }
 }
