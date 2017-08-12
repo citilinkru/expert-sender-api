@@ -33,7 +33,7 @@ class ColumnChunk implements ChunkInterface
     {
         Assert::notEmpty($name);
         $this->name = $name;
-        $this->value = $value;
+        $this->value = $value !== null ? strval($value) : null;
     }
 
     /**
