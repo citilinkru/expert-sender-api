@@ -75,28 +75,6 @@ class ExpertSender implements LoggerAwareInterface
     }
 
     /**
-     * @param string $tableName
-     * @param ColumnChunk[] $columns
-     *
-     * @return SpecificXmlMethodResponse
-     */
-    public function addTableRow($tableName, array $columns)
-    {
-        $tableNameChunk = new SimpleChunk('TableName', $tableName);
-        $columnChunks = [];
-        foreach ($columns as $column) {
-            $columnChunks[] = new ColumnChunk($column->getName(), $column->getValue());
-        }
-        $columnsChunk = new ColumnsChunk($columnChunks);
-        $dataChunk = new DataChunk([$columnsChunk], null);
-        $headerChunk = $this->getHeaderChunk([$tableNameChunk, $dataChunk]);
-
-        $response = $this->transport->post($this->addTableRowUrl, $headerChunk->toXml());
-        $apiResult = new SpecificXmlMethodResponse($response);
-        return $apiResult;
-    }
-
-    /**
      * @param $tableName
      * @param ColumnChunk[] $columns
      * @param WhereChunk[] $where
