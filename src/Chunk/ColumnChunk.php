@@ -27,9 +27,9 @@ class ColumnChunk implements ChunkInterface
      * Constructor
      *
      * @param string $name Name
-     * @param string|null $value Value
+     * @param string|float|int|null $value Value
      */
-    public function __construct(string $name, string $value = null)
+    public function __construct(string $name, $value = null)
     {
         Assert::notEmpty($name);
         $this->name = $name;

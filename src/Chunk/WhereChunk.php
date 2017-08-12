@@ -38,7 +38,7 @@ class WhereChunk implements ChunkInterface
      *
      * @param string $columnName Column name
      * @param Operator $operator Operator
-     * @param string $value Value
+     * @param string|float|int $value Value
      *
      * @internal param Where $where
      */
