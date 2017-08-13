@@ -6,6 +6,7 @@ namespace Citilink\ExpertSenderApi\Request;
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
 use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
 use Citilink\ExpertSenderApi\RequestInterface;
+use Citilink\ExpertSenderApi\Traits\ColumnToXmlConverterTrait;
 
 /**
  * Request for POST DataTablesAddMultipleRows
@@ -14,6 +15,7 @@ use Citilink\ExpertSenderApi\RequestInterface;
  */
 class DataTablesAddMultipleRowsPostRequest implements RequestInterface
 {
+    use ColumnToXmlConverterTrait;
     /**
      * @var string Table name
      */
@@ -49,18 +51,7 @@ class DataTablesAddMultipleRowsPostRequest implements RequestInterface
             $xmlWriter->startElement('Row');
             $xmlWriter->startElement('Columns');
             foreach ($row->getColumns() as $column) {
-                $xmlWriter->startElement('Column');
-                $xmlWriter->writeElement('Name', $column->getName());
-                $value = $column->getValue();
-                if ($value === null) {
-                    $xmlWriter->startElement('Value');
-                    $xmlWriter->writeAttributeNS('xsi', 'nil', null, 'true');
-                    $xmlWriter->endElement(); // Value
-                } else {
-                    $xmlWriter->writeElement('Value', $column->getValue());
-                }
-
-                $xmlWriter->endElement(); // Column
+                $this->convertColumnToXml($column, $xmlWriter);
             }
 
             $xmlWriter->endElement(); // Columns
