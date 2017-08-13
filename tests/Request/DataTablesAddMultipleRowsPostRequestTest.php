@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Tests\Request;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
-use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Column;
+use Citilink\ExpertSenderApi\Model\Column;
 use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
 use PHPUnit\Framework\Assert;

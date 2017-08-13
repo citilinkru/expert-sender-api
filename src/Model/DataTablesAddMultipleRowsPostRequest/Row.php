@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest;
 
+use Citilink\ExpertSenderApi\Model\Column;
 use Webmozart\Assert\Assert;
 
 /**

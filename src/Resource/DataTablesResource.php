@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Resource;
 
 use Citilink\ExpertSenderApi\AbstractResource;
+use Citilink\ExpertSenderApi\Model\Column;
 use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowRequest;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificCsvMethodResponse;
 
@@ -55,5 +57,22 @@ class DataTablesResource extends AbstractResource
                 new DataTablesGetDataPostRequest($tableName, $columnNames, $whereConditions, $orderByRules, $limit)
             )
         );
+    }
+
+    /**
+     * Update rows
+     *
+     * @param string $tableName Table name
+     * @param Column[] $primaryKeyColumns Primary key columns. Collection of Column elements. Contains unique
+     *      identifier (PK, primary key) of the row that is supposed to be updated. This is an equivalent of
+     *      SQL "WHERE" directive
+     * @param Column[] $columns Columns. Collection of Column elements. Contains information about columns that are
+     *      supposed to be updated and their new values. This is an equivalent of SQL "SET" directive
+     *
+     * @return ResponseInterface Response
+     */
+    public function updateRows($tableName, array $primaryKeyColumns, array $columns): ResponseInterface
+    {
+        return $this->requestSender->send(new DataTablesUpdateRowRequest($tableName, $primaryKeyColumns, $columns));
     }
 }
