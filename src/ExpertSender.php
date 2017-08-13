@@ -7,15 +7,10 @@ use Citilink\ExpertSenderApi\Chunk\ColumnChunk;
 use Citilink\ExpertSenderApi\Chunk\ColumnsChunk;
 use Citilink\ExpertSenderApi\Chunk\DataChunk;
 use Citilink\ExpertSenderApi\Chunk\HeaderChunk;
-use Citilink\ExpertSenderApi\Chunk\OrderByChunk;
-use Citilink\ExpertSenderApi\Chunk\OrderByColumnsChunk;
 use Citilink\ExpertSenderApi\Chunk\PrimaryKeyColumnsChunk;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
 use Citilink\ExpertSenderApi\Chunk\ReceiversChunk;
 use Citilink\ExpertSenderApi\Chunk\SimpleChunk;
-use Citilink\ExpertSenderApi\Chunk\WhereChunk;
-use Citilink\ExpertSenderApi\Chunk\WhereConditionsChunk;
-use Citilink\ExpertSenderApi\Response\TableDataResponse;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -72,55 +67,6 @@ class ExpertSender implements LoggerAwareInterface
         $this->apiKey = $apiKey;
         $this->transport = $transport;
         $this->logger = $logger ?: new NullLogger();
-    }
-
-    /**
-     * @param $tableName
-     * @param ColumnChunk[] $columns
-     * @param WhereChunk[] $where
-     * @param OrderByChunk[] $orderByList
-     * @param mixed $limit
-     *
-     * @return \Citilink\ExpertSenderApi\Response\TableDataResponse
-     */
-    public function getTableData(
-        $tableName,
-        array $columns = [],
-        array $where = [],
-        array $orderByList = [],
-        $limit = null
-    ) {
-        $tableNameChunk = new SimpleChunk('TableName', $tableName);
-        $columnsChunks = $whereChunks = $orderByChunks = [];
-        foreach ($columns as $column) {
-            $columnsChunks[] = new ColumnChunk($column->getName(), $column->getValue());
-        }
-        foreach ($where as $condition) {
-            $whereChunks[] = new WhereChunk(
-                $condition->getColumnName(), $condition->getOperator(), $condition->getValue()
-            );
-        }
-        foreach ($orderByList as $direction) {
-            $orderByChunks[] = new OrderByChunk($direction->getColumnName(), $direction->getSortOrder());
-        }
-        $chunks = [$tableNameChunk];
-        if ($columnsChunks) {
-            $chunks[] = new ColumnsChunk($columnsChunks);
-        }
-        if ($whereChunks) {
-            $chunks[] = new WhereConditionsChunk($whereChunks);
-        }
-        if ($orderByChunks) {
-            $chunks[] = new OrderByColumnsChunk($orderByChunks);
-        }
-        if ($limit) {
-            $chunks[] = new SimpleChunk('Limit', (int)$limit);
-        }
-        $headerChunk = $this->getHeaderChunk($chunks);
-
-        $response = $this->transport->post($this->getTableDataUrl, $headerChunk->toXml());
-        $apiResult = new TableDataResponse($response);
-        return $apiResult;
     }
 
     /**

@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - changed argument type for ExpertSenderApi from RequestSender to RequestSenderInterface
 ### Deprecated
-- Method SubscriberInfo::addPropertyChunk is deprecated, use SubscriberInfo::addProperty instead  
+- method SubscriberInfo::addPropertyChunk is deprecated, use SubscriberInfo::addProperty instead
+- method SpecificCsvMethodResponse::getCsvLinesWithoutHeader is deprecated, use SpecificCsvMethodResponse::getCsvReader instead
 
 ## [0.4.0] - 2017-08-09
 Fully refactored library, changed everything
