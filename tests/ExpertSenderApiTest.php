@@ -14,7 +14,7 @@ use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class ExpertSenderTest extends \PHPUnit_Framework_TestCase
+class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
 {
     /** @var array|null */
     protected $params = null;
