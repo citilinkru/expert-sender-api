@@ -3,13 +3,10 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi;
 
-use Citilink\ExpertSenderApi\Chunk\ColumnChunk;
 use Citilink\ExpertSenderApi\Chunk\DataChunk;
 use Citilink\ExpertSenderApi\Chunk\HeaderChunk;
-use Citilink\ExpertSenderApi\Chunk\PrimaryKeyColumnsChunk;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
 use Citilink\ExpertSenderApi\Chunk\ReceiversChunk;
-use Citilink\ExpertSenderApi\Chunk\SimpleChunk;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -66,27 +63,6 @@ class ExpertSender implements LoggerAwareInterface
         $this->apiKey = $apiKey;
         $this->transport = $transport;
         $this->logger = $logger ?: new NullLogger();
-    }
-
-    /**
-     * @param string $tableName
-     * @param ColumnChunk[] $primaryKeyColumns
-     *
-     * @return SpecificXmlMethodResponse
-     */
-    public function deleteTableRow($tableName, array $primaryKeyColumns)
-    {
-        $tableNameChunk = new SimpleChunk('TableName', $tableName);
-        $primaryKeysColumnsChunks = [];
-        foreach ($primaryKeyColumns as $column) {
-            $primaryKeysColumnsChunks[] = new ColumnChunk($column->getName(), $column->getValue());
-        }
-        $primaryKeyColumnsChunk = new PrimaryKeyColumnsChunk($primaryKeysColumnsChunks);
-        $headerChunk = $this->getHeaderChunk([$tableNameChunk, $primaryKeyColumnsChunk]);
-
-        $response = $this->transport->post($this->deleteTableRowUrl, $headerChunk->toXml());
-        $apiResult = new SpecificXmlMethodResponse($response);
-        return $apiResult;
     }
 
     /**
