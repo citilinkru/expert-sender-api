@@ -5,6 +5,7 @@ namespace Citilink\ExpertSenderApi;
 
 use Citilink\ExpertSenderApi\Resource\BouncesResource;
 use Citilink\ExpertSenderApi\Resource\DataTablesResource;
+use Citilink\ExpertSenderApi\Resource\MessagesResource;
 use Citilink\ExpertSenderApi\Resource\RemovedSubscribersResource;
 use Citilink\ExpertSenderApi\Resource\SubscribersResource;
 use Citilink\ExpertSenderApi\Resource\TimeResource;
@@ -90,5 +91,15 @@ class ExpertSenderApi
     public function dataTables(): DataTablesResource
     {
         return new DataTablesResource($this->requestSender);
+    }
+
+    /**
+     * Get messages resource
+     *
+     * @return MessagesResource Messages resource
+     */
+    public function messages(): MessagesResource
+    {
+        return new MessagesResource($this->requestSender);
     }
 }
