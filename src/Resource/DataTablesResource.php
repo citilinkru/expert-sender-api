@@ -9,6 +9,7 @@ use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
 use Citilink\ExpertSenderApi\ResponseInterface;
@@ -74,5 +75,20 @@ class DataTablesResource extends AbstractResource
     public function updateRows($tableName, array $primaryKeyColumns, array $columns): ResponseInterface
     {
         return $this->requestSender->send(new DataTablesUpdateRowPostRequest($tableName, $primaryKeyColumns, $columns));
+    }
+
+    /**
+     * Delete one row
+     *
+     * @param string $tableName Table name
+     * @param Column[] $primaryKeyColumns Primary key columns. Collection of Column elements. Contains unique
+     *      identifier (PK, primary key) of the row that is supposed to be deleted. This is an equivalent of SQL
+     *      "WHERE" directive
+     *
+     * @return ResponseInterface Response
+     */
+    public function deleteOneRow($tableName, array $primaryKeyColumns): ResponseInterface
+    {
+        return $this->requestSender->send(new DataTablesDeleteRowPostRequest($tableName, $primaryKeyColumns));
     }
 }
