@@ -7,9 +7,7 @@ use Citilink\ExpertSenderApi\Model\BouncesGetResponse\Bounce;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
 use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
-use Citilink\ExpertSenderApi\ExpertSender;
 use Citilink\ExpertSenderApi\ExpertSenderApi;
-use Citilink\ExpertSenderApi\HttpTransport;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\RequestSender;
 use GuzzleHttp\Client;
@@ -18,9 +16,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ExpertSender */
-    protected $expertSender;
-
     /** @var array|null */
     protected $params = null;
 
@@ -32,12 +27,6 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-
-        $this->expertSender = new ExpertSender(
-            $this->getParam('url'),
-            $this->getParam('key'),
-            new HttpTransport()
-        );
 
         $this->api = new ExpertSenderApi(
             new RequestSender(
