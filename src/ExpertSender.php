@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi;
 
 use Citilink\ExpertSenderApi\Chunk\ColumnChunk;
-use Citilink\ExpertSenderApi\Chunk\ColumnsChunk;
 use Citilink\ExpertSenderApi\Chunk\DataChunk;
 use Citilink\ExpertSenderApi\Chunk\HeaderChunk;
 use Citilink\ExpertSenderApi\Chunk\PrimaryKeyColumnsChunk;
@@ -67,32 +66,6 @@ class ExpertSender implements LoggerAwareInterface
         $this->apiKey = $apiKey;
         $this->transport = $transport;
         $this->logger = $logger ?: new NullLogger();
-    }
-
-    /**
-     * @param string $tableName
-     * @param ColumnChunk[] $primaryKeyColumns
-     * @param ColumnChunk[] $columns
-     *
-     * @return SpecificXmlMethodResponse
-     */
-    public function updateTableRow($tableName, array $primaryKeyColumns, array $columns)
-    {
-        $tableNameChunk = new SimpleChunk('TableName', $tableName);
-        $primaryKeysColumnsChunks = $columnsChunks = [];
-        foreach ($primaryKeyColumns as $column) {
-            $primaryKeysColumnsChunks[] = new ColumnChunk($column->getName(), $column->getValue());
-        }
-        foreach ($columns as $column) {
-            $columnsChunks[] = new ColumnChunk($column->getName(), $column->getValue());
-        }
-        $primaryKeyColumnsChunk = new PrimaryKeyColumnsChunk($primaryKeysColumnsChunks);
-        $columnsChunk = new ColumnsChunk($columnsChunks);
-        $headerChunk = $this->getHeaderChunk([$tableNameChunk, $primaryKeyColumnsChunk, $columnsChunk]);
-
-        $response = $this->transport->post($this->updateTableRowUrl, $headerChunk->toXml());
-        $apiResult = new SpecificXmlMethodResponse($response);
-        return $apiResult;
     }
 
     /**
