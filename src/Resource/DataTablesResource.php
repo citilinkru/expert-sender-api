@@ -10,7 +10,7 @@ use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
-use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificCsvMethodResponse;
 
@@ -73,6 +73,6 @@ class DataTablesResource extends AbstractResource
      */
     public function updateRows($tableName, array $primaryKeyColumns, array $columns): ResponseInterface
     {
-        return $this->requestSender->send(new DataTablesUpdateRowRequest($tableName, $primaryKeyColumns, $columns));
+        return $this->requestSender->send(new DataTablesUpdateRowPostRequest($tableName, $primaryKeyColumns, $columns));
     }
 }

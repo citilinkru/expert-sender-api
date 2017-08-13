@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class DataTablesUpdateRowRequest implements RequestInterface
+class DataTablesUpdateRowPostRequest implements RequestInterface
 {
     use ColumnToXmlConverterTrait;
 

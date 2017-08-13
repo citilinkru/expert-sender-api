@@ -5,14 +5,14 @@ namespace Citilink\ExpertSenderApi\Tests\Request;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
 use Citilink\ExpertSenderApi\Model\Column;
-use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
 use PHPUnit\Framework\Assert;
 
 class DataTablesUpdateRowRequestTest extends \PHPUnit_Framework_TestCase
 {
     public function testCommonUsage()
     {
-        $request = new DataTablesUpdateRowRequest(
+        $request = new DataTablesUpdateRowPostRequest(
             'table-name',
             [
                 new Column('Column1', 12),
