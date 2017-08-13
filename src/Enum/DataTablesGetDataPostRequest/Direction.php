@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Enum;
+namespace Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest;
 
 use MyCLabs\Enum\Enum;
 
 /**
  * Sort Order
  *
- * @method static SortOrder ASCENDING()
- * @method static SortOrder DESCENDING()
+ * @method static Direction ASCENDING()
+ * @method static Direction DESCENDING()
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-final class SortOrder extends Enum
+final class Direction extends Enum
 {
     /**
      * Ascending

@@ -21,12 +21,12 @@ class BouncesGetResponse extends SpecificCsvMethodResponse
      */
     public function getBounces(): \Generator
     {
-        foreach ($this->getCsvLinesWithoutHeader() as $value) {
+        foreach ($this->getCsvReader()->fetchAll() as $row) {
             yield new Bounce(
-                new \DateTime($value[0]),
-                $value[1],
-                $value[2],
-                new BounceType($value[3])
+                new \DateTime($row['Date']),
+                $row['Email'],
+                $row['BounceCode'],
+                new BounceType($row['BounceType'])
             );
         }
     }

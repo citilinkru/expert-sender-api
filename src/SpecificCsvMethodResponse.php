@@ -82,11 +82,24 @@ class SpecificCsvMethodResponse implements ResponseInterface
     /**
      * Get csv line values without header
      *
+     * @deprecated Use getCsvReader method instead
      * @throws TryToAccessDataFromErrorResponseException If response has errors
      *
-     * @return string[][]|\Generator Csv line values
+     * @return string[][]|iterable Csv line values
      */
-    protected function getCsvLinesWithoutHeader(): \Generator
+    protected function getCsvLinesWithoutHeader(): iterable
+    {
+        return $this->getCsvReader()->fetchAll();
+    }
+
+    /**
+     * Get csv reader
+     *
+     * @throws TryToAccessDataFromErrorResponseException If response has errors
+     *
+     * @return CsvReader Csv reader of data
+     */
+    public function getCsvReader(): CsvReader
     {
         if (!$this->isOk()) {
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
@@ -97,18 +110,9 @@ class SpecificCsvMethodResponse implements ResponseInterface
         $newStream->rewind();
         $phpStream = $newStream->detach();
 
-        // pass header
-        fgetcsv($phpStream);
+        $csvReader = new CsvReader($phpStream);
 
-        // read line by line
-        while (($csvLineAsArray = fgetcsv($phpStream)) !== false) {
-            // empty line protection
-            if (isset($csvLineAsArray[0]) && $csvLineAsArray[0] === null) {
-                continue;
-            }
-
-            yield $csvLineAsArray;
-        }
+        return $csvReader;
     }
 
     /**

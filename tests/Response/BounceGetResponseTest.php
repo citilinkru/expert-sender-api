@@ -22,6 +22,7 @@ class BounceGetResponseTest extends \PHPUnit_Framework_TestCase
     {
         $csv = 'Date,Email,BounceCode,BounceType' . PHP_EOL
             . '2010-10-01 17:10:00,test1@yahoo.com,some test bounce code,UserUnknown' . PHP_EOL
+            . PHP_EOL
             . '2010-10-01 17:10:00,test2@yahoo.com,some test bounce code 1,MailboxFull' . PHP_EOL;
 
         $response = new BouncesGetResponse(

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Enum;
+namespace Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest;
 
 use MyCLabs\Enum\Enum;
 
@@ -20,7 +20,7 @@ final class Operator extends Enum
     /**
      * Equals
      *
-     * Can't name it like "EQUALS", becase class Enum already has "exists" method
+     * Can't name it like "EQUALS", because class Enum already has "exists" method
      */
     const EQUAL = 'Equals';
 
