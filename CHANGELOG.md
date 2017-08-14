@@ -6,9 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- added symfony/event-dispatcher ^3.0.0 requirement
-- added optional feature to listen events from RequestSender
+- symfony/event-dispatcher ^3.0.0 requirement
+- optional feature to listen events from RequestSender
+- api method to add/get/delete/edit rows in tables
+- send trigger message api method
+- CsvReader class and used it in SpecificCsvMethodResponse
+### Removed
+- all chunks
+- ExpertSender class, because all features recreated in ExpertSenderApi
+- HttpTransport class, because no class use it
 ### Changed
+- renamed SortOrder into Direction and moved in Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest namespace
+- moved Operator in Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest
 - changed argument type for ExpertSenderApi from RequestSender to RequestSenderInterface
 ### Deprecated
 - method SubscriberInfo::addPropertyChunk is deprecated, use SubscriberInfo::addProperty instead
