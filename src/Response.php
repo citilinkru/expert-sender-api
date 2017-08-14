@@ -143,7 +143,7 @@ class Response implements ResponseInterface
      */
     public function isEmpty(): bool
     {
-        return intval($this->httpResponse->getHeader('Content-Length')) === 0;
+        return intval($this->httpResponse->getHeaderLine('Content-Length')) === 0;
     }
 
     /**
@@ -153,13 +153,8 @@ class Response implements ResponseInterface
      */
     private function isXml(): bool
     {
-        $contentTypeHeaders = $this->httpResponse->getHeader('Content-Type');
-        if (empty($contentTypeHeaders)) {
-            return false;
-        }
+        $contentType = $this->httpResponse->getHeaderLine('Content-Type');
 
-        $firstContentType = reset($contentTypeHeaders);
-
-        return !$this->isEmpty() && strpos($firstContentType, 'text/xml') !== false;
+        return !$this->isEmpty() && strpos($contentType, 'text/xml') !== false;
     }
 }

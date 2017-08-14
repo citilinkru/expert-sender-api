@@ -14,6 +14,7 @@ use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\RequestSender;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ExpertSenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,7 +40,11 @@ class ExpertSenderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->api = new ExpertSenderApi(
-            new RequestSender(new Client(['base_uri' => $this->getParam('url')]), $this->getParam('key'))
+            new RequestSender(
+                new Client(['base_uri' => $this->getParam('url')]),
+                $this->getParam('key'),
+                new EventDispatcher()
+            )
         );
 
     }
