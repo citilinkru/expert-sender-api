@@ -133,8 +133,12 @@ $returnGuid = true;
 
 $response = $api->transactionals()->send($messageId, $receiverById, $snippets, $attachments, $returnGuid);
 
-// guid available, only if returnGuid=true in request
-$guid = $response->getGuid();
+if ($response->isOk()) {
+    // guid available, only if returnGuid=true in request
+    $guid = $response->getGuid();
+} else {
+    // handle errors
+}
 ```
 
 ### Subscribers
@@ -144,16 +148,16 @@ $guid = $response->getGuid();
 $subscriberEmail = 'mail@mail.com';
 
 // get short info about subscriber
-$shortInfo = $api->subscribers()->getShort($subscriberEmail);
+$shortInfoResponse = $api->subscribers()->getShort($subscriberEmail);
 
 // get long info about subscriber
-$longInfo = $api->subscribers()->getLong($subscriberEmail);
+$longInfoResponse = $api->subscribers()->getLong($subscriberEmail);
 
 // get full info about subscriber
-$fullInfo = $api->subscribers()->getFull($subscriberEmail);
+$fullInfoResponse = $api->subscribers()->getFull($subscriberEmail);
 
 // get events history
-$eventsHistory = $api->subscribers()->getEventsHistory($subscriberEmail);
+$eventsHistoryResponse = $api->subscribers()->getEventsHistory($subscriberEmail);
 ```
 #### Add/Edit subscriber
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/add-subscriber)
@@ -194,9 +198,13 @@ $options = new Options($returnAdditionalDataOnResponse, $useVerboseErrors);
 $mode = Mode::ADD_AND_UPDATE();
 
 // you can add more than one subscriber to request
-$addResult = $api->subscribers()->addOrEdit([$subscriberData], $options, $mode);
+$addOrEditResponse = $api->subscribers()->addOrEdit([$subscriberData], $options, $mode);
 
-// after that you use response for read additional data, or errors.
+if ($addOrEditResponse->isOk()) {
+    // do something if everything is ok
+} else {
+    // handle errors
+}
 ```
 #### How to change Email or Phone
 To change email or phone you must choose another identifier, for example:
