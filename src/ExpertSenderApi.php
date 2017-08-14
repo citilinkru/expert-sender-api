@@ -17,16 +17,16 @@ use Citilink\ExpertSenderApi\Resource\TransactionalsResource;
 class ExpertSenderApi
 {
     /**
-     * @var RequestSender Request sender
+     * @var RequestSenderInterface Request sender
      */
     private $requestSender;
 
     /**
      * Constructor.
      *
-     * @param RequestSender $requestSender Request sender
+     * @param RequestSenderInterface $requestSender Request sender
      */
-    public function __construct(RequestSender $requestSender)
+    public function __construct(RequestSenderInterface $requestSender)
     {
         $this->requestSender = $requestSender;
     }
