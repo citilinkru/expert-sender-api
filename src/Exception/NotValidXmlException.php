@@ -27,7 +27,7 @@ class NotValidXmlException extends ParseResponseException
     {
         $errorsAsString = [];
         foreach ($libXmlErrors as $libXmlError) {
-            $errorsAsString[] = sprintf('"%s"', trim($libXmlError->message), $libXmlError->level);
+            $errorsAsString[] = $libXmlError->message;
         }
 
         $allErrorsAsString = implode('; ', $errorsAsString);
