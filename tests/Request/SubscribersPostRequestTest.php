@@ -35,15 +35,15 @@ class SubscribersPostRequestTest extends \PHPUnit_Framework_TestCase
         $subscriberData->setCustomSubscriberId('custom-subscriber-id');
         $subscriberData->setAllowAddUserThatWasDeleted(false);
         $subscriberData->setAllowAddUserThatWasUnsubscribed(false);
-        $subscriberData->addPropertyChunk(new Property(1, Value::createInt(24)));
-        $subscriberData->addPropertyChunk(new Property(2, Value::createString('string')));
-        $subscriberData->addPropertyChunk(new Property(3, Value::createBoolean(true)));
-        $subscriberData->addPropertyChunk(new Property(16, Value::createBoolean(false)));
-        $subscriberData->addPropertyChunk(new Property(15, Value::createDouble(23.4)));
-        $subscriberData->addPropertyChunk(
+        $subscriberData->addProperty(new Property(1, Value::createInt(24)));
+        $subscriberData->addProperty(new Property(2, Value::createString('string')));
+        $subscriberData->addProperty(new Property(3, Value::createBoolean(true)));
+        $subscriberData->addProperty(new Property(16, Value::createBoolean(false)));
+        $subscriberData->addProperty(new Property(15, Value::createDouble(23.4)));
+        $subscriberData->addProperty(
             new Property(4, Value::createDateFromDateTime(new \DateTime('2000-01-01 12:00:00')))
         );
-        $subscriberData->addPropertyChunk(
+        $subscriberData->addProperty(
             new Property(5, Value::createDateTimeFromDateTime(new \DateTime('2000-01-01 12:00:00')))
         );
 
