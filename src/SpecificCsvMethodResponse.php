@@ -110,9 +110,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
         $newStream->rewind();
         $phpStream = $newStream->detach();
 
-        $csvReader = new CsvReader($phpStream);
-
-        return $csvReader;
+        return new CsvReader($phpStream);
     }
 
     /**

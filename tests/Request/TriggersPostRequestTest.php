@@ -23,8 +23,8 @@ class TriggersPostRequestTest extends \PHPUnit_Framework_TestCase
         $request = new TriggersPostRequest(
             24,
             [
-                Receiver::createWithEmail('mail@mail.com'),
-                Receiver::createWithId(23),
+                Receiver::createFromEmail('mail@mail.com'),
+                Receiver::createFromId(23),
             ]
         );
 

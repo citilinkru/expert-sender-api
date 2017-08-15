@@ -16,14 +16,14 @@ use Citilink\ExpertSenderApi\ResponseInterface;
 class MessagesResource extends AbstractResource
 {
     /**
-     * Send triggers messages
+     * Send trigger message
      *
      * @param int $triggerMessageId Trigger message ID
      * @param Receiver[] $receivers Receivers
      *
      * @return ResponseInterface Response
      */
-    public function sendTriggerMessages(int $triggerMessageId, array $receivers): ResponseInterface
+    public function sendTriggerMessage(int $triggerMessageId, array $receivers): ResponseInterface
     {
         return $this->requestSender->send(new TriggersPostRequest($triggerMessageId, $receivers));
     }
