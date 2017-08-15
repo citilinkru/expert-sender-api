@@ -72,7 +72,7 @@ class DataTablesResource extends AbstractResource
      *
      * @return ResponseInterface Response
      */
-    public function updateRows($tableName, array $primaryKeyColumns, array $columns): ResponseInterface
+    public function updateRow($tableName, array $primaryKeyColumns, array $columns): ResponseInterface
     {
         return $this->requestSender->send(new DataTablesUpdateRowPostRequest($tableName, $primaryKeyColumns, $columns));
     }

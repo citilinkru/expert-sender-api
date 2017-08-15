@@ -29,7 +29,7 @@ class Receiver
      *
      * @return static Receiver
      */
-    public static function createWithId(int $id)
+    public static function createFromId(int $id)
     {
         Assert::notEmpty($id);
 
@@ -43,7 +43,7 @@ class Receiver
      *
      * @return static Receiver
      */
-    public static function createWithEmail(string $email)
+    public static function createFromEmail(string $email)
     {
         Assert::notEmpty($email);
 
