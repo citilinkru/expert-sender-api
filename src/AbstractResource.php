@@ -11,16 +11,16 @@ namespace Citilink\ExpertSenderApi;
 class AbstractResource
 {
     /**
-     * @var RequestSender Request sender
+     * @var RequestSenderInterface Request sender
      */
     protected $requestSender;
 
     /**
      * Constructor.
      *
-     * @param RequestSender $requestSender Request sender
+     * @param RequestSenderInterface $requestSender Request sender
      */
-    public function __construct(RequestSender $requestSender)
+    public function __construct(RequestSenderInterface $requestSender)
     {
         $this->requestSender = $requestSender;
     }

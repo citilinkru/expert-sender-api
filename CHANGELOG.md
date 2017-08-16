@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - added symfony/event-dispatcher ^3.0.0 requirement
 - added optional feature to listen events from RequestSender
+### Changed
+- changed argument type for ExpertSenderApi from RequestSender to RequestSenderInterface
 ### Deprecated
 - Method SubscriberInfo::addPropertyChunk is deprecated, use SubscriberInfo::addProperty instead  
 
