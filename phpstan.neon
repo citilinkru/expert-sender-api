@@ -1,0 +1,6 @@
+parameters:
+    ignoreErrors:
+        # problems with case of methods in PHP documentation and reflection
+        - '#Call to method XMLWriter::.*#'
+        # reflection can not find those properties
+        - '#Access to an undefined property LibXMLError::\$message#'

@@ -7,6 +7,7 @@ use Citilink\ExpertSenderApi\Enum\DataType;
 use Citilink\ExpertSenderApi\Enum\SubscriberPropertySource;
 use Citilink\ExpertSenderApi\Enum\SubscribersResponse\SubscriberPropertyType;
 use Citilink\ExpertSenderApi\Model\RemovedSubscribersGetResponse\RemovedSubscriber;
+use Citilink\ExpertSenderApi\Model\SubscriberData;
 use Citilink\ExpertSenderApi\Model\SubscribersGetResponse\SubscriberProperty;
 use Citilink\ExpertSenderApi\Response;
 use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
@@ -153,15 +154,19 @@ class RemovedSubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
         Assert::assertEquals(1194, $removedSubscribers[0]->getListId());
         Assert::assertEquals('2016-06-21 08:33:34', $removedSubscribers[0]->getUnsubscribedOn()->format('Y-m-d H:i:s'));
 
-        Assert::assertNotNull($removedSubscribers[0]->getSubscriberData());
-        Assert::assertEquals(4238630, $removedSubscribers[0]->getSubscriberData()->getId());
-        Assert::assertEquals('Firstname', $removedSubscribers[0]->getSubscriberData()->getFirstname());
-        Assert::assertEquals('Lastname', $removedSubscribers[0]->getSubscriberData()->getLastname());
-        Assert::assertEquals('127.0.0.1', $removedSubscribers[0]->getSubscriberData()->getIp());
-        Assert::assertEquals('vendor', $removedSubscribers[0]->getSubscriberData()->getVendor());
+        // need type conversion for phpstan valid check, because we check on null without !== null, but with method
+        // assertNotNull
+        /** @var SubscriberData $subscriberData */
+        $subscriberData = $removedSubscribers[0]->getSubscriberData();
+        Assert::assertNotNull($subscriberData);
+        Assert::assertEquals(4238630, $subscriberData->getId());
+        Assert::assertEquals('Firstname', $subscriberData->getFirstname());
+        Assert::assertEquals('Lastname', $subscriberData->getLastname());
+        Assert::assertEquals('127.0.0.1', $subscriberData->getIp());
+        Assert::assertEquals('vendor', $subscriberData->getVendor());
 
         /** @var SubscriberProperty[] $properties */
-        $properties = \iter\toArray($removedSubscribers[0]->getSubscriberData()->getProperties());
+        $properties = \iter\toArray($subscriberData->getProperties());
         Assert::assertEquals(1, $properties[0]->getId());
         Assert::assertTrue($properties[0]->getSource()->equals(SubscriberPropertySource::NOT_SET()));
         Assert::assertTrue($properties[0]->getValue()->getType()->equals(DataType::STRING()));

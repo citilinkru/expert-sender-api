@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Model\SubscribersPostRequest;
 
 use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\MatchingMode;
-use Citilink\ExpertSenderApi\Exception\ExpertSenderApiException;
+use Citilink\ExpertSenderApi\Exception\InvalidUseOfClassException;
 
 /**
  * Identifier of subscriber for add/edit request
@@ -144,12 +144,14 @@ class Identifier
      *
      * In matching mode == 'Email' one of values email or emailMd5 is not null
      *
+     * @throws InvalidUseOfClassException If matching mode is incorrect
+     *
      * @return string|null Email
      */
     public function getEmail(): ?string
     {
         if (!$this->matchingMode->equals(MatchingMode::EMAIL())) {
-            throw new ExpertSenderApiException(
+            throw new InvalidUseOfClassException(
                 sprintf(
                     'Can\'t use getEmail method, because Matching mode is "%s", if you want use email as'
                     . ' identifier create object with static method createEmail',
@@ -166,12 +168,14 @@ class Identifier
      *
      * In matching mode == 'Email' one of values email or emailMd5 is not null
      *
+     * @throws InvalidUseOfClassException If matching mode is incorrect
+     *
      * @return string Md5 of email
      */
     public function getEmailMd5(): ?string
     {
         if (!$this->matchingMode->equals(MatchingMode::EMAIL())) {
-            throw new ExpertSenderApiException(
+            throw new InvalidUseOfClassException(
                 sprintf(
                     'Can\'t use getEmailMd5 method, because Matching mode is "%s", if you want use md5 of '
                     . 'email as identifier create object with static method createEmailMd5',
@@ -186,12 +190,14 @@ class Identifier
     /**
      * Get phone
      *
+     * @throws InvalidUseOfClassException If matching mode is incorrect
+     *
      * @return string Phone
      */
     public function getPhone(): string
     {
         if (!$this->matchingMode->equals(MatchingMode::PHONE())) {
-            throw new ExpertSenderApiException(
+            throw new InvalidUseOfClassException(
                 sprintf(
                     'Can\'t use getPhone method, because Matching mode is "%s", if you want use phone as'
                     . ' identifier create object with static method createPhone',
@@ -200,18 +206,24 @@ class Identifier
             );
         }
 
+        if ($this->phone === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'phone');
+        }
+
         return $this->phone;
     }
 
     /**
      * Get ID
      *
+     * @throws InvalidUseOfClassException If matching mode is incorrect
+     *
      * @return int ID
      */
     public function getId(): int
     {
         if (!$this->matchingMode->equals(MatchingMode::ID())) {
-            throw new ExpertSenderApiException(
+            throw new InvalidUseOfClassException(
                 sprintf(
                     'Can\'t use getId method, because Matching mode is "%s", if you want use id as'
                     . ' identifier create object with static method createId',
@@ -220,24 +232,34 @@ class Identifier
             );
         }
 
+        if ($this->id === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'id');
+        }
+
         return $this->id;
     }
 
     /**
      * Get custom subscriber ID
      *
+     * @throws InvalidUseOfClassException If matching mode is incorrect
+     *
      * @return string Custom subscriber ID
      */
     public function getCustomSubscriberId(): string
     {
         if (!$this->matchingMode->equals(MatchingMode::CUSTOMER_SUBSCRIBER_ID())) {
-            throw new ExpertSenderApiException(
+            throw new InvalidUseOfClassException(
                 sprintf(
                     'Can\'t use getCustomSubscriberId method, because Matching mode is "%s", if you want use '
                     . 'custom subscriber id as identifier create object with static method createCustomSubscriberId',
                     $this->matchingMode->getValue()
                 )
             );
+        }
+
+        if ($this->customSubscriberId === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'customSubscriberId');
         }
 
         return $this->customSubscriberId;

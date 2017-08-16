@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Model\SubscribersGetResponse;
 
 use Citilink\ExpertSenderApi\Enum\DataType;
-use Citilink\ExpertSenderApi\Exception\ExpertSenderApiException;
+use Citilink\ExpertSenderApi\Exception\InvalidUseOfClassException;
 
 /**
  * Subscriber property value
@@ -168,7 +168,7 @@ class SubscriberPropertyValue
     /**
      * Get integer value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return int Integer value
      */
@@ -178,13 +178,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::INTEGER());
         }
 
+        if ($this->intValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'intValue');
+        }
+
         return $this->intValue;
     }
 
     /**
      * Get string value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return string String value
      */
@@ -194,13 +198,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::STRING());
         }
 
+        if ($this->stringValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'stringValue');
+        }
+
         return $this->stringValue;
     }
 
     /**
      * Get decimal value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return float Decimal value
      */
@@ -210,13 +218,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::DECIMAL());
         }
 
+        if ($this->decimalValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'decimalValue');
+        }
+
         return $this->decimalValue;
     }
 
     /**
      * Get datetime value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return \DateTime Datetime value
      */
@@ -226,13 +238,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::DATETIME());
         }
 
+        if ($this->datetimeValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'datetimeValue');
+        }
+
         return $this->datetimeValue;
     }
 
     /**
      * Get default integer value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return int Default integer value
      */
@@ -242,13 +258,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::INTEGER());
         }
 
+        if ($this->defaultIntValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'defaultIntValue');
+        }
+
         return $this->defaultIntValue;
     }
 
     /**
      * Get default string value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return string Default string value
      */
@@ -258,13 +278,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::STRING());
         }
 
+        if ($this->defaultStringValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'defaultStringValue');
+        }
+
         return $this->defaultStringValue;
     }
 
     /**
      * Get default decimal value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return float Default decimal value
      */
@@ -274,13 +298,17 @@ class SubscriberPropertyValue
             throw $this->createException(DataType::DECIMAL());
         }
 
+        if ($this->defaultDecimalValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'defaultDecimalValue');
+        }
+
         return $this->defaultDecimalValue;
     }
 
     /**
-     * Get dafault datetime value
+     * Get default datetime value
      *
-     * @throws ExpertSenderApiException Wrong expected data type of value
+     * @throws InvalidUseOfClassException Wrong expected data type of value
      *
      * @return \DateTime Default datetime value
      */
@@ -288,6 +316,10 @@ class SubscriberPropertyValue
     {
         if (!$this->type->equals(DataType::DATETIME())) {
             throw $this->createException(DataType::DATETIME());
+        }
+
+        if ($this->defaultDatetimeValue === null) {
+            throw InvalidUseOfClassException::createPropertyOfClassCanNotBeNull($this, 'defaultDatetimeValue');
         }
 
         return $this->defaultDatetimeValue;
@@ -298,11 +330,11 @@ class SubscriberPropertyValue
      *
      * @param DataType $expectedType Expected type
      *
-     * @return ExpertSenderApiException Exception
+     * @return InvalidUseOfClassException Exception
      */
-    private function createException(DataType $expectedType): ExpertSenderApiException
+    private function createException(DataType $expectedType): InvalidUseOfClassException
     {
-        return new ExpertSenderApiException(
+        return new InvalidUseOfClassException(
             sprintf(
                 'Data type of value is not "%s", type is "%s"',
                 $expectedType->getValue(),

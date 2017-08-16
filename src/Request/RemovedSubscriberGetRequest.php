@@ -42,7 +42,7 @@ class RemovedSubscriberGetRequest implements RequestInterface
      * If specified, subscribers removed prior to this date will not be returned. May be used together with endDate
      * to specify a period of time
      *
-     * @var \DateTime
+     * @var \DateTime|null
      */
     private $startDate;
 
@@ -52,7 +52,7 @@ class RemovedSubscriberGetRequest implements RequestInterface
      * If specified, subscribers removed after this date will not be returned. May be used together with startDate
      * to specify a period of time
      *
-     * @var \DateTime
+     * @var \DateTime|null
      */
     private $endDate;
 
@@ -61,7 +61,7 @@ class RemovedSubscriberGetRequest implements RequestInterface
      *
      * If specified, additional subscriber information will be returned
      *
-     * @var Option
+     * @var Option|null
      */
     private $option;
 
