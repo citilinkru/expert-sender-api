@@ -72,7 +72,7 @@ class RequestSender implements RequestSenderInterface
         try {
             $httpResponse = $this->httpClient->request($request->getMethod()->getValue(), $request->getUri(), $options);
         } catch (RequestException $e) {
-            $httpResponse = $e->getResponse();
+            $httpResponse = $e->getResponse() !== null ? $e->getResponse() : new \GuzzleHttp\Psr7\Response(400);
         }
 
         $apiResponse = new Response($httpResponse);

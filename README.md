@@ -13,6 +13,7 @@ Expert Sender Api
     - [Get server time](#get-server-time)
     - [Messages](#messages)
         - [Send transactional messages](#send-transactional-messages)
+        - [Send trigger messages](#send-trigger-messages)
     - [Subscribers](#subscribers)
         - [Get subscriber information](#get-subscriber-information)
         - [Add/Edit subscriber](#addedit-subscriber)
@@ -20,6 +21,12 @@ Expert Sender Api
         - [Delete subscriber](#delete-subscriber)
         - [Get removed subscribers](#get-removed-subscribers)
     - [Get bounces list](#get-bounces-list)
+    - [Data Tables](#data-tables)
+        - [Get data](#get-data)
+        - [Add row](#add-row)
+        - [Add multiple rows](#add-multiple-rows)
+        - [Update row](#update-row)
+        - [Delete row](#delete-row)
         
 ## Requirements
 
@@ -136,6 +143,30 @@ $response = $api->transactionals()->send($messageId, $receiverById, $snippets, $
 if ($response->isOk()) {
     // guid available, only if returnGuid=true in request
     $guid = $response->getGuid();
+} else {
+    // handle errors
+}
+```
+#### Send trigger messages
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/messages/send-trigger-messages)
+```php
+// ...
+
+use Citilink\ExpertSenderApi\Model\TriggersPostRequest\Receiver;
+
+// ...
+
+$triggerMessageId = 25;
+$response = $api->messages()->sendTriggerMessage(
+    $triggerMessageId,
+    [
+        Receiver::createFromEmail('mail@mail.com'),
+        Receiver::createFromId(384636),
+    ]        
+);
+
+if ($response->isOk()) {
+    // do some stuff
 } else {
     // handle errors
 }
@@ -302,5 +333,152 @@ foreach ($response->getBounces() as $bounce) {
     $date = $bounce->getDate();
     $email = $bounce->getEmail();
     // etc
+}
+```
+
+## Data Tables
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables)
+### Get data
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/get-data)
+```php
+// ...
+use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Direction;
+use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
+use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
+// ...
+// limit is optional, and null by default
+$limit = 30;
+$response = $api->dataTables()->getRows(
+    // table name to get data from
+    'table-name',
+    // array of column names to get from table
+    ['ColumnName1', 'ColumnName2'],
+    // where conditions to filter data
+    [
+        new WhereCondition('ColumnName1', Operator::EQUAL(), 'value'),
+        new WhereCondition('ColumnName2', Operator::LIKE(), 'string'),
+        new WhereCondition('ColumnName3', Operator::GREATER(), 24),
+        new WhereCondition('ColumnName4', Operator::LOWER(), 10.54),
+    ],
+    // sorting rules
+    [
+        new OrderByRule('ColumnName1', Direction::ASCENDING()),
+        new OrderByRule('ColumnName1', Direction::DESCENDING()),
+    ],
+    // and limit
+    $limit
+);
+
+if ($response->isOk()) {
+    // if everything is okay, you can get csv reader and fetch data
+    $csvReader = $response->getCsvReader();
+    foreach ($csvReader->fetchAll() as $row) {
+        // fetched data will have column names in keys and values ... will be values
+        echo $row['ColumnName1'];
+        echo $row['ColumnName2'];
+    }
+} else {
+    // handle errors
+}
+```
+### Add row
+Use [add multiple rows method](#add-multiple-rows) to insert one row
+### Add multiple rows
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/add-multiple-rows)
+```php
+// ...
+use Citilink\ExpertSenderApi\Model\Column;
+use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
+// ...
+$response = $api->dataTables()->addRows(
+    // table name to insert rows
+    'table-name',
+    // rows to insert
+    [
+        new Row(
+            [
+                // fields to set 
+                new Column('ColumnName1', 10),
+                new Column('ColumnName2', 10.5),
+                new Column('ColumnName3', 'string'),
+            ]
+        ),
+        new Row(
+            [
+                new Column('ColumnName1', 25),
+                new Column('ColumnName2', 0.45),
+                new Column('ColumnName3', 'value'),
+            ]
+        ),
+    ]
+);
+
+if ($response->isOk()) {
+    // make some stuff
+} else {
+    // handle errors
+    echo $response->getErrorCode();
+    foreach ($response->getErrorMessages() as $errorMessage) {
+        echo $errorMessage->getMessage();
+    }
+}
+```
+### Update row
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/update-row)
+```php
+// ...
+use Citilink\ExpertSenderApi\Model\Column;
+// ...
+$response = $api->dataTables()->updateRow(
+    // table name 
+    'table-name',
+    // primary keys to find row
+    [
+        new Column('ColumnName1', 12),
+        new Column('ColumnName2', 'value'),
+    ],
+    // fields to change
+    [
+        new Column('ColumnName3', 25),
+        new Column('ColumnName4', 'string'),
+        new Column('ColumnName5', 25.4)
+    ]
+);
+
+if ($response->isOk()) {
+    // make some stuff
+} else {
+    // handle errors
+    echo $response->getErrorCode();
+    foreach ($response->getErrorMessages() as $errorMessage) {
+        echo $errorMessage->getMessage();
+    }
+}
+```
+### Delete row
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/delete-row)
+```php
+// ...
+use Citilink\ExpertSenderApi\Model\Column;
+// ...
+$response = $api->dataTables()->deleteOneRow(
+    // table name to update rows
+    'table-name',
+    // primary keys to find row
+    [
+        new Column('ColumnName1', 12),
+        new Column('ColumnName2', 'value'),
+    ]
+);
+
+if ($response->isOk()) {
+    // make some stuff
+} else {
+    // handle errors
+    echo $response->getErrorCode();
+    foreach ($response->getErrorMessages() as $errorMessage) {
+        echo $errorMessage->getMessage();
+    }
 }
 ```
