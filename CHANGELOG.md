@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- phpstan lvl 7 checks
 - symfony/event-dispatcher ^3.0.0 requirement
 - optional feature to listen events from RequestSender
 - api method to add/get/delete/edit rows in tables
