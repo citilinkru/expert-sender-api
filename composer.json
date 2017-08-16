@@ -21,7 +21,8 @@
     },
     "require-dev" : {
         "phpunit/phpunit" : "^5.0.0",
-        "nikic/iter": "^1.5.0"
+        "nikic/iter": "^1.5.0",
+        "phpstan/phpstan": "^0.8.0"
     },
     "autoload": {
         "psr-4": {
@@ -37,8 +38,12 @@
         "phpunit": [
             "vendor/bin/phpunit"
         ],
+        "phpstan": [
+            "vendor/bin/phpstan analyze src tests -c phpstan.neon --level=7"
+        ],
         "test": [
-            "@phpunit"
+            "@phpunit",
+            "@phpstan"
         ]
     }
 }

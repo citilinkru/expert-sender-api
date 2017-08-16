@@ -25,7 +25,7 @@ class BouncesGetRequest implements RequestInterface
     private $endDate;
 
     /**
-     * @var BounceType Bounce type
+     * @var BounceType|null Bounce type
      */
     private $bounceType;
 
