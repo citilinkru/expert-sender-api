@@ -237,18 +237,6 @@ class SubscriberInfo
     /**
      * Add subscriber's property
      *
-     * @deprecated Use {@see SubscriberInfo::addProperty} instead
-     *
-     * @param Property $property Subscriber's property
-     */
-    public function addPropertyChunk(Property $property): void
-    {
-        $this->addProperty($property);
-    }
-
-    /**
-     * Add subscriber's property
-     *
      * @param Property $property Subscriber's property
      */
     public function addProperty(Property $property): void

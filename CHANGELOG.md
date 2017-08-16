@@ -3,8 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
+## [1.0.0] - 2017-08-16
 ### Added
 - phpstan lvl 7 checks
 - symfony/event-dispatcher ^3.0.0 requirement
@@ -17,20 +16,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new method MessagesResource::sendTransactionalMessage instead of TransactionalsResource::send
 - new method ExpertSenderApi::getBouncesList instead of BouncesResource::get
 ### Removed
-- all chunks
-- ExpertSender class, because all features recreated in ExpertSenderApi
-- HttpTransport class, because no class use it
+- all deprecated features
 ### Changed
 - renamed SortOrder into Direction and moved in Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest namespace
 - moved Operator in Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest
 - changed argument type for ExpertSenderApi from RequestSender to RequestSenderInterface
-### Deprecated
-- method SubscriberInfo::addPropertyChunk is deprecated, use SubscriberInfo::addProperty instead
-- method SpecificCsvMethodResponse::getCsvLinesWithoutHeader is deprecated, use SpecificCsvMethodResponse::getCsvReader instead
-- BouncesResource
-- RemovedSubscribersResource
-- TimeResource
-- TransactionalsResource
 
 ## [0.4.0] - 2017-08-09
 Fully refactored library, changed everything

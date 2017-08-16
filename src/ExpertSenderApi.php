@@ -6,13 +6,9 @@ namespace Citilink\ExpertSenderApi;
 use Citilink\ExpertSenderApi\Enum\BouncesGetRequest\BounceType;
 use Citilink\ExpertSenderApi\Request\BouncesGetRequest;
 use Citilink\ExpertSenderApi\Request\TimeGetRequest;
-use Citilink\ExpertSenderApi\Resource\BouncesResource;
 use Citilink\ExpertSenderApi\Resource\DataTablesResource;
 use Citilink\ExpertSenderApi\Resource\MessagesResource;
-use Citilink\ExpertSenderApi\Resource\RemovedSubscribersResource;
 use Citilink\ExpertSenderApi\Resource\SubscribersResource;
-use Citilink\ExpertSenderApi\Resource\TimeResource;
-use Citilink\ExpertSenderApi\Resource\TransactionalsResource;
 use Citilink\ExpertSenderApi\Response\BouncesGetResponse;
 use Citilink\ExpertSenderApi\Response\TimeGetResponse;
 
@@ -49,30 +45,6 @@ class ExpertSenderApi
     }
 
     /**
-     * Get Transaction resource
-     *
-     * @deprecated use {@see ExpertSenderApi::messages} instead
-     *
-     * @return TransactionalsResource Transaction resource
-     */
-    public function transactionals(): TransactionalsResource
-    {
-        return new TransactionalsResource($this->requestSender);
-    }
-
-    /**
-     * Get Time resource
-     *
-     * @deprecated use {@see ExpertSenderApi::getServerTime} instead
-     *
-     * @return TimeResource Time resource
-     */
-    public function time(): TimeResource
-    {
-        return new TimeResource($this->requestSender);
-    }
-
-    /**
      * Get server time response
      *
      * @return TimeGetResponse Server time response
@@ -80,18 +52,6 @@ class ExpertSenderApi
     public function getServerTime(): TimeGetResponse
     {
         return new TimeGetResponse($this->requestSender->send(new TimeGetRequest()));
-    }
-
-    /**
-     * Get Bounces resource
-     *
-     * @deprecated use {@see ExpertSenderApi::getBouncesList} instead
-     *
-     * @return BouncesResource Bounces resource
-     */
-    public function bounces(): BouncesResource
-    {
-        return new BouncesResource($this->requestSender);
     }
 
     /**
@@ -111,18 +71,6 @@ class ExpertSenderApi
         return new BouncesGetResponse(
             $this->requestSender->send(new BouncesGetRequest($startDate, $endDate, $bounceType))
         );
-    }
-
-    /**
-     * Get RemovedSubscribers resource
-     *
-     * @deprecated use {@see ExpertSenderApi::subscribers} instead
-     *
-     * @return RemovedSubscribersResource RemovedSubscribers resource
-     */
-    public function removedSubscribers(): RemovedSubscribersResource
-    {
-        return new RemovedSubscribersResource($this->requestSender);
     }
 
     /**

@@ -80,19 +80,6 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * Get csv line values without header
-     *
-     * @deprecated Use getCsvReader method instead
-     * @throws TryToAccessDataFromErrorResponseException If response has errors
-     *
-     * @return string[][]|iterable Csv line values
-     */
-    protected function getCsvLinesWithoutHeader(): iterable
-    {
-        return $this->getCsvReader()->fetchAll();
-    }
-
-    /**
      * Get csv reader
      *
      * @throws TryToAccessDataFromErrorResponseException If response has errors
