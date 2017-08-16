@@ -4,6 +4,8 @@ Expert Sender Api
 
 [PHP API](https://sites.google.com/a/expertsender.com/api-documentation/) for [Expert Sender](http://www.expertsender.com/)
 
+_fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sender-api)_
+
 ## Table of contents
 - [Requirements](#requirements)
 - [Installation](#installaion)
