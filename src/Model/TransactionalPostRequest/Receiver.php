@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\TransactionalRequest;
+namespace Citilink\ExpertSenderApi\Model\TransactionalPostRequest;
 
 /**
  * Receiver of transactional message
