@@ -10,12 +10,16 @@ use Citilink\ExpertSenderApi\Response\TimeGetResponse;
 /**
  * Time resource
  *
+ * @deprecated use {@see ExpertSenderApi} instead
+ *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
 class TimeResource extends AbstractResource
 {
     /**
      * Get time response
+     *
+     * @deprecated use {@see ExpertSenderApi::getServerTime} instead
      *
      * @return TimeGetResponse Time response
      */

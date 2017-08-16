@@ -11,6 +11,8 @@ use Citilink\ExpertSenderApi\Response\BouncesGetResponse;
 /**
  * Bounces resource
  *
+ * @deprecated use {@see ExpertSenderApi} instead
+ *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
 class BouncesResource extends AbstractResource
@@ -21,6 +23,8 @@ class BouncesResource extends AbstractResource
      * @param \DateTime $startDate Start date
      * @param \DateTime $endDate End date
      * @param BounceType|null $bounceType Bounce type
+     *
+     * @deprecated use {@see ExpertSenderApi::getBouncesList} instead
      *
      * @return BouncesGetResponse Bounces data
      */

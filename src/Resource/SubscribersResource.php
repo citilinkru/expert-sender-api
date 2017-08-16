@@ -4,19 +4,22 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi\Resource;
 
 use Citilink\ExpertSenderApi\AbstractResource;
+use Citilink\ExpertSenderApi\Enum\RemovedSubscribersGetRequest\Option;
+use Citilink\ExpertSenderApi\Enum\RemovedSubscribersGetRequest\RemoveType;
 use Citilink\ExpertSenderApi\Enum\SubscribersGetRequest\DataOption;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Request\RemovedSubscriberGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
+use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetEventsHistoryResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetLongResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetShortResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersPostResponse;
 use Citilink\ExpertSenderApi\ResponseInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * Subscribers resource
@@ -34,10 +37,9 @@ class SubscribersResource extends AbstractResource
      */
     public function getShort(string $email): SubscribersGetShortResponse
     {
-        Assert::notEmpty($email);
-        $response = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::SHORT()));
-
-        return new SubscribersGetShortResponse($response);
+        return new SubscribersGetShortResponse(
+            $this->requestSender->send(new SubscribersGetRequest($email, DataOption::SHORT()))
+        );
     }
 
     /**
@@ -49,10 +51,9 @@ class SubscribersResource extends AbstractResource
      */
     public function getLong(string $email): SubscribersGetLongResponse
     {
-        Assert::notEmpty($email);
-        $response = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::LONG()));
-
-        return new SubscribersGetLongResponse($response);
+        return new SubscribersGetLongResponse(
+            $this->requestSender->send(new SubscribersGetRequest($email, DataOption::LONG()))
+        );
     }
 
     /**
@@ -64,10 +65,9 @@ class SubscribersResource extends AbstractResource
      */
     public function getFull(string $email): SubscribersGetFullResponse
     {
-        Assert::notEmpty($email);
-        $response = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::FULL()));
-
-        return new SubscribersGetFullResponse($response);
+        return new SubscribersGetFullResponse(
+            $this->requestSender->send(new SubscribersGetRequest($email, DataOption::FULL()))
+        );
     }
 
     /**
@@ -79,10 +79,9 @@ class SubscribersResource extends AbstractResource
      */
     public function getEventsHistory(string $email): SubscribersGetEventsHistoryResponse
     {
-        Assert::notEmpty($email);
-        $request = $this->requestSender->send(new SubscribersGetRequest($email, DataOption::EVENTS_HISTORY()));
-
-        return new SubscribersGetEventsHistoryResponse($request);
+        return new SubscribersGetEventsHistoryResponse(
+            $this->requestSender->send(new SubscribersGetRequest($email, DataOption::EVENTS_HISTORY()))
+        );
     }
 
     /**
@@ -124,5 +123,34 @@ class SubscribersResource extends AbstractResource
     public function deleteByEmail(string $email, int $listId = null): ResponseInterface
     {
         return $this->requestSender->send(SubscribersDeleteRequest::createFromEmail($email, $listId));
+    }
+
+    /**
+     * Get removed subscribers
+     *
+     * @param int[] $listIds List IDs. If specified, only removed subscribers from given lists will be returned. If
+     *      not specified, removed subscribers from all lists will be returned
+     * @param RemoveType[] $removeTypes Remove types (reasons). If specified, only subscribers removed for listed
+     *      reasons will be returned. If omitted, all reasons will be included
+     * @param \DateTime $startDate End date. If specified, subscribers removed prior to this date will not be returned.
+     *      May be used together with endDate to specify a period of time
+     * @param \DateTime $endDate Start date. If specified, subscribers removed after this date will not be returned.
+     *      May be used together with startDate to specify a period of time
+     * @param Option $option Option. If specified, additional subscriber information will be returned
+     *
+     * @return RemovedSubscribersGetResponse Response with removed subscribers data
+     */
+    public function getRemovedSubscribers(
+        array $listIds = [],
+        array $removeTypes = [],
+        \DateTime $startDate = null,
+        \DateTime $endDate = null,
+        Option $option = null
+    ): RemovedSubscribersGetResponse {
+        $response = $this->requestSender->send(
+            new RemovedSubscriberGetRequest($listIds, $removeTypes, $startDate, $endDate, $option)
+        );
+
+        return new RemovedSubscribersGetResponse($response);
     }
 }

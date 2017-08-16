@@ -12,6 +12,8 @@ use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
 /**
  * RemovedSubscribers resource
  *
+ * @deprecated use {@see SubscribersResource} instead
+ *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
 class RemovedSubscribersResource extends AbstractResource
@@ -28,6 +30,8 @@ class RemovedSubscribersResource extends AbstractResource
      * @param \DateTime $endDate Start date. If specified, subscribers removed after this date will not be returned.
      *      May be used together with startDate to specify a period of time
      * @param Option $option Option. If specified, additional subscriber information will be returned
+     *
+     * @deprecated use {@see SubscribersResource::getRemovedSubscribers} instead
      *
      * @return RemovedSubscribersGetResponse Response with removed subscribers data
      */

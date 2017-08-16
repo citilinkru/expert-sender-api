@@ -5,8 +5,8 @@ namespace Citilink\ExpertSenderApi\Tests;
 use Citilink\ExpertSenderApi\Enum\SubscribersPostRequest\Mode;
 use Citilink\ExpertSenderApi\Model\BouncesGetResponse\Bounce;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Identifier;
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Receiver;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Snippet;
 use Citilink\ExpertSenderApi\ExpertSenderApi;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\RequestSender;
@@ -215,7 +215,7 @@ class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testBouncesGet()
     {
-        $response = $this->api->bounces()->get(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
+        $response = $this->api->getBouncesList(new \DateTime('2016-01-01'), new \DateTime('2016-01-10'));
         Assert::assertTrue($response->isOk());
         Assert::assertFalse($response->isEmpty());
         /** @var Bounce[] $rows */
@@ -245,7 +245,7 @@ class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
         $subscriberData->setFirstName('Test');
         $this->api->subscribers()->addOrEdit([$subscriberData]);
 
-        $response = $this->api->transactionals()->send(
+        $response = $this->api->messages()->sendTransactionalMessage(
             $this->getTestTransactional(),
             Receiver::createWithEmail($randomEmail),
             [new Snippet('code', 123456)],
