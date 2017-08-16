@@ -74,5 +74,4 @@ class WhereCondition
     {
         return $this->value;
     }
-
 }

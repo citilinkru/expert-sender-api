@@ -37,7 +37,9 @@ class OrderByRule
     }
 
     /**
-     * @return string
+     * Get column name
+     *
+     * @return string Column name
      */
     public function getColumnName(): string
     {
@@ -45,7 +47,9 @@ class OrderByRule
     }
 
     /**
-     * @return Direction
+     * Get direction
+     *
+     * @return Direction Direction
      */
     public function getDirection(): Direction
     {
