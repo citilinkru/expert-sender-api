@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - api method to add/get/delete/edit rows in tables
 - send trigger message api method
 - CsvReader class and used it in SpecificCsvMethodResponse
+- new method SubscribersResource::getRemovedSubscribers instead of RemovedSubscribersResource::get
+- new method ExpertSenderApi::getServerTime instead of TimeResource::get
+- new method MessagesResource::sendTransactionalMessage instead of TransactionalsResource::send
+- new method ExpertSenderApi::getBouncesList instead of BouncesResource::get
 ### Removed
 - all chunks
 - ExpertSender class, because all features recreated in ExpertSenderApi
@@ -23,6 +27,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Deprecated
 - method SubscriberInfo::addPropertyChunk is deprecated, use SubscriberInfo::addProperty instead
 - method SpecificCsvMethodResponse::getCsvLinesWithoutHeader is deprecated, use SpecificCsvMethodResponse::getCsvReader instead
+- BouncesResource
+- RemovedSubscribersResource
+- TimeResource
+- TransactionalsResource
 
 ## [0.4.0] - 2017-08-09
 Fully refactored library, changed everything

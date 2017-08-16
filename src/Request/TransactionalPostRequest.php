@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Request;
 
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Attachment;
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Attachment;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Snippet;
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Receiver;
 use Citilink\ExpertSenderApi\RequestInterface;
 use Citilink\ExpertSenderApi\Utils;
 use Webmozart\Assert\Assert;

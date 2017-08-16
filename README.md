@@ -4,6 +4,8 @@ Expert Sender Api
 
 [PHP API](https://sites.google.com/a/expertsender.com/api-documentation/) for [Expert Sender](http://www.expertsender.com/)
 
+_fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sender-api)_
+
 ## Table of contents
 - [Requirements](#requirements)
 - [Installation](#installaion)
@@ -102,8 +104,13 @@ $api = new ExpertSenderApi($requestSender);
 ### Get server time
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-server-time)
 ```php
-$dateTime = $api->time()->get()->getServerTime();
-echo $dateTime->format('Y-m-d H:i:s');
+$response = $api->getServerTime();
+if ($response->isOk()) {
+    $dateTime = $response->getServerTime();
+    echo $dateTime->format('Y-m-d H:i:s');
+} else {
+    // handle errors
+}
 ```
 ### Messages
 #### Send transactional messages
@@ -111,9 +118,9 @@ echo $dateTime->format('Y-m-d H:i:s');
 ```php
 // ...
 
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Receiver;
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Snippet;
-use Citilink\ExpertSenderApi\Model\TransactionalRequest\Attachment;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Receiver;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Snippet;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Attachment;
 
 // ...
 
@@ -138,7 +145,7 @@ $attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'imag
 // should response has guid of sent message
 $returnGuid = true;
 
-$response = $api->transactionals()->send($messageId, $receiverById, $snippets, $attachments, $returnGuid);
+$response = $api->messages()->sendTransactionalMessage($messageId, $receiverById, $snippets, $attachments, $returnGuid);
 
 if ($response->isOk()) {
     // guid available, only if returnGuid=true in request
@@ -306,7 +313,7 @@ $endDate = new \DateTime('2016-01-01');
 // and/or option. If specified, additional subscriber information will be returned
 $option = Option::CUSTOMS();
 
-$response = $api->removedSubscribers()->get($listIds, $removeTypes, $startDate, $endDate, $option);
+$response = $api->subscribers()->getRemovedSubscribers($listIds, $removeTypes, $startDate, $endDate, $option);
 
 foreach ($response->getRemovedSubscribers() as $removedSubscriber) {
     $email = $removedSubscriber->getEmail();
@@ -327,7 +334,7 @@ $endDate = new \DateTime('2016-01-01');
 // bounce type is optional, null by defalt
 $bounceType = BounceType::MAILBOX_FULL();
 
-$response = $api->bounces()->get($startDate, $endDate, $bounceType);
+$response = $api->getBouncesList($startDate, $endDate, $bounceType);
 
 foreach ($response->getBounces() as $bounce) {
     $date = $bounce->getDate();
