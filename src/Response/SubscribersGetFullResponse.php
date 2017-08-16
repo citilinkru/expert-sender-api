@@ -5,6 +5,7 @@ namespace Citilink\ExpertSenderApi\Response;
 
 use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
 use Citilink\ExpertSenderApi\Model\SubscriberData;
+use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SubscriberDataParser;
 
 /**
@@ -14,6 +15,23 @@ use Citilink\ExpertSenderApi\SubscriberDataParser;
  */
 class SubscribersGetFullResponse extends SubscribersGetLongResponse
 {
+    /**
+     * @var SubscriberDataParser Subscriber data parse
+     */
+    private $parser;
+
+    /**
+     * Constructor
+     *
+     * @param ResponseInterface $response Response of ExpertSender API
+     */
+    public function __construct(ResponseInterface $response)
+    {
+        parent::__construct($response);
+
+        $this->parser = new SubscriberDataParser();
+    }
+
     /**
      * Get subscriber's data
      *
@@ -25,6 +43,6 @@ class SubscribersGetFullResponse extends SubscribersGetLongResponse
             throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
         }
 
-        return (new SubscriberDataParser())->parse($this->getSimpleXml()->xpath('/ApiResponse/Data')[0]);
+        return $this->parser->parse($this->getSimpleXml()->xpath('/ApiResponse/Data')[0]);
     }
 }
