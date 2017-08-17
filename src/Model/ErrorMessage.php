@@ -51,4 +51,12 @@ class ErrorMessage
     {
         return $this->options;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function __toString(): string
+    {
+        return $this->message . '[' . implode(', ', $this->options) . ']';
+    }
 }
