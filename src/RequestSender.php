@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Citilink\ExpertSenderApi;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
+use Citilink\ExpertSenderApi\Event\RequestExceptionThrown;
 use Citilink\ExpertSenderApi\Event\ResponseReceivedEvent;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -72,7 +73,36 @@ class RequestSender implements RequestSenderInterface
         try {
             $httpResponse = $this->httpClient->request($request->getMethod()->getValue(), $request->getUri(), $options);
         } catch (RequestException $e) {
-            $httpResponse = $e->getResponse() !== null ? $e->getResponse() : new \GuzzleHttp\Psr7\Response(400);
+            $this->eventDispatcher->dispatch(
+                'expert_sender_api.request.exception_thrown',
+                new RequestExceptionThrown($request, $e)
+            );
+
+            if ($e->getResponse() !== null) {
+                $httpResponse = $e->getResponse();
+            } else {
+                $errorMessage = sprintf(
+                    'ES API ARTIFICIAL ERROR: "%s":"%s". Please note, that this error '
+                    . 'indicates about exception without response. You can subscribe for '
+                    . '"expert_sender_api.request.exception_thrown" event and get more information about exception',
+                    get_class($e),
+                    $e->getMessage()
+                );
+
+                $xml = '<ApiResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+                    . ' xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <ErrorMessage>
+                        <Code>400</Code>
+                        <Message>' . $errorMessage . '</Message>
+                    </ErrorMessage>
+                </ApiResponse>';
+
+                $httpResponse = new \GuzzleHttp\Psr7\Response(
+                    400,
+                    ['Content-Type' => 'text/xml', 'Content-Length' => strlen($xml)],
+                    $xml
+                );
+            }
         }
 
         $apiResponse = new Response($httpResponse);
