@@ -19,7 +19,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
     - [Subscribers](#subscribers)
         - [Get subscriber information](#get-subscriber-information)
         - [Add/Edit subscriber](#addedit-subscriber)
-        - [How to change email or phone](#how-to-change-Email-or-Phone)
+            - [How to change email or phone](#how-to-change-Email-or-Phone)
         - [Delete subscriber](#delete-subscriber)
         - [Get removed subscribers](#get-removed-subscribers)
     - [Get bounces list](#get-bounces-list)
@@ -244,7 +244,7 @@ if ($addOrEditResponse->isOk()) {
     // handle errors
 }
 ```
-#### How to change Email or Phone
+##### How to change Email or Phone
 To change email or phone you must choose another identifier, for example:
 - if you want to change email, you can choose CustomSubscriberId, Id or Phone identifier
 - if you want to change phone, you can choose Email, EmailMd5, Id or CustomSubscriberId identifier
