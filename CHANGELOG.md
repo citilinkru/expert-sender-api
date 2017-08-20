@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Delete rows request
 - Clear table request
 - Get rows count request
+- Get list of tables request
 ### Deprecated
 - \Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition, use \Citilink\ExpertSenderApi\Model\WhereCondition insted
 

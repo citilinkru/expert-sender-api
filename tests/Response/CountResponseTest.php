@@ -20,7 +20,7 @@ class CountResponseTest extends \PHPUnit_Framework_TestCase
     public function testGetCount()
     {
         $xml = '<ApiResponse xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-            .'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Count>25</Count></ApiResponse>';
+            . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Count>25</Count></ApiResponse>';
         $response = new CountResponse(
             new Response(
                 new \GuzzleHttp\Psr7\Response(

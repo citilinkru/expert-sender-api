@@ -24,6 +24,9 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Get removed subscribers](#get-removed-subscribers)
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
+        - [Get list of tables](#get-list-of-tables)
+            - [Tables summary](#tables-summary)
+            - [Table details](#table-details)
         - [Get data](#get-data)
         - [Count rows](#count-rows)
         - [Clear table](#clear-table)
@@ -348,6 +351,50 @@ foreach ($response->getBounces() as $bounce) {
 
 ## Data Tables
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables)
+### Get list of tables
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/get-list-of-tables)
+#### Tables summary
+```php
+$response = $api->dataTables()->getTablesList();
+if ($response->isOk()) {
+   foreach ($response->getTables() as $table)) {
+        echo $table->getId();
+        echo $table->getName();
+        echo $table->getColumnsCount();
+        echo $table->getRelationshipsCount();
+        echo $table->getRelationshipsDestinationCount();
+        echo $table->getRowsCount();
+        echo $table->getSize();
+   }   
+} else {
+    // handle errors
+} 
+```
+#### Table details
+```php
+$response = $api->dataTables()->getTablesList('table-name');
+if ($response->isOk()) {
+   foreach ($response->getTables() as $table)) {
+        echo $table->getId();
+        echo $table->getName();
+        echo $table->getColumnsCount();
+        echo $table->getRelationshipsCount();
+        echo $table->getRelationshipsDestinationCount();
+        echo $table->getRowsCount();
+        echo $table->getDescription();
+        foreach ($table->getColumns() as $column) {
+            echo $column->getName();
+            echo $column->getColumnType();
+            echo $column->getLength();
+            echo $column->getDefaultValue() ?: 'No default value';
+            echo $column->isPrimaryKey() ? 'true' : 'false';
+            echo $column->isRequired() ? 'true' : 'false';
+        }
+   }   
+} else {
+    // handle errors
+}
+```
 ### Get data
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/get-data)
 ```php

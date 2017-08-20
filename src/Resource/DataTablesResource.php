@@ -15,8 +15,11 @@ use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowsPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataCountRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesGetTablesRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
 use Citilink\ExpertSenderApi\Response\CountResponse;
+use Citilink\ExpertSenderApi\Response\DataTablesGetTablesDetailsResponse;
+use Citilink\ExpertSenderApi\Response\DataTablesGetTablesSummaryResponse;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificCsvMethodResponse;
 
@@ -136,6 +139,32 @@ class DataTablesResource extends AbstractResource
     {
         return new CountResponse(
             $this->requestSender->send(new DataTablesGetDataCountRequest($tableName, $whereConditions))
+        );
+    }
+
+    /**
+     * Get list of tables
+     *
+     * @return DataTablesGetTablesSummaryResponse Response with tables summary
+     */
+    public function getTablesList(): DataTablesGetTablesSummaryResponse
+    {
+        return new DataTablesGetTablesSummaryResponse(
+            $this->requestSender->send(new DataTablesGetTablesRequest(null))
+        );
+    }
+
+    /**
+     * Get details of table
+     *
+     * @param string $tableName Table name
+     *
+     * @return DataTablesGetTablesDetailsResponse Response with details of table
+     */
+    public function getTableDetails($tableName): DataTablesGetTablesDetailsResponse
+    {
+        return new DataTablesGetTablesDetailsResponse(
+            $this->requestSender->send(new DataTablesGetTablesRequest($tableName))
         );
     }
 }
