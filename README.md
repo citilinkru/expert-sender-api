@@ -25,6 +25,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
         - [Get data](#get-data)
+        - [Count rows](#count-rows)
         - [Clear table](#clear-table)
         - [Add row](#add-row)
         - [Add multiple rows](#add-multiple-rows)
@@ -387,6 +388,29 @@ if ($response->isOk()) {
         echo $row['ColumnName1'];
         echo $row['ColumnName2'];
     }
+} else {
+    // handle errors
+}
+```
+### Count rows
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/count-rows)
+```php
+// ...
+use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
+// ...
+$response = $api->dataTables()->getRowsCount(
+    'table-name',
+    [
+        new WhereCondition('Column1', Operator::EQUAL(), 12),
+        new WhereCondition('Column2', Operator::GREATER(), 12.53),
+        new WhereCondition('Column3', Operator::LOWER(), -0.56),
+        new WhereCondition('Column5', Operator::LIKE(), 'string'),
+    ]
+);
+
+if ($response->isOk()) {
+    $count = $response->getCount();
 } else {
     // handle errors
 }

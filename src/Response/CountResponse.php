@@ -7,16 +7,16 @@ use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException
 use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
 
 /**
- * Response of rows delete
+ * Response with count info
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
-class DataTablesDeleteRowsPostResponse extends SpecificXmlMethodResponse
+class CountResponse extends SpecificXmlMethodResponse
 {
     /**
-     * Get count of deleted rows
+     * Get count
      *
-     * @return int Count of deleted rows
+     * @return int Count
      */
     public function getCount(): int
     {

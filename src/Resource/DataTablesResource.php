@@ -13,9 +13,10 @@ use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesClearTableRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowsPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesGetDataCountRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
-use Citilink\ExpertSenderApi\Response\DataTablesDeleteRowsPostResponse;
+use Citilink\ExpertSenderApi\Response\CountResponse;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificCsvMethodResponse;
 
@@ -102,11 +103,11 @@ class DataTablesResource extends AbstractResource
      * @param string $tableName Table name
      * @param Filter[] $filters Filters. This is an equivalent of SQL "WHERE" directive
      *
-     * @return DataTablesDeleteRowsPostResponse Response
+     * @return CountResponse Response
      */
-    public function deleteRows(string $tableName, array $filters): DataTablesDeleteRowsPostResponse
+    public function deleteRows(string $tableName, array $filters): CountResponse
     {
-        return new DataTablesDeleteRowsPostResponse(
+        return new CountResponse(
             $this->requestSender->send(new DataTablesDeleteRowsPostRequest($tableName, $filters))
         );
     }
@@ -121,5 +122,20 @@ class DataTablesResource extends AbstractResource
     public function clearTable(string $tableName): ResponseInterface
     {
         return $this->requestSender->send(new DataTablesClearTableRequest($tableName));
+    }
+
+    /**
+     * Get count of rows in table
+     *
+     * @param string $tableName Table name
+     * @param array $whereConditions Where conditions
+     *
+     * @return CountResponse Response
+     */
+    public function getRowsCount(string $tableName, array $whereConditions): CountResponse
+    {
+        return new CountResponse(
+            $this->requestSender->send(new DataTablesGetDataCountRequest($tableName, $whereConditions))
+        );
     }
 }
