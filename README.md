@@ -353,7 +353,7 @@ foreach ($response->getBounces() as $bounce) {
 // ...
 use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Direction;
 use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
 // ...
 // limit is optional, and null by default

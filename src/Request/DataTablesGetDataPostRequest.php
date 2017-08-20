@@ -5,7 +5,7 @@ namespace Citilink\ExpertSenderApi\Request;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\RequestInterface;
 
 /**

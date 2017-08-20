@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest;
+namespace Citilink\ExpertSenderApi\Model;
 
 use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
 use Webmozart\Assert\Assert;

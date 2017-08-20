@@ -8,7 +8,7 @@ use Citilink\ExpertSenderApi\Model\Column;
 use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
 use Citilink\ExpertSenderApi\Model\DataTablesDeleteRowsPostRequest\Filter;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesClearTableRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowPostRequest;
