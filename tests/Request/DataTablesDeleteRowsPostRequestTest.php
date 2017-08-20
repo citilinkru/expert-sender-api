@@ -22,7 +22,8 @@ class DataTablesDeleteRowsPostRequestTest extends \PHPUnit_Framework_TestCase
     public function testCommonUsage()
     {
         $request = new DataTablesDeleteRowsPostRequest(
-            'table-name', [
+            'table-name',
+            [
                 new Filter('Column1', FilterOperator::EQ(), 12),
                 new Filter('Column2', FilterOperator::GE(), 56.7),
                 new Filter('Column3', FilterOperator::EQ(), 'string'),

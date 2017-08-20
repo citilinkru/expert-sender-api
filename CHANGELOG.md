@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - ```ErrorMessage::__toString()```
+- Delete rows request
 ## [1.1.0] - 2017-08-17
 ### Added
 - feature to subscribe to new event "expert_sender_api.request.exception_thrown"

@@ -29,6 +29,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Add multiple rows](#add-multiple-rows)
         - [Update row](#update-row)
         - [Delete row](#delete-row)
+        - [Delete rows](#delete-rows)
         
 ## Requirements
 
@@ -487,5 +488,30 @@ if ($response->isOk()) {
     foreach ($response->getErrorMessages() as $errorMessage) {
         echo $errorMessage->getMessage();
     }
+}
+```
+### Delete rows
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/delete-rows)
+```php
+// ...
+use Citilink\ExpertSenderApi\Model\DataTablesDeleteRowsPostRequest\Filter;
+use Citilink\ExpertSenderApi\Enum\DataTablesDeleteRowsPostRequest\FilterOperator;
+// ...
+$response = $api->dataTables()->deleteRows(
+    'table-name',
+    [
+        new Filter('Column1', FilterOperator::EQ(), 12),
+        new Filter('Column2', FilterOperator::GE(), 56.7),
+        new Filter('Column3', FilterOperator::EQ(), 'string'),
+        new Filter('Column4', FilterOperator::GT(), 89.234),
+        new Filter('Column5', FilterOperator::LT(), 87.3),
+        new Filter('Column6', FilterOperator::LE(), 98),
+    ]
+);
+
+if ($response->isOk()) {
+    $count = $response->getCount();
+} else {
+    // handle errors
 }
 ```
