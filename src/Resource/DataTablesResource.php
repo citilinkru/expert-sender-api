@@ -10,10 +10,12 @@ use Citilink\ExpertSenderApi\Model\DataTablesDeleteRowsPostRequest\Filter;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesClearTableRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowsPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
+use Citilink\ExpertSenderApi\Response\DataTablesDeleteRowsPostResponse;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificCsvMethodResponse;
 
@@ -100,10 +102,24 @@ class DataTablesResource extends AbstractResource
      * @param string $tableName Table name
      * @param Filter[] $filters Filters. This is an equivalent of SQL "WHERE" directive
      *
+     * @return DataTablesDeleteRowsPostResponse Response
+     */
+    public function deleteRows(string $tableName, array $filters): DataTablesDeleteRowsPostResponse
+    {
+        return new DataTablesDeleteRowsPostResponse(
+            $this->requestSender->send(new DataTablesDeleteRowsPostRequest($tableName, $filters))
+        );
+    }
+
+    /**
+     * Clear table
+     *
+     * @param string $tableName Table name
+     *
      * @return ResponseInterface Response
      */
-    public function deleteRows(string $tableName, array $filters): ResponseInterface
+    public function clearTable(string $tableName): ResponseInterface
     {
-        return $this->requestSender->send(new DataTablesDeleteRowsPostRequest($tableName, $filters));
+        return $this->requestSender->send(new DataTablesClearTableRequest($tableName));
     }
 }

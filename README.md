@@ -25,6 +25,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
         - [Get data](#get-data)
+        - [Clear table](#clear-table)
         - [Add row](#add-row)
         - [Add multiple rows](#add-multiple-rows)
         - [Update row](#update-row)
@@ -386,6 +387,16 @@ if ($response->isOk()) {
         echo $row['ColumnName1'];
         echo $row['ColumnName2'];
     }
+} else {
+    // handle errors
+}
+```
+### Clear table
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/clear-table)
+```php
+$response = $api->dataTables()->clearTable('table-name');
+if ($response->isOk()) {
+    // table has been cleared
 } else {
     // handle errors
 }
