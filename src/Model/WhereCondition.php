@@ -7,7 +7,7 @@ use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
 use Webmozart\Assert\Assert;
 
 /**
- * Where condition for get table data
+ * Where condition to filter data from tables
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */
