@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Response;
 
+use Citilink\ExpertSenderApi\Exception\TryToAccessDataFromErrorResponseException;
 use Citilink\ExpertSenderApi\Model\RemovedSubscribersGetResponse\RemovedSubscriber;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificXmlMethodResponse;
@@ -39,6 +40,10 @@ class RemovedSubscribersGetResponse extends SpecificXmlMethodResponse
      */
     public function getRemovedSubscribers(): \Generator
     {
+        if (!$this->isOk()) {
+            throw TryToAccessDataFromErrorResponseException::createFromResponse($this);
+        }
+
         $nodes = $this->getSimpleXml()->xpath('/ApiResponse/Data/RemovedSubscribers/RemovedSubscriber');
         foreach ($nodes as $node) {
             $subscriberData = null;
