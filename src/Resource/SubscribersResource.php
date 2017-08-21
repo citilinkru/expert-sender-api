@@ -10,10 +10,12 @@ use Citilink\ExpertSenderApi\Enum\SubscribersGetRequest\DataOption;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\RemovedSubscriberGetRequest;
+use Citilink\ExpertSenderApi\Request\SnoozedSubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
 use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
+use Citilink\ExpertSenderApi\Response\SnoozedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetEventsHistoryResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetLongResponse;
@@ -152,5 +154,27 @@ class SubscribersResource extends AbstractResource
         );
 
         return new RemovedSubscribersGetResponse($response);
+    }
+
+    /**
+     * Get snoozed subscribers.
+     *
+     * @param int[] $listIds List identifiers. If specified, only snoozed subscribers from given lists will be
+     * returned. If not specified, snoozed subscribers from all lists will be returned
+     * @param \DateTime|null $startDate Start date. If specified, subscribers whose subscription suspension expires
+     * prior to this date will not be returned. May be used together with endDate to specify a period of time
+     * @param \DateTime|null $endDate End date. If specified, subscribers whose subscription suspension expires after
+     *      this date will not be returned. May be used together with startDate to specify a period of time
+     *
+     * @return SnoozedSubscribersGetResponse Response
+     */
+    public function getSnoozedSubscribers(
+        array $listIds = [],
+        \DateTime $startDate = null,
+        \DateTime $endDate = null
+    ): SnoozedSubscribersGetResponse {
+        return new SnoozedSubscribersGetResponse(
+            $this->requestSender->send(new SnoozedSubscribersGetRequest($listIds, $startDate, $endDate))
+        );
     }
 }
