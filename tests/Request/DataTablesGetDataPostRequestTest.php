@@ -7,7 +7,7 @@ use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Direction;
 use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
 use PHPUnit\Framework\Assert;
 

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - ```ErrorMessage::__toString()```
+- Delete rows request
+- Clear table request
+- Get rows count request
+- Get list of tables request
+### Deprecated
+- \Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition, use \Citilink\ExpertSenderApi\Model\WhereCondition insted
+
 ## [1.1.0] - 2017-08-17
 ### Added
 - feature to subscribe to new event "expert_sender_api.request.exception_thrown"

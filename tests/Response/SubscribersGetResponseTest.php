@@ -35,7 +35,7 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
         foreach ($stateOnLists as $stateOnList) {
             switch ($stateOnList->getListId()) {
                 case 15:
-                    Assert::assertEquals('Registration Регистрация', $stateOnList->getName());
+                    Assert::assertEquals('Registration Registration', $stateOnList->getName());
                     Assert::assertTrue(StateOnListStatus::ACTIVE()->equals($stateOnList->getStatus()));
                     Assert::assertEquals(
                         '2014-11-12T11:27:05',
@@ -43,7 +43,7 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                     );
                     break;
                 case 143:
-                    Assert::assertEquals('НЕ_Купил_БТ', $stateOnList->getName());
+                    Assert::assertEquals('NOT_BY_BT', $stateOnList->getName());
                     Assert::assertTrue(StateOnListStatus::SNOOZED()->equals($stateOnList->getStatus()));
                     Assert::assertEquals(
                         '2015-11-03T19:31:22',
@@ -59,7 +59,7 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                     );
                     break;
                 case 157:
-                    Assert::assertEquals('Корпоративные клиенты', $stateOnList->getName());
+                    Assert::assertEquals('Corp. clients', $stateOnList->getName());
                     Assert::assertTrue(StateOnListStatus::NOT_CONFIRMED()->equals($stateOnList->getStatus()));
                     Assert::assertEquals(
                         '2015-11-27T13:41:06',
@@ -72,7 +72,7 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
 
         $stopLists = $response->getSuppressionStopLists();
         Assert::assertCount(2, $stopLists);
-        Assert::assertEquals([1 => 'Тестовый стоп-лист 1', 2 => 'Тестовый стоп-лист 2'], $stopLists);
+        Assert::assertEquals([1 => 'Test list 1', 2 => 'Test list 2'], $stopLists);
 
         /** @var SubscriberProperty[] $properties */
         $properties = \iter\toArray($response->getSubscriberData()->getProperties());
@@ -92,9 +92,9 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                     Assert::assertTrue($property->getType()->equals(SubscriberPropertyType::TEXT()));
                     Assert::assertEquals('russia_cl', $property->getValue()->getStringValue());
                     Assert::assertEquals('', $property->getValue()->getDefaultStringValue());
-                    Assert::assertEquals('Город', $property->getFriendlyName());
+                    Assert::assertEquals('City', $property->getFriendlyName());
                     Assert::assertEquals('city', $property->getName());
-                    Assert::assertEquals('Описание', $property->getDescription());
+                    Assert::assertEquals('City description', $property->getDescription());
                     break;
                 case 3:
                     Assert::assertTrue($property->getSource()->equals(SubscriberPropertySource::PANEL()));
@@ -145,8 +145,8 @@ class SubscribersGetResponseTest extends \PHPUnit_Framework_TestCase
                 <Source>Import</Source>
                 <StringValue xsi:type="xsd:string">russia_cl</StringValue>
                 <DataType>Unknown</DataType>
-                <FriendlyName>Город</FriendlyName>
-                <Description>Описание</Description>
+                <FriendlyName>City</FriendlyName>
+                <Description>City description</Description>
                 <Name>city</Name>
                 <DefaultStringValue xsi:type="xsd:string"></DefaultStringValue>
             </Property></Properties></Data></ApiResponse>';

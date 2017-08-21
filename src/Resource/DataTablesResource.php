@@ -6,12 +6,20 @@ namespace Citilink\ExpertSenderApi\Resource;
 use Citilink\ExpertSenderApi\AbstractResource;
 use Citilink\ExpertSenderApi\Model\Column;
 use Citilink\ExpertSenderApi\Model\DataTablesAddMultipleRowsPostRequest\Row;
+use Citilink\ExpertSenderApi\Model\DataTablesDeleteRowsPostRequest\Filter;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\Request\DataTablesAddMultipleRowsPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesClearTableRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesDeleteRowsPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesGetDataCountRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesGetDataPostRequest;
+use Citilink\ExpertSenderApi\Request\DataTablesGetTablesRequest;
 use Citilink\ExpertSenderApi\Request\DataTablesUpdateRowPostRequest;
+use Citilink\ExpertSenderApi\Response\CountResponse;
+use Citilink\ExpertSenderApi\Response\DataTablesGetTablesDetailsResponse;
+use Citilink\ExpertSenderApi\Response\DataTablesGetTablesSummaryResponse;
 use Citilink\ExpertSenderApi\ResponseInterface;
 use Citilink\ExpertSenderApi\SpecificCsvMethodResponse;
 
@@ -30,7 +38,7 @@ class DataTablesResource extends AbstractResource
      *
      * @return ResponseInterface Response
      */
-    public function addRows(string $tableName, iterable $rows)
+    public function addRows(string $tableName, iterable $rows): ResponseInterface
     {
         return $this->requestSender->send(new DataTablesAddMultipleRowsPostRequest($tableName, $rows));
     }
@@ -72,7 +80,7 @@ class DataTablesResource extends AbstractResource
      *
      * @return ResponseInterface Response
      */
-    public function updateRow($tableName, array $primaryKeyColumns, array $columns): ResponseInterface
+    public function updateRow(string $tableName, array $primaryKeyColumns, array $columns): ResponseInterface
     {
         return $this->requestSender->send(new DataTablesUpdateRowPostRequest($tableName, $primaryKeyColumns, $columns));
     }
@@ -87,8 +95,76 @@ class DataTablesResource extends AbstractResource
      *
      * @return ResponseInterface Response
      */
-    public function deleteOneRow($tableName, array $primaryKeyColumns): ResponseInterface
+    public function deleteOneRow(string $tableName, array $primaryKeyColumns): ResponseInterface
     {
         return $this->requestSender->send(new DataTablesDeleteRowPostRequest($tableName, $primaryKeyColumns));
+    }
+
+    /**
+     * Delete rows
+     *
+     * @param string $tableName Table name
+     * @param Filter[] $filters Filters. This is an equivalent of SQL "WHERE" directive
+     *
+     * @return CountResponse Response
+     */
+    public function deleteRows(string $tableName, array $filters): CountResponse
+    {
+        return new CountResponse(
+            $this->requestSender->send(new DataTablesDeleteRowsPostRequest($tableName, $filters))
+        );
+    }
+
+    /**
+     * Clear table
+     *
+     * @param string $tableName Table name
+     *
+     * @return ResponseInterface Response
+     */
+    public function clearTable(string $tableName): ResponseInterface
+    {
+        return $this->requestSender->send(new DataTablesClearTableRequest($tableName));
+    }
+
+    /**
+     * Get count of rows in table
+     *
+     * @param string $tableName Table name
+     * @param array $whereConditions Where conditions
+     *
+     * @return CountResponse Response
+     */
+    public function getRowsCount(string $tableName, array $whereConditions): CountResponse
+    {
+        return new CountResponse(
+            $this->requestSender->send(new DataTablesGetDataCountRequest($tableName, $whereConditions))
+        );
+    }
+
+    /**
+     * Get list of tables
+     *
+     * @return DataTablesGetTablesSummaryResponse Response with tables summary
+     */
+    public function getTablesList(): DataTablesGetTablesSummaryResponse
+    {
+        return new DataTablesGetTablesSummaryResponse(
+            $this->requestSender->send(new DataTablesGetTablesRequest(null))
+        );
+    }
+
+    /**
+     * Get details of table
+     *
+     * @param string $tableName Table name
+     *
+     * @return DataTablesGetTablesDetailsResponse Response with details of table
+     */
+    public function getTableDetails($tableName): DataTablesGetTablesDetailsResponse
+    {
+        return new DataTablesGetTablesDetailsResponse(
+            $this->requestSender->send(new DataTablesGetTablesRequest($tableName))
+        );
     }
 }

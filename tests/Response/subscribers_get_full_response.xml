@@ -5,13 +5,13 @@
         <StateOnLists>
             <StateOnList>
                 <ListId>15</ListId>
-                <Name>Registration Регистрация</Name>
+                <Name>Registration Registration</Name>
                 <Status>Active</Status>
                 <SubscriptionDate>2014-11-12T11:27:05.457</SubscriptionDate>
             </StateOnList>
             <StateOnList>
                 <ListId>143</ListId>
-                <Name>НЕ_Купил_БТ</Name>
+                <Name>NOT_BY_BT</Name>
                 <Status>Snoozed</Status>
                 <SubscriptionDate>2015-11-03T19:31:22.35</SubscriptionDate>
             </StateOnList>
@@ -23,7 +23,7 @@
             </StateOnList>
             <StateOnList>
                 <ListId>157</ListId>
-                <Name>Корпоративные клиенты</Name>
+                <Name>Corp. clients</Name>
                 <Status>NotConfirmed</Status>
                 <SubscriptionDate>2015-11-27T13:41:06.46</SubscriptionDate>
             </StateOnList>
@@ -31,11 +31,11 @@
         <EmailInSuppressionLists>
             <SuppressionList>
                 <Id>1</Id>
-                <Name>Тестовый стоп-лист 1</Name>
+                <Name>Test list 1</Name>
             </SuppressionList>
             <SuppressionList>
                 <Id>2</Id>
-                <Name>Тестовый стоп-лист 2</Name>
+                <Name>Test list 2</Name>
             </SuppressionList>
         </EmailInSuppressionLists>
         <Id>1208798</Id>
@@ -49,8 +49,8 @@
                 <Source>Import</Source>
                 <StringValue xsi:type="xsd:string">russia_cl</StringValue>
                 <Type>Text</Type>
-                <FriendlyName>Город</FriendlyName>
-                <Description>Описание</Description>
+                <FriendlyName>City</FriendlyName>
+                <Description>City description</Description>
                 <Name>city</Name>
                 <DefaultStringValue xsi:type="xsd:string"></DefaultStringValue>
             </Property>
@@ -59,8 +59,8 @@
                 <Source>Panel</Source>
                 <IntValue xsi:type="xsd:integer">1</IntValue>
                 <Type>Number</Type>
-                <FriendlyName>Клубная карта</FriendlyName>
-                <Description>Наличие Клубной Карты</Description>
+                <FriendlyName>Club card number</FriendlyName>
+                <Description>is club card exists</Description>
                 <Name>club_card</Name>
                 <DefaultIntValue xsi:type="xsd:string">2</DefaultIntValue>
             </Property>
@@ -69,9 +69,8 @@
                 <Source>Web</Source>
                 <DateTimeValue xsi:type="xsd:dateTime">2017-05-16T11:11:11</DateTimeValue>
                 <Type>Datetime</Type>
-                <FriendlyName>Статус физического лица</FriendlyName>
-                <Description>Гарантированный статус участника Клуба Ситилинк в следующем квартале, считается на
-                    основании объема покупок в текущем квартале.
+                <FriendlyName>Personal status</FriendlyName>
+                <Description>Personal status description.
                 </Description>
                 <Name>status_fizik</Name>
                 <DefaultDateTimeValue xsi:type="xsd:dateTime">2000-05-16T11:11:11</DefaultDateTimeValue>
@@ -81,9 +80,8 @@
                 <Source>PrefCenter</Source>
                 <DecimalValue xsi:type="xsd:decimal">12.3</DecimalValue>
                 <Type>Money</Type>
-                <FriendlyName>Действие статуса физ лица</FriendlyName>
-                <Description>Что будет происходить с текущим статуса участника Клуба - понижение, сохранение или
-                    повышение
+                <FriendlyName>Personal status actions</FriendlyName>
+                <Description>what hapened description
                 </Description>
                 <Name>actions_fizik</Name>
                 <DefaultDecimalValue xsi:type="xsd:decimal">14.5</DefaultDecimalValue>
@@ -93,8 +91,8 @@
                 <Source>Import</Source>
                 <StringValue xsi:type="xsd:string">1</StringValue>
                 <Type>Text</Type>
-                <FriendlyName>B2B кабинет</FriendlyName>
-                <Description>Наличие B2B кабинета</Description>
+                <FriendlyName>b2b cabinet</FriendlyName>
+                <Description>B2b cabinet exists</Description>
                 <Name>b2b</Name>
                 <DefaultStringValue xsi:type="xsd:string"></DefaultStringValue>
             </Property>

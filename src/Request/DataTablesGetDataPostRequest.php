@@ -5,8 +5,9 @@ namespace Citilink\ExpertSenderApi\Request;
 
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\RequestInterface;
+use Citilink\ExpertSenderApi\Traits\WhereConditionToXmlConverterTrait;
 
 /**
  * Request for POST /Api/DataTablesGetData
@@ -15,6 +16,8 @@ use Citilink\ExpertSenderApi\RequestInterface;
  */
 class DataTablesGetDataPostRequest implements RequestInterface
 {
+    use WhereConditionToXmlConverterTrait;
+
     /**
      * @var string Table name
      */
@@ -83,11 +86,7 @@ class DataTablesGetDataPostRequest implements RequestInterface
         if (!empty($this->whereConditions)) {
             $xmlWriter->startElement('WhereConditions');
             foreach ($this->whereConditions as $whereCondition) {
-                $xmlWriter->startElement('Where');
-                $xmlWriter->writeElement('ColumnName', $whereCondition->getColumnName());
-                $xmlWriter->writeElement('Operator', $whereCondition->getOperator()->getValue());
-                $xmlWriter->writeElement('Value', $whereCondition->getValue());
-                $xmlWriter->endElement(); // Where
+                $this->convertWhereConditionToXml($whereCondition, $xmlWriter);
             }
 
             $xmlWriter->endElement(); // WhereConditions

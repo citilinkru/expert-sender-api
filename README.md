@@ -24,11 +24,17 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Get removed subscribers](#get-removed-subscribers)
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
+        - [Get list of tables](#get-list-of-tables)
+            - [Tables summary](#tables-summary)
+            - [Table details](#table-details)
         - [Get data](#get-data)
+        - [Count rows](#count-rows)
+        - [Clear table](#clear-table)
         - [Add row](#add-row)
         - [Add multiple rows](#add-multiple-rows)
         - [Update row](#update-row)
         - [Delete row](#delete-row)
+        - [Delete rows](#delete-rows)
         
 ## Requirements
 
@@ -345,13 +351,57 @@ foreach ($response->getBounces() as $bounce) {
 
 ## Data Tables
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables)
+### Get list of tables
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/get-list-of-tables)
+#### Tables summary
+```php
+$response = $api->dataTables()->getTablesList();
+if ($response->isOk()) {
+   foreach ($response->getTables() as $table)) {
+        echo $table->getId();
+        echo $table->getName();
+        echo $table->getColumnsCount();
+        echo $table->getRelationshipsCount();
+        echo $table->getRelationshipsDestinationCount();
+        echo $table->getRowsCount();
+        echo $table->getSize();
+   }   
+} else {
+    // handle errors
+} 
+```
+#### Table details
+```php
+$response = $api->dataTables()->getTablesList('table-name');
+if ($response->isOk()) {
+   foreach ($response->getTables() as $table)) {
+        echo $table->getId();
+        echo $table->getName();
+        echo $table->getColumnsCount();
+        echo $table->getRelationshipsCount();
+        echo $table->getRelationshipsDestinationCount();
+        echo $table->getRowsCount();
+        echo $table->getDescription();
+        foreach ($table->getColumns() as $column) {
+            echo $column->getName();
+            echo $column->getColumnType();
+            echo $column->getLength();
+            echo $column->getDefaultValue() ?: 'No default value';
+            echo $column->isPrimaryKey() ? 'true' : 'false';
+            echo $column->isRequired() ? 'true' : 'false';
+        }
+   }   
+} else {
+    // handle errors
+}
+```
 ### Get data
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/get-data)
 ```php
 // ...
 use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Direction;
 use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
-use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
 use Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\OrderByRule;
 // ...
 // limit is optional, and null by default
@@ -385,6 +435,39 @@ if ($response->isOk()) {
         echo $row['ColumnName1'];
         echo $row['ColumnName2'];
     }
+} else {
+    // handle errors
+}
+```
+### Count rows
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/count-rows)
+```php
+// ...
+use Citilink\ExpertSenderApi\Enum\DataTablesGetDataPostRequest\Operator;
+use Citilink\ExpertSenderApi\Model\WhereCondition;
+// ...
+$response = $api->dataTables()->getRowsCount(
+    'table-name',
+    [
+        new WhereCondition('Column1', Operator::EQUAL(), 12),
+        new WhereCondition('Column2', Operator::GREATER(), 12.53),
+        new WhereCondition('Column3', Operator::LOWER(), -0.56),
+        new WhereCondition('Column5', Operator::LIKE(), 'string'),
+    ]
+);
+
+if ($response->isOk()) {
+    $count = $response->getCount();
+} else {
+    // handle errors
+}
+```
+### Clear table
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/clear-table)
+```php
+$response = $api->dataTables()->clearTable('table-name');
+if ($response->isOk()) {
+    // table has been cleared
 } else {
     // handle errors
 }
@@ -487,5 +570,30 @@ if ($response->isOk()) {
     foreach ($response->getErrorMessages() as $errorMessage) {
         echo $errorMessage->getMessage();
     }
+}
+```
+### Delete rows
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/datatables/delete-rows)
+```php
+// ...
+use Citilink\ExpertSenderApi\Model\DataTablesDeleteRowsPostRequest\Filter;
+use Citilink\ExpertSenderApi\Enum\DataTablesDeleteRowsPostRequest\FilterOperator;
+// ...
+$response = $api->dataTables()->deleteRows(
+    'table-name',
+    [
+        new Filter('Column1', FilterOperator::EQ(), 12),
+        new Filter('Column2', FilterOperator::GE(), 56.7),
+        new Filter('Column3', FilterOperator::EQ(), 'string'),
+        new Filter('Column4', FilterOperator::GT(), 89.234),
+        new Filter('Column5', FilterOperator::LT(), 87.3),
+        new Filter('Column6', FilterOperator::LE(), 98),
+    ]
+);
+
+if ($response->isOk()) {
+    $count = $response->getCount();
+} else {
+    // handle errors
 }
 ```
