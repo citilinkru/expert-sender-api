@@ -32,10 +32,8 @@ class Snippet
     {
         Assert::notEmpty($name);
         Assert::scalar($value);
-        $valueAsStr = strval($value);
-        Assert::notEmpty($valueAsStr);
         $this->name = $name;
-        $this->value = $valueAsStr;
+        $this->value = strval($value);
     }
 
     /**
