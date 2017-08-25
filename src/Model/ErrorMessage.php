@@ -21,7 +21,7 @@ class ErrorMessage
     private $options;
 
     /**
-     * Конструктор.
+     * Constructor.
      *
      * @param string $message Message
      * @param array $options Options of error message

@@ -22,6 +22,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
             - [How to change email or phone](#how-to-change-Email-or-Phone)
         - [Delete subscriber](#delete-subscriber)
         - [Get removed subscribers](#get-removed-subscribers)
+        - [Get snoozed subscribers](#get-snoozed-subscribers)
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
         - [Get list of tables](#get-list-of-tables)
@@ -327,6 +328,24 @@ foreach ($response->getRemovedSubscribers() as $removedSubscriber) {
     $subscriberData = $removedSubscriber->getSubscriberData();
     $id = $subscriberData->getId();
     $properties = $subscriberData->getProperties();
+}
+```
+#### Get snoozed subscribers
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/get-snoozed-subscribers)
+```php
+// every parameter is optional
+$listIds = [1,2,3];
+$startDate = new \DateTime('2017-01-01');
+$endDate = new \DateTime('2017-02-02');
+$response = $api->subscribers()->getSnoozedSubscribers($listIds, $startDate, $endDate);
+if ($response->isOk()) {
+    foreach ($response->getSnoozedSubscribers() as $snoozedSubscriber) {
+        echo $snoozedSubscriber->getEmail();
+        echo $snoozedSubscriber->getListId();
+        echo $snoozedSubscriber->getSnoozedUntil(); 
+    }
+} else {
+    // handle errors
 }
 ```
 ### Get bounces list
