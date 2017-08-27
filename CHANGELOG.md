@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Get snoozed subscribers method
 - Get subscriber's activities method
+- Get segment size method
 ### Changed
 - removed check for empty value in Snippet, because it can cause bugs
 
