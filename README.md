@@ -23,6 +23,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Delete subscriber](#delete-subscriber)
         - [Get removed subscribers](#get-removed-subscribers)
         - [Get snoozed subscribers](#get-snoozed-subscribers)
+        - [Get subscriber activity](#get-subscriber-activity)
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
         - [Get list of tables](#get-list-of-tables)
@@ -347,6 +348,61 @@ if ($response->isOk()) {
 } else {
     // handle errors
 }
+```
+#### Get subscriber activity
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-subscriber-activity)
+```php
+// ...
+$returnGuidInResponse = true;
+$returnTitleInResponse = true;
+$subscriptions = $api->subscribers()->getSubscriberActivity()->getSubscriptions(new \DateTime('2017-02-02'))
+    ->getSubscriptions();
+
+$confirmations = $api->subscribers()->getSubscriberActivity()->getConfirmations(new \DateTime('2017-02-02'))
+    ->getConfirmations();
+
+$sends = $api->subscribers()->getSubscriberActivity()->getSends(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnGuidInResponse
+)->getSends();
+
+$opens = $api->subscribers()->getSubscriberActivity()->getOpens(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnGuidInResponse
+)->getOpens();
+
+$clicks = $api->subscribers()->getSubscriberActivity()->getClicks(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnTitleInResponse,
+    $returnGuidInResponse
+)->getClicks();
+
+$complaints = $api->subscribers()->getSubscriberActivity()->getComplaints(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnGuidInResponse
+)->getComplaints();
+
+$removals = $api->subscribers()->getSubscriberActivity()->getRemovals(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnGuidInResponse
+)->getRemovals();
+
+$bounces = $api->subscribers()->getSubscriberActivity()->getBounces(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnGuidInResponse
+)->getBounces();
+
+$goals = $api->subscribers()->getSubscriberActivity()->getGoals(
+    new \DateTime('2017-06-24'), 
+    ReturnColumnsSet::STANDARD(),
+    $returnGuidInResponse
+)->getGoals();
 ```
 ### Get bounces list
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-bounces-list)

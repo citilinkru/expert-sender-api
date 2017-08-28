@@ -119,9 +119,16 @@ class Response implements ResponseInterface
      */
     public function getStream(): StreamInterface
     {
-        $this->httpResponse->getBody()->rewind();
+        $stream = $this->httpResponse->getBody();
+        $stream->rewind();
 
-        return $this->httpResponse->getBody();
+        // removes bom from start of stream
+        $maybeBom = $stream->read(3);
+        if (pack('H*', 'EFBBBF') !== $maybeBom) {
+            $stream->rewind();
+        }
+
+        return $stream;
     }
 
     /**
