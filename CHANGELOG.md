@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Get snoozed subscribers method
+- Get subscriber's activities method
 ### Changed
 - removed check for empty value in Snippet, because it can cause bugs
 

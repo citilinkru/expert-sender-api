@@ -14,6 +14,7 @@ use Citilink\ExpertSenderApi\Request\SnoozedSubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
+use Citilink\ExpertSenderApi\RequestSenderInterface;
 use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SnoozedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetEventsHistoryResponse;
@@ -30,6 +31,22 @@ use Citilink\ExpertSenderApi\ResponseInterface;
  */
 class SubscribersResource extends AbstractResource
 {
+    /**
+     * @var SubscriberActivityResource Subscriber activity resource
+     */
+    private $subscriberActivityResource;
+
+    /**
+     * Constructor.
+     *
+     * @param RequestSenderInterface $requestSender Request sender
+     */
+    public function __construct(RequestSenderInterface $requestSender)
+    {
+        parent::__construct($requestSender);
+        $this->subscriberActivityResource = new SubscriberActivityResource($requestSender);
+    }
+
     /**
      * Get short information about subscriber
      *
@@ -176,5 +193,15 @@ class SubscribersResource extends AbstractResource
         return new SnoozedSubscribersGetResponse(
             $this->requestSender->send(new SnoozedSubscribersGetRequest($listIds, $startDate, $endDate))
         );
+    }
+
+    /**
+     * Get subscriber activity resource
+     *
+     * @return SubscriberActivityResource Subscriber activity resource
+     */
+    public function getSubscriberActivity(): SubscriberActivityResource
+    {
+        return $this->subscriberActivityResource;
     }
 }

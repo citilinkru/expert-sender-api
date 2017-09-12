@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Citilink\ExpertSenderApi\Tests;
 
@@ -35,7 +36,6 @@ class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
                 new EventDispatcher()
             )
         );
-
     }
 
     public function getParams()
@@ -57,7 +57,6 @@ class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
                 $this->params = [];
             }
         }
-
 
         if (!isset($this->params[$param]) || null === $this->params[$param]) {
             $this->markTestSkipped($param . ' must be configured in params.json to run this test');
@@ -94,7 +93,7 @@ class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
     public function testLists()
     {
         $randomEmail = sprintf('some_random_%s@gmail.com', rand(0, 100000000000) . rand(0, 1000000000000));
-        $trackingCode = 'phpunit'.time();
+        $trackingCode = 'phpunit' . time();
 
         $subscriberData = new SubscriberInfo(Identifier::createEmail($randomEmail), $this->getTestListId());
         $subscriberData->setFirstName('Test');
@@ -258,4 +257,14 @@ class ExpertSenderApiTest extends \PHPUnit_Framework_TestCase
         Assert::assertTrue($response->isOk());
         Assert::assertNotEmpty($response->getGuid());
     }
+
+//    public function testGetSubscriptionsActivity()
+//    {
+//        $some = $this->api->subscribers()
+//            ->getSubscriberActivity()
+//            ->getClicks(new \DateTime('2017-06-01'), ReturnColumnsSet::EXTENDED(), true, true)
+//            ->getClicks();
+//
+//        $some2 = toArray($some);
+//    }
 }
