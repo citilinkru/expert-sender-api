@@ -391,25 +391,24 @@ if ($response->isOk()) {
 ```
 #### Table details
 ```php
-$response = $api->dataTables()->getTablesList('table-name');
+$response = $api->dataTables()->getTableDetails('table-name');
 if ($response->isOk()) {
-   foreach ($response->getTables() as $table)) {
-        echo $table->getId();
-        echo $table->getName();
-        echo $table->getColumnsCount();
-        echo $table->getRelationshipsCount();
-        echo $table->getRelationshipsDestinationCount();
-        echo $table->getRowsCount();
-        echo $table->getDescription();
-        foreach ($table->getColumns() as $column) {
-            echo $column->getName();
-            echo $column->getColumnType();
-            echo $column->getLength();
-            echo $column->getDefaultValue() ?: 'No default value';
-            echo $column->isPrimaryKey() ? 'true' : 'false';
-            echo $column->isRequired() ? 'true' : 'false';
-        }
-   }   
+    $tableDetails = $response->getTableDetails();
+    echo $tableDetails->getId();
+    echo $tableDetails->getName();
+    echo $tableDetails->getColumnsCount();
+    echo $tableDetails->getRelationshipsCount();
+    echo $tableDetails->getRelationshipsDestinationCount();
+    echo $tableDetails->getRowsCount();
+    echo $tableDetails->getDescription();
+    foreach ($tableDetails->getColumns() as $column) {
+        echo $column->getName();
+        echo $column->getColumnType();
+        echo $column->getLength();
+        echo $column->getDefaultValue() ?: 'No default value';
+        echo $column->isPrimaryKey() ? 'true' : 'false';
+        echo $column->isRequired() ? 'true' : 'false';
+    }
 } else {
     // handle errors
 }
