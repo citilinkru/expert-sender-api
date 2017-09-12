@@ -9,12 +9,14 @@ use Citilink\ExpertSenderApi\Enum\RemovedSubscribersGetRequest\RemoveType;
 use Citilink\ExpertSenderApi\Enum\SubscribersGetRequest\DataOption;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
+use Citilink\ExpertSenderApi\Request\GetSegmentSizeGetRequest;
 use Citilink\ExpertSenderApi\Request\RemovedSubscriberGetRequest;
 use Citilink\ExpertSenderApi\Request\SnoozedSubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
 use Citilink\ExpertSenderApi\RequestSenderInterface;
+use Citilink\ExpertSenderApi\Response\GetSegmentSizeGetResponse;
 use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SnoozedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetEventsHistoryResponse;
@@ -193,6 +195,18 @@ class SubscribersResource extends AbstractResource
         return new SnoozedSubscribersGetResponse(
             $this->requestSender->send(new SnoozedSubscribersGetRequest($listIds, $startDate, $endDate))
         );
+    }
+
+    /**
+     * Get segment size
+     *
+     * @param int $segmentId Segment ID
+     *
+     * @return GetSegmentSizeGetResponse Response
+     */
+    public function getSegmentSize(int $segmentId): GetSegmentSizeGetResponse
+    {
+        return new GetSegmentSizeGetResponse($this->requestSender->send(new GetSegmentSizeGetRequest($segmentId)));
     }
 
     /**
