@@ -69,7 +69,7 @@ class SubscribersDeleteRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toXml(): string
     {
@@ -77,7 +77,7 @@ class SubscribersDeleteRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getQueryParams(): array
     {
@@ -98,7 +98,7 @@ class SubscribersDeleteRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): HttpMethod
     {
@@ -106,7 +106,7 @@ class SubscribersDeleteRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {

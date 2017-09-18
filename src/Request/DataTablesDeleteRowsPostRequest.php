@@ -40,7 +40,7 @@ class DataTablesDeleteRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toXml(): string
     {
@@ -64,7 +64,7 @@ class DataTablesDeleteRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getQueryParams(): array
     {
@@ -72,7 +72,7 @@ class DataTablesDeleteRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): HttpMethod
     {
@@ -80,7 +80,7 @@ class DataTablesDeleteRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {

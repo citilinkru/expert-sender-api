@@ -39,7 +39,7 @@ class DataTablesAddMultipleRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toXml(): string
     {
@@ -64,7 +64,7 @@ class DataTablesAddMultipleRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getQueryParams(): array
     {
@@ -72,7 +72,7 @@ class DataTablesAddMultipleRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): HttpMethod
     {
@@ -80,7 +80,7 @@ class DataTablesAddMultipleRowsPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {

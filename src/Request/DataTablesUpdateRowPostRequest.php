@@ -64,7 +64,7 @@ class DataTablesUpdateRowPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toXml(): string
     {
@@ -90,7 +90,7 @@ class DataTablesUpdateRowPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getQueryParams(): array
     {
@@ -98,7 +98,7 @@ class DataTablesUpdateRowPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): HttpMethod
     {
@@ -106,7 +106,7 @@ class DataTablesUpdateRowPostRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {

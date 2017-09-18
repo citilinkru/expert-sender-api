@@ -76,7 +76,7 @@ class ActivitiesGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toXml(): string
     {
@@ -84,7 +84,7 @@ class ActivitiesGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getQueryParams(): array
     {
@@ -98,7 +98,7 @@ class ActivitiesGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): HttpMethod
     {
@@ -106,7 +106,7 @@ class ActivitiesGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {

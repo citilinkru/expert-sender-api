@@ -31,7 +31,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isOk(): bool
     {
@@ -39,7 +39,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHttpStatusCode(): int
     {
@@ -47,7 +47,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorCode(): ?int
     {
@@ -56,7 +56,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContent(): string
     {
@@ -64,7 +64,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStream(): StreamInterface
     {
@@ -72,7 +72,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorMessages(): array
     {
@@ -101,7 +101,7 @@ class SpecificCsvMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isEmpty(): bool
     {

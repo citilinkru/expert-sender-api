@@ -39,7 +39,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isOk(): bool
     {
@@ -48,7 +48,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHttpStatusCode(): int
     {
@@ -56,7 +56,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorCode(): ?int
     {
@@ -101,7 +101,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContent(): string
     {
@@ -115,7 +115,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStream(): StreamInterface
     {
@@ -146,7 +146,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isEmpty(): bool
     {

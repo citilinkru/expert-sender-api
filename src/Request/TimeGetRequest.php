@@ -14,7 +14,7 @@ use Citilink\ExpertSenderApi\RequestInterface;
 class TimeGetRequest implements RequestInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function toXml(): string
     {
@@ -22,7 +22,7 @@ class TimeGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMethod(): HttpMethod
     {
@@ -30,7 +30,7 @@ class TimeGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUri(): string
     {
@@ -38,7 +38,7 @@ class TimeGetRequest implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getQueryParams(): array
     {
