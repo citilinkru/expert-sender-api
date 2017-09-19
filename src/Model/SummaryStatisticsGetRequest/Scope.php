@@ -25,59 +25,139 @@ class Scope
      */
     private $value;
 
+    /**
+     * Create filtering scope by list
+     *
+     * @param int $listId ListId
+     *
+     * @return static Filtering scope
+     */
     public static function createList(int $listId)
     {
         return new static(ScopeType::LIST(), strval($listId));
     }
 
+    /**
+     * Create filtering scope by domain
+     *
+     * @param string $domain Domain name (domain.com)
+     *
+     * @return static Filtering scope
+     */
     public static function createDomain(string $domain)
     {
         return new static(ScopeType::DOMAIN(), $domain);
     }
 
+    /**
+     * Create filtering scope by domain family
+     *
+     * Domain families are specific to each business unit and may be customized. Typical domain families that usually
+     * are used (but do not have to apply to your unit!) are: Yahoo, Outlook.com, Gmail, AOL, Other
+     *
+     * @param string $domainFamily Domain family
+     *
+     * @return static Filtering scope
+     */
     public static function createDomainFamily(string $domainFamily)
     {
         return new static(ScopeType::DOMAIN_FAMILY(), $domainFamily);
     }
 
+    /**
+     * Create filtering scope by message type
+     *
+     * @param MessageType $messageType Message type
+     *
+     * @return static Filtering scope
+     */
     public static function createMessageType(MessageType $messageType)
     {
         return new static(ScopeType::MESSAGE_TYPE(), strval($messageType));
     }
 
+    /**
+     * Create filtering scope by IP
+     *
+     * @param string $ip IP
+     *
+     * @return static Filtering scope
+     */
     public static function createIp(string $ip)
     {
         return new static(ScopeType::IP(), $ip);
     }
 
+    /**
+     * Create filtering scope by segment id
+     *
+     * @param int $segmentId Segment id
+     *
+     * @return static Filtering scope
+     */
     public static function createSegment(int $segmentId)
     {
         return new static(ScopeType::SEGMENT(), strval($segmentId));
     }
 
+    /**
+     * Create filtering sctop by vendor
+     *
+     * @param string $vendor Vendor
+     *
+     * @return static Filtering scope
+     */
     public static function createVendor(string $vendor)
     {
         return new static(ScopeType::VENDOR(), $vendor);
     }
 
+    /**
+     * Create filtering scope by tag
+     *
+     * @param string $tag Tag
+     *
+     * @return static Filtering scope
+     */
     public static function createTag(string $tag)
     {
         return new static(ScopeType::TAG(), $tag);
     }
 
+    /**
+     * Create filtering scope by send time optimization
+     *
+     * @param TimeOptimization $optimization Optimization
+     *
+     * @return static Filtering scope
+     */
     public static function createSendTimeOptimization(TimeOptimization $optimization)
     {
         return new static(ScopeType::SEND_TIME_OPTIMIZATION(), strval($optimization));
     }
 
+    /**
+     * Create filtering scope by time travel optimization
+     *
+     * @param TimeOptimization $optimization Optimization
+     *
+     * @return static Filtering scope
+     */
     public static function createTimeTravelOptimization(TimeOptimization $optimization)
     {
         return new static(ScopeType::TIME_TRAVEL_OPTIMIZATION(), strval($optimization));
     }
 
+    /**
+     * Create filtering scope by reading environment
+     *
+     * @param ReadingEnvironment $readingEnvironment Reading environment
+     *
+     * @return static Filtering scope
+     */
     public static function createReadingEnvironment(ReadingEnvironment $readingEnvironment)
     {
-        return new static(ScopeType::TIME_TRAVEL_OPTIMIZATION(), strval($readingEnvironment));
+        return new static(ScopeType::READING_ENVIRONMENT(), strval($readingEnvironment));
     }
 
     /**
@@ -93,7 +173,9 @@ class Scope
     }
 
     /**
-     * @return ScopeType
+     * Get scope type
+     *
+     * @return ScopeType Type
      */
     public function getType(): ScopeType
     {
@@ -101,7 +183,9 @@ class Scope
     }
 
     /**
-     * @return string
+     * Get value
+     *
+     * @return string Value
      */
     public function getValue(): string
     {
