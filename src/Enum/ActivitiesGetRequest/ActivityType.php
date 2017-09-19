@@ -55,7 +55,7 @@ final class ActivityType extends Enum
     const COMPLAINTS = 'Complaints';
 
     /**
-     * 	Unsubscriptions and manual removal of subscribers from lists.
+     * Unsubscriptions and manual removal of subscribers from lists.
      */
     const REMOVALS = 'Removals';
 
