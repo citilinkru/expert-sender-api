@@ -22,7 +22,7 @@ interface RequestInterface
     /**
      * Get query parameters
      *
-     * @return string[] Query parameters
+     * @return mixed[] Query parameters
      */
     public function getQueryParams(): array;
 

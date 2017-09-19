@@ -52,7 +52,7 @@ class RequestSender implements RequestSenderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function send(RequestInterface $request): ResponseInterface
     {

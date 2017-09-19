@@ -33,7 +33,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isOk(): bool
     {
@@ -41,7 +41,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorCode(): ?int
     {
@@ -49,7 +49,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHttpStatusCode(): int
     {
@@ -57,7 +57,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContent(): string
     {
@@ -65,7 +65,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStream(): StreamInterface
     {
@@ -87,7 +87,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getErrorMessages(): array
     {
@@ -95,7 +95,7 @@ class SpecificXmlMethodResponse implements ResponseInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isEmpty(): bool
     {

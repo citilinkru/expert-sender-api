@@ -53,7 +53,7 @@ class ErrorMessage
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __toString(): string
     {
