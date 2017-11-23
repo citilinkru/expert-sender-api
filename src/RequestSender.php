@@ -48,6 +48,8 @@ class RequestSender implements RequestSenderInterface
     ) {
         $this->httpClient = $httpClient;
         $this->apiKey = $apiKey;
+
+        dump($this->apiKey );die;
         $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
     }
 

@@ -8,6 +8,7 @@ use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Attachment;
 use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Snippet;
 use Citilink\ExpertSenderApi\Model\TriggersPostRequest\Receiver;
 use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Receiver as TransactionalReceiver;
+use Citilink\ExpertSenderApi\Request\SystemTransactionalPostRequest;
 use Citilink\ExpertSenderApi\Request\TransactionalPostRequest;
 use Citilink\ExpertSenderApi\Request\TriggersPostRequest;
 use Citilink\ExpertSenderApi\Response\TransactionalPostResponse;
@@ -54,6 +55,33 @@ class MessagesResource extends AbstractResource
         return new TransactionalPostResponse(
             $this->requestSender->send(
                 new TransactionalPostRequest(
+                    $transactionMessageId, $receiver, $snippets, $attachments, $returnGuid
+                )
+            )
+        );
+    }
+
+    /**
+     * Send system transactional message
+     *
+     * @param int $transactionMessageId Transaction message ID
+     * @param TransactionalReceiver $receiver Receiver
+     * @param Snippet[] $snippets Snippets
+     * @param Attachment[] $attachments Attachments
+     * @param bool $returnGuid Should return GUID in Response
+     *
+     * @return TransactionalPostResponse Response
+     */
+    public function sendSystemTransactionalMessage(
+        int $transactionMessageId,
+        TransactionalReceiver $receiver,
+        array $snippets = [],
+        array $attachments = [],
+        bool $returnGuid = false
+    ): TransactionalPostResponse {
+        return new TransactionalPostResponse(
+            $this->requestSender->send(
+                new SystemTransactionalPostRequest(
                     $transactionMessageId, $receiver, $snippets, $attachments, $returnGuid
                 )
             )
