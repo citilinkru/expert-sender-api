@@ -12,6 +12,7 @@ use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\GetSegmentSizeGetRequest;
 use Citilink\ExpertSenderApi\Request\RemovedSubscriberGetRequest;
 use Citilink\ExpertSenderApi\Request\SnoozedSubscribersGetRequest;
+use Citilink\ExpertSenderApi\Request\SnoozedSubscribersPostRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
@@ -217,5 +218,35 @@ class SubscribersResource extends AbstractResource
     public function getSubscriberActivity(): SubscriberActivityResource
     {
         return $this->subscriberActivityResource;
+    }
+
+    /**
+     * Snooze subscriber by Id
+     *
+     * @param int $id Subscriber’s unique identifier
+     * @param int $snoozeWeeks Number of weeks the subscription will be snoozed for (Valid values are 1 to 26)
+     * @param int|null $listId Identifier of list the subscriber will be snoozed on
+     *
+     * @return ResponseInterface Response
+     */
+    public function snoozeSubscriberById(int $id, int $snoozeWeeks, ?int $listId = null): ResponseInterface
+    {
+        return $this->requestSender->send(SnoozedSubscribersPostRequest::createWithId($id, $snoozeWeeks, $listId));
+    }
+
+    /**
+     * Snooze subscriber by Id
+     *
+     * @param string $email Subscriber’s email
+     * @param int $snoozeWeeks Number of weeks the subscription will be snoozed for (Valid values are 1 to 26)
+     * @param int|null $listId Identifier of list the subscriber will be snoozed on
+     *
+     * @return ResponseInterface Response
+     */
+    public function snoozeSubscriberByEmail(string $email, int $snoozeWeeks, ?int $listId = null): ResponseInterface
+    {
+        return $this->requestSender->send(
+            SnoozedSubscribersPostRequest::createWithEmail($email, $snoozeWeeks, $listId)
+        );
     }
 }
