@@ -15,6 +15,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
     - [Get server time](#get-server-time)
     - [Messages](#messages)
         - [Send transactional messages](#send-transactional-messages)
+        - [Send system transactional messages](#send-system-transactional-messages)
         - [Send trigger messages](#send-trigger-messages)
     - [Subscribers](#subscribers)
         - [Get subscriber information](#get-subscriber-information)
@@ -155,6 +156,47 @@ $attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'imag
 $returnGuid = true;
 
 $response = $api->messages()->sendTransactionalMessage($messageId, $receiverById, $snippets, $attachments, $returnGuid);
+
+if ($response->isOk()) {
+    // guid available, only if returnGuid=true in request
+    $guid = $response->getGuid();
+} else {
+    // handle errors
+}
+```
+#### Send system transactional messages
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/messages/send-system-transactional-messages)
+```php
+// ...
+
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Receiver;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Snippet;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Attachment;
+
+// ...
+
+// message id is required
+$messageId = 15;
+
+// list id is optional, read documentation to get more inforamtion
+$listId = 24;
+$receiverByEmail = Receiver::createByEmail('mail@mail.com', $listId);
+$receiverByEmailMd5 = Receiver::createByEmailMd5('md5');
+$receiverById = Receiver::createById(862547);
+
+// snippets are optional
+$snippets = [];
+$snippets[] = new Snippet('name1', 'value1');
+$snippets[] = new Snippet('name2', 'value2');
+
+// attachments are optional
+$attachments = [];
+$attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'image/jpeg');
+
+// should response has guid of sent message
+$returnGuid = true;
+
+$response = $api->messages()->sendSystemTransactionalMessage($messageId, $receiverById, $snippets, $attachments, $returnGuid);
 
 if ($response->isOk()) {
     // guid available, only if returnGuid=true in request
