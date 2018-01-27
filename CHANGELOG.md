@@ -6,10 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- add snooze subscriber method
+
+## [1.3.1] - 2017-12-12
+### Changed
+- Changed composer requirements for new symfony4 components 
+
+## [1.3.0] - 2017-11-27
+### Added
 - Get snoozed subscribers method
 - Get subscriber's activities method
 - Get segment size method
-- add snooze subscriber method
+- Send system transactionals method
+### Fixed
+- Fix ActivityType class
 ### Changed
 - removed check for empty value in Snippet, because it can cause bugs
 
