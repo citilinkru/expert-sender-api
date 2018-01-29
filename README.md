@@ -23,6 +23,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Delete subscriber](#delete-subscriber)
         - [Get removed subscribers](#get-removed-subscribers)
         - [Get snoozed subscribers](#get-snoozed-subscribers)
+        - [Snooze subscriber](#snooze-subscriber)
         - [Get subscriber activity](#get-subscriber-activity)
         - [Get segment size](#get-segment-size)
     - [Get bounces list](#get-bounces-list)
@@ -350,14 +351,36 @@ if ($response->isOk()) {
     // handle errors
 }
 ```
-#### Get segment size
-[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-segment-size)
+#### Snooze subscriber
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/snooze-subscriber)
+##### By ID
 ```php
-$segmentId = 25;
-$response = $api->subscribers()->getSegmentSize($segmentId);
-if ($response->isOk()) {
-    echo $response->getSize();
-    echo $response->getCountDate()->format('Y-m-d H:i:s);
+// Unique subscriber identifier
+$subscriberId = 12;
+// Number of weeks the subscription will be snoozed for
+$snoozeWeeks = 20;
+// List ID
+$listId = 23;
+
+// Snooze subscriber with id #12 for 20 weeks in List #23
+$snoozedByIdResponse = $api->subscribers()->snoozeSubscriberById($subscriberId, $snoozeWeeks, $listId);
+if ($snoozedByIdResponse->isOk()) {
+    // ok
+} else {
+    // handle errors
+}
+```
+##### By Email
+```php
+// subscriber's email
+$subscriberEmail = 'subscriber@mail.com';
+// Number of weeks the subscription will be snoozed for
+$snoozeWeeks = 10;
+
+// Snooze subscriber with email 'subscriber@mail.com' for 20 weeks in all lists
+$snoozedByEmailResponse = $api->subscribers()->snoozeSubscriberByEmail($subscriberEmail, $snoozeWeeks);
+if ($snoozedByEmailResponse->isOk()) {
+    // ok
 } else {
     // handle errors
 }
@@ -416,6 +439,18 @@ $goals = $api->subscribers()->getSubscriberActivity()->getGoals(
     ReturnColumnsSet::STANDARD(),
     $returnGuidInResponse
 )->getGoals();
+```
+#### Get segment size
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-segment-size)
+```php
+$segmentId = 25;
+$response = $api->subscribers()->getSegmentSize($segmentId);
+if ($response->isOk()) {
+    echo $response->getSize();
+    echo $response->getCountDate()->format('Y-m-d H:i:s);
+} else {
+    // handle errors
+}
 ```
 ### Get bounces list
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-bounces-list)
