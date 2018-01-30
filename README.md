@@ -26,6 +26,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Get snoozed subscribers](#get-snoozed-subscribers)
         - [Snooze subscriber](#snooze-subscriber)
         - [Get subscriber activity](#get-subscriber-activity)
+        - [Get subscriber segments](#get-subscriber-segments)
         - [Get segment size](#get-segment-size)
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
@@ -481,6 +482,19 @@ $goals = $api->subscribers()->getSubscriberActivity()->getGoals(
     ReturnColumnsSet::STANDARD(),
     $returnGuidInResponse
 )->getGoals();
+```
+#### Get subscriber segments
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-subscriber-segments)
+```php
+$response = $api->subscribers()->getSubscriberSegments();
+if ($response->isOk()) {
+    foreach($response->getSegments() as $segment) {
+        echo $segment->getId();
+        echo $segment->getName();
+    }
+} else {
+    // handle errors
+}
 ```
 #### Get segment size
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-segment-size)

@@ -11,6 +11,7 @@ use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\Options;
 use Citilink\ExpertSenderApi\Model\SubscribersPostRequest\SubscriberInfo;
 use Citilink\ExpertSenderApi\Request\GetSegmentSizeGetRequest;
 use Citilink\ExpertSenderApi\Request\RemovedSubscriberGetRequest;
+use Citilink\ExpertSenderApi\Request\SegmentsGetRequest;
 use Citilink\ExpertSenderApi\Request\SnoozedSubscribersGetRequest;
 use Citilink\ExpertSenderApi\Request\SnoozedSubscribersPostRequest;
 use Citilink\ExpertSenderApi\Request\SubscribersDeleteRequest;
@@ -19,6 +20,7 @@ use Citilink\ExpertSenderApi\Request\SubscribersPostRequest;
 use Citilink\ExpertSenderApi\RequestSenderInterface;
 use Citilink\ExpertSenderApi\Response\GetSegmentSizeGetResponse;
 use Citilink\ExpertSenderApi\Response\RemovedSubscribersGetResponse;
+use Citilink\ExpertSenderApi\Response\SegmentsGetResponse;
 use Citilink\ExpertSenderApi\Response\SnoozedSubscribersGetResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetEventsHistoryResponse;
 use Citilink\ExpertSenderApi\Response\SubscribersGetFullResponse;
@@ -218,6 +220,18 @@ class SubscribersResource extends AbstractResource
     public function getSubscriberActivity(): SubscriberActivityResource
     {
         return $this->subscriberActivityResource;
+    }
+
+    /**
+     * Get subscriber segments
+     *
+     * List of all subscriber segments defined in the system
+     *
+     * @return SegmentsGetResponse Response
+     */
+    public function getSubscriberSegments(): SegmentsGetResponse
+    {
+        return new SegmentsGetResponse($this->requestSender->send(new SegmentsGetRequest()));
     }
 
     /**

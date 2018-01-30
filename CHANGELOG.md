@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- add snooze subscriber method
+- Add snooze subscriber method
+- Add get subscriber segments method
 
 ## [1.3.1] - 2017-12-12
 ### Changed
@@ -31,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Get rows count request
 - Get list of tables request
 ### Deprecated
-- \Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition, use \Citilink\ExpertSenderApi\Model\WhereCondition insted
+- \Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition, use \Citilink\ExpertSenderApi\Model\WhereCondition instead
 
 ## [1.1.0] - 2017-08-17
 ### Added
