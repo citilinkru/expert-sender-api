@@ -6,9 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Add snooze subscriber method
+- Add get subscriber segments method
+
+## [1.3.1] - 2017-12-12
+### Changed
+- Changed composer requirements for new symfony4 components 
+
+## [1.3.0] - 2017-11-27
+### Added
 - Get snoozed subscribers method
 - Get subscriber's activities method
 - Get segment size method
+- Send system transactionals method
+### Fixed
+- Fix ActivityType class
 ### Changed
 - removed check for empty value in Snippet, because it can cause bugs
 
@@ -20,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Get rows count request
 - Get list of tables request
 ### Deprecated
-- \Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition, use \Citilink\ExpertSenderApi\Model\WhereCondition insted
+- \Citilink\ExpertSenderApi\Model\DataTablesGetDataPostRequest\WhereCondition, use \Citilink\ExpertSenderApi\Model\WhereCondition instead
 
 ## [1.1.0] - 2017-08-17
 ### Added

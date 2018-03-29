@@ -15,6 +15,7 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
     - [Get server time](#get-server-time)
     - [Messages](#messages)
         - [Send transactional messages](#send-transactional-messages)
+        - [Send system transactional messages](#send-system-transactional-messages)
         - [Send trigger messages](#send-trigger-messages)
     - [Subscribers](#subscribers)
         - [Get subscriber information](#get-subscriber-information)
@@ -23,7 +24,9 @@ _fork of [LinguaLeo/expert-sender-api](https://github.com/LinguaLeo/expert-sende
         - [Delete subscriber](#delete-subscriber)
         - [Get removed subscribers](#get-removed-subscribers)
         - [Get snoozed subscribers](#get-snoozed-subscribers)
+        - [Snooze subscriber](#snooze-subscriber)
         - [Get subscriber activity](#get-subscriber-activity)
+        - [Get subscriber segments](#get-subscriber-segments)
         - [Get segment size](#get-segment-size)
     - [Get bounces list](#get-bounces-list)
     - [Data Tables](#data-tables)
@@ -155,6 +158,47 @@ $attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'imag
 $returnGuid = true;
 
 $response = $api->messages()->sendTransactionalMessage($messageId, $receiverById, $snippets, $attachments, $returnGuid);
+
+if ($response->isOk()) {
+    // guid available, only if returnGuid=true in request
+    $guid = $response->getGuid();
+} else {
+    // handle errors
+}
+```
+#### Send system transactional messages
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/messages/send-system-transactional-messages)
+```php
+// ...
+
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Receiver;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Snippet;
+use Citilink\ExpertSenderApi\Model\TransactionalPostRequest\Attachment;
+
+// ...
+
+// message id is required
+$messageId = 15;
+
+// list id is optional, read documentation to get more inforamtion
+$listId = 24;
+$receiverByEmail = Receiver::createByEmail('mail@mail.com', $listId);
+$receiverByEmailMd5 = Receiver::createByEmailMd5('md5');
+$receiverById = Receiver::createById(862547);
+
+// snippets are optional
+$snippets = [];
+$snippets[] = new Snippet('name1', 'value1');
+$snippets[] = new Snippet('name2', 'value2');
+
+// attachments are optional
+$attachments = [];
+$attachments[] = new Attachment('filename.jpeg', base64_encode('content'), 'image/jpeg');
+
+// should response has guid of sent message
+$returnGuid = true;
+
+$response = $api->messages()->sendSystemTransactionalMessage($messageId, $receiverById, $snippets, $attachments, $returnGuid);
 
 if ($response->isOk()) {
     // guid available, only if returnGuid=true in request
@@ -350,14 +394,36 @@ if ($response->isOk()) {
     // handle errors
 }
 ```
-#### Get segment size
-[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-segment-size)
+#### Snooze subscriber
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/subscribers/snooze-subscriber)
+##### By ID
 ```php
-$segmentId = 25;
-$response = $api->subscribers()->getSegmentSize($segmentId);
-if ($response->isOk()) {
-    echo $response->getSize();
-    echo $response->getCountDate()->format('Y-m-d H:i:s);
+// Unique subscriber identifier
+$subscriberId = 12;
+// Number of weeks the subscription will be snoozed for
+$snoozeWeeks = 20;
+// List ID
+$listId = 23;
+
+// Snooze subscriber with id #12 for 20 weeks in List #23
+$snoozedByIdResponse = $api->subscribers()->snoozeSubscriberById($subscriberId, $snoozeWeeks, $listId);
+if ($snoozedByIdResponse->isOk()) {
+    // ok
+} else {
+    // handle errors
+}
+```
+##### By Email
+```php
+// subscriber's email
+$subscriberEmail = 'subscriber@mail.com';
+// Number of weeks the subscription will be snoozed for
+$snoozeWeeks = 10;
+
+// Snooze subscriber with email 'subscriber@mail.com' for 20 weeks in all lists
+$snoozedByEmailResponse = $api->subscribers()->snoozeSubscriberByEmail($subscriberEmail, $snoozeWeeks);
+if ($snoozedByEmailResponse->isOk()) {
+    // ok
 } else {
     // handle errors
 }
@@ -416,6 +482,31 @@ $goals = $api->subscribers()->getSubscriberActivity()->getGoals(
     ReturnColumnsSet::STANDARD(),
     $returnGuidInResponse
 )->getGoals();
+```
+#### Get subscriber segments
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-subscriber-segments)
+```php
+$response = $api->subscribers()->getSubscriberSegments();
+if ($response->isOk()) {
+    foreach($response->getSegments() as $segment) {
+        echo $segment->getId();
+        echo $segment->getName();
+    }
+} else {
+    // handle errors
+}
+```
+#### Get segment size
+[documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-segment-size)
+```php
+$segmentId = 25;
+$response = $api->subscribers()->getSegmentSize($segmentId);
+if ($response->isOk()) {
+    echo $response->getSize();
+    echo $response->getCountDate()->format('Y-m-d H:i:s);
+} else {
+    // handle errors
+}
 ```
 ### Get bounces list
 [documentation](https://sites.google.com/a/expertsender.com/api-documentation/methods/get-bounces-list)

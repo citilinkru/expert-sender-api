@@ -21,27 +21,27 @@ class TransactionalPostRequest implements RequestInterface
     /**
      * @var int Transaction message ID
      */
-    private $transactionMessageId;
+    protected $transactionMessageId;
 
     /**
      * @var bool Should return GUID in Response
      */
-    private $returnGuid;
+    protected $returnGuid;
 
     /**
      * @var Receiver Receiver
      */
-    private $receiver;
+    protected $receiver;
 
     /**
      * @var Snippet[] Snippets
      */
-    private $snippets;
+    protected $snippets;
 
     /**
      * @var Attachment[] Attachments
      */
-    private $attachments;
+    protected $attachments;
 
     /**
      * Constructor
