@@ -165,4 +165,54 @@ class TransactionalPostRequest implements RequestInterface
     {
         return [];
     }
+
+    /**
+     * Get transaction message ID
+     *
+     * @return int Transaction message ID
+     */
+    public function getTransactionMessageId(): int
+    {
+        return $this->transactionMessageId;
+    }
+
+    /**
+     * Get receiver
+     *
+     * @return Receiver Receiver
+     */
+    public function getReceiver(): Receiver
+    {
+        return $this->receiver;
+    }
+
+    /**
+     * Get snippets
+     *
+     * @return Snippet[] Snippets
+     */
+    public function getSnippets(): array
+    {
+        return $this->snippets;
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return Attachment[] Attachments
+     */
+    public function getAttachments(): array
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Is returned GUID in Response
+     *
+     * @return bool Is returned GUID in Response
+     */
+    public function isReturnGuid(): bool
+    {
+        return $this->returnGuid;
+    }
 }
