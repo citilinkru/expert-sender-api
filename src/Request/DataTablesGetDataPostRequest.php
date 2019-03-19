@@ -132,6 +132,6 @@ class DataTablesGetDataPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesGetData';
+        return '/v2/Api/DataTablesGetData';
     }
 }

@@ -84,6 +84,6 @@ class DataTablesDeleteRowsPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesDeleteRows/';
+        return '/v2/Api/DataTablesDeleteRows/';
     }
 }

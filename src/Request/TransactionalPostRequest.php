@@ -155,7 +155,7 @@ class TransactionalPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Transactionals/' . $this->transactionMessageId;
+        return '/v2/Api/Transactionals/' . $this->transactionMessageId;
     }
 
     /**

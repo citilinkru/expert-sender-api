@@ -110,6 +110,6 @@ class DataTablesUpdateRowPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesUpdateRow';
+        return '/v2/Api/DataTablesUpdateRow';
     }
 }

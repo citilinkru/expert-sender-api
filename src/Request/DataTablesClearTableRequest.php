@@ -62,6 +62,6 @@ class DataTablesClearTableRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesClearTable';
+        return '/v2/Api/DataTablesClearTable';
     }
 }

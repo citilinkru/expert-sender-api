@@ -66,6 +66,6 @@ class DataTablesGetTablesRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesGetTables';
+        return '/v2/Api/DataTablesGetTables';
     }
 }

@@ -22,6 +22,6 @@ class SystemTransactionalPostRequest extends TransactionalPostRequest
      */
     public function getUri(): string
     {
-        return '/Api/SystemTransactionals/' . $this->transactionMessageId;
+        return '/v2/Api/SystemTransactionals/' . $this->transactionMessageId;
     }
 }

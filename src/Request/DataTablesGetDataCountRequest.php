@@ -82,6 +82,6 @@ class DataTablesGetDataCountRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesGetDataCount';
+        return '/v2/Api/DataTablesGetDataCount';
     }
 }
