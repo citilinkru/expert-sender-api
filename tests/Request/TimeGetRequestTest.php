@@ -14,7 +14,7 @@ class TimeGetRequestTest extends \PHPUnit_Framework_TestCase
         $request = new TimeGetRequest();
         Assert::assertEquals([], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
-        Assert::assertEquals('/Api/Time', $request->getUri());
+        Assert::assertEquals('/v2/Api/Time', $request->getUri());
         Assert::assertEquals('', $request->toXml());
     }
 }

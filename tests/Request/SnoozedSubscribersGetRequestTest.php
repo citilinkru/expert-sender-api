@@ -34,7 +34,7 @@ class SnoozedSubscribersGetRequestTest extends \PHPUnit_Framework_TestCase
             ],
             $request->getQueryParams()
         );
-        Assert::assertEquals('/Api/SnoozedSubscribers', $request->getUri());
+        Assert::assertEquals('/v2/Api/SnoozedSubscribers', $request->getUri());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
     }
 }

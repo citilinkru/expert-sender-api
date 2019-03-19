@@ -21,7 +21,7 @@ class DataTablesGetTablesRequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new DataTablesGetTablesRequest('table-name');
         Assert::assertEquals(['name' => 'table-name'], $request->getQueryParams());
-        Assert::assertEquals('/Api/DataTablesGetTables', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesGetTables', $request->getUri());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
         Assert::assertEquals('', $request->toXml());
     }
@@ -33,7 +33,7 @@ class DataTablesGetTablesRequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new DataTablesGetTablesRequest(null);
         Assert::assertEquals([], $request->getQueryParams());
-        Assert::assertEquals('/Api/DataTablesGetTables', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesGetTables', $request->getUri());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
         Assert::assertEquals('', $request->toXml());
     }

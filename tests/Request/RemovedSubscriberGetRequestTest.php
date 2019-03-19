@@ -40,7 +40,7 @@ class RemovedSubscriberGetRequestTest extends \PHPUnit_Framework_TestCase
             $request->getQueryParams()
         );
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
-        Assert::assertEquals('/Api/RemovedSubscribers', $request->getUri());
+        Assert::assertEquals('/v2/Api/RemovedSubscribers', $request->getUri());
         Assert::assertEmpty($request->toXml());
     }
 }

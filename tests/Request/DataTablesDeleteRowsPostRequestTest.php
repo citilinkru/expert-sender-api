@@ -34,7 +34,7 @@ class DataTablesDeleteRowsPostRequestTest extends \PHPUnit_Framework_TestCase
         );
 
         Assert::assertEquals([], $request->getQueryParams());
-        Assert::assertEquals('/Api/DataTablesDeleteRows/', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesDeleteRows/', $request->getUri());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
         Assert::assertEquals(
             '<TableName>table-name</TableName><Filters><Filter><Column><Name>Column1</Name>'

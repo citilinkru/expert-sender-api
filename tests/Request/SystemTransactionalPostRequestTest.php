@@ -42,7 +42,7 @@ class SystemTransactionalPostRequestTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($request->getMethod()->equals(HttpMethod::POST()));
         $this->assertCount(0, $request->getQueryParams());
-        $this->assertEquals('/Api/SystemTransactionals/12', $request->getUri());
+        $this->assertEquals('/v2/Api/SystemTransactionals/12', $request->getUri());
     }
 
     public function testRequestWithAnyReceiverCompileValidXml()

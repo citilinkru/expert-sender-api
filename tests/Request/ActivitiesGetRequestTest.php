@@ -29,7 +29,7 @@ class ActivitiesGetRequestTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        Assert::assertEquals('/Api/Activities', $request->getUri());
+        Assert::assertEquals('/v2/Api/Activities', $request->getUri());
         Assert::assertEquals(
             [
                 'date' => '2017-05-27',

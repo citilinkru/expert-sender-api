@@ -16,7 +16,7 @@ class SubscribersGetRequestTest extends \PHPUnit_Framework_TestCase
     public function testValidUsage()
     {
         $request = new SubscribersGetRequest('email@email.ru', DataOption::SHORT());
-        Assert::assertEquals('/Api/Subscribers', $request->getUri());
+        Assert::assertEquals('/v2/Api/Subscribers', $request->getUri());
         Assert::assertEquals(['email' => 'email@email.ru', 'option' => 'Short'], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
         Assert::assertEquals('', $request->toXml());

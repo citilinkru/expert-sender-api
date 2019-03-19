@@ -33,7 +33,7 @@ class DataTablesGetDataCountRequestTest extends \PHPUnit_Framework_TestCase
 
         Assert::assertEquals([], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
-        Assert::assertEquals('/Api/DataTablesGetDataCount', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesGetDataCount', $request->getUri());
         Assert::assertEquals(
             '<TableName>table-name</TableName><WhereConditions><Where><ColumnName>Column1</ColumnName>'
             . '<Operator>Equals</Operator><Value>12</Value></Where><Where><ColumnName>Column2</ColumnName>'

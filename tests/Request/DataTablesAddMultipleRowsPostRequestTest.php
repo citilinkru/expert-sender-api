@@ -45,6 +45,6 @@ class DataTablesAddMultipleRowsPostRequestTest extends \PHPUnit_Framework_TestCa
         Assert::assertEquals($xml, $request->toXml());
         Assert::assertEquals([], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
-        Assert::assertEquals('/Api/DataTablesAddMultipleRows', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesAddMultipleRows', $request->getUri());
     }
 }

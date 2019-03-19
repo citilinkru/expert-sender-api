@@ -36,6 +36,6 @@ class DataTablesUpdateRowRequestTest extends \PHPUnit_Framework_TestCase
         Assert::assertEquals($xml, $request->toXml());
         Assert::assertEquals([], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
-        Assert::assertEquals('/Api/DataTablesUpdateRow', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesUpdateRow', $request->getUri());
     }
 }
