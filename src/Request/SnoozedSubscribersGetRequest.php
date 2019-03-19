@@ -104,6 +104,6 @@ class SnoozedSubscribersGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/SnoozedSubscribers';
+        return '/v2/Api/SnoozedSubscribers';
     }
 }

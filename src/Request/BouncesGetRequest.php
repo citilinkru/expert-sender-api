@@ -81,6 +81,6 @@ class BouncesGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Bounces';
+        return '/v2/Api/Bounces';
     }
 }

@@ -6,7 +6,7 @@ namespace Citilink\ExpertSenderApi;
 use Citilink\ExpertSenderApi\Enum\HttpMethod;
 
 /**
- * ExpertSender API Response
+ * ExpertSender API Request
  *
  * @author Nikita Sapogov <sapogov.n@citilink.ru>
  */

@@ -144,6 +144,6 @@ class RemovedSubscriberGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/RemovedSubscribers';
+        return '/v2/Api/RemovedSubscribers';
     }
 }

@@ -34,7 +34,7 @@ class TimeGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Time';
+        return '/v2/Api/Time';
     }
 
     /**

@@ -84,6 +84,6 @@ class DataTablesAddMultipleRowsPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/DataTablesAddMultipleRows';
+        return '/v2/Api/DataTablesAddMultipleRows';
     }
 }

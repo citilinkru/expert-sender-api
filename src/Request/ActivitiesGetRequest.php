@@ -110,6 +110,6 @@ class ActivitiesGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Activities';
+        return '/v2/Api/Activities';
     }
 }

@@ -211,7 +211,7 @@ class SubscribersPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Subscribers';
+        return '/v2/Api/Subscribers';
     }
 
     /**

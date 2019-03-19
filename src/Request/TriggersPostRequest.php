@@ -90,6 +90,6 @@ class TriggersPostRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Triggers/' . $this->triggerMessageId;
+        return '/v2/Api/Triggers/' . $this->triggerMessageId;
     }
 }

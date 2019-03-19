@@ -42,6 +42,6 @@ class SegmentsGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/Segments';
+        return '/v2/Api/Segments';
     }
 }

@@ -57,6 +57,6 @@ class GetSegmentSizeGetRequest implements RequestInterface
      */
     public function getUri(): string
     {
-        return '/Api/GetSegmentSize';
+        return '/v2/Api/GetSegmentSize';
     }
 }
