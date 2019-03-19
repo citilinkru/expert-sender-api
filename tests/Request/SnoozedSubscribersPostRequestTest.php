@@ -24,7 +24,7 @@ class SnoozedSubscribersPostRequestTest extends \PHPUnit_Framework_TestCase
         $request = SnoozedSubscribersPostRequest::createWithId($id, $snoozedWeeks, $listId);
 
         $this->assertSame([], $request->getQueryParams());
-        $this->assertSame('/Api/SnoozedSubscribers', $request->getUri());
+        $this->assertSame('/v2/Api/SnoozedSubscribers', $request->getUri());
         $this->assertSame('<Id>567</Id><ListId>27</ListId><SnoozeWeeks>23</SnoozeWeeks>', $request->toXml());
         $this->assertTrue($request->getMethod()->equals(HttpMethod::POST()));
     }
@@ -40,7 +40,7 @@ class SnoozedSubscribersPostRequestTest extends \PHPUnit_Framework_TestCase
         $request = SnoozedSubscribersPostRequest::createWithEmail($email, $snoozedWeeks, $listId);
 
         $this->assertSame([], $request->getQueryParams());
-        $this->assertSame('/Api/SnoozedSubscribers', $request->getUri());
+        $this->assertSame('/v2/Api/SnoozedSubscribers', $request->getUri());
         $this->assertSame('<Email>test@test.ru</Email><ListId>27</ListId><SnoozeWeeks>23</SnoozeWeeks>', $request->toXml());
         $this->assertTrue($request->getMethod()->equals(HttpMethod::POST()));
     }

@@ -50,6 +50,6 @@ class SegmentsGetRequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new SegmentsGetRequest();
 
-        $this->assertSame('/Api/Segments', $request->getUri());
+        $this->assertSame('/v2/Api/Segments', $request->getUri());
     }
 }

@@ -13,7 +13,7 @@ class SubscribersDeleteRequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = SubscribersDeleteRequest::createFromId(12, 25);
         Assert::assertEquals('', $request->toXml());
-        Assert::assertEquals('/Api/Subscribers', $request->getUri());
+        Assert::assertEquals('/v2/Api/Subscribers', $request->getUri());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::DELETE()));
         Assert::assertEquals(['id' => 12, 'listId' => 25], $request->getQueryParams());
     }

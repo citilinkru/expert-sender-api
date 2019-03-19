@@ -43,6 +43,6 @@ class DataTablesGetDataPostRequestTest extends \PHPUnit_Framework_TestCase
         Assert::assertEquals($xml, $request->toXml());
         Assert::assertEquals([], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
-        Assert::assertEquals('/Api/DataTablesGetData', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesGetData', $request->getUri());
     }
 }

@@ -88,7 +88,7 @@ class SubscribersPostRequestTest extends \PHPUnit_Framework_TestCase
         Assert::assertEquals($expectedXml, $request->toXml());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
         Assert::assertEquals([], $request->getQueryParams());
-        Assert::assertEquals('/Api/Subscribers', $request->getUri());
+        Assert::assertEquals('/v2/Api/Subscribers', $request->getUri());
     }
 
     /**

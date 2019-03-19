@@ -21,7 +21,7 @@ class DataTablesClearTableRequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new DataTablesClearTableRequest('table-name');
         Assert::assertEquals([], $request->getQueryParams());
-        Assert::assertEquals('/Api/DataTablesClearTable', $request->getUri());
+        Assert::assertEquals('/v2/Api/DataTablesClearTable', $request->getUri());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::POST()));
         Assert::assertEquals('<TableName>table-name</TableName>', $request->toXml());
     }

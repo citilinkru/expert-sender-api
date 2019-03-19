@@ -20,6 +20,6 @@ class GetSegmentSizeGetRequestTest extends \PHPUnit_Framework_TestCase
         Assert::assertEquals(['id' => 25], $request->getQueryParams());
         Assert::assertTrue($request->getMethod()->equals(HttpMethod::GET()));
         Assert::assertEquals('', $request->toXml());
-        Assert::assertEquals('/Api/GetSegmentSize', $request->getUri());
+        Assert::assertEquals('/v2/Api/GetSegmentSize', $request->getUri());
     }
 }
