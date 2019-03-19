@@ -46,7 +46,7 @@ class RequestSenderTest extends \PHPUnit_Framework_TestCase
             [
                 new RequestException(
                     $xml,
-                    new Request('GET', '/Api/Subscribers'),
+                    new Request('GET', '/v2/Api/Subscribers'),
                     new Response(400, ['Content-Length' => strlen($xml), 'Content-Type' => 'text/xml'], $xml)
                 ),
             ]
@@ -105,7 +105,7 @@ class RequestSenderTest extends \PHPUnit_Framework_TestCase
         /** @var Request $request */
         $request = $container[0]['request'];
         Assert::assertEquals('POST', $request->getMethod());
-        Assert::assertEquals('/Api/Subscribers', $request->getUri());
+        Assert::assertEquals('/v2/Api/Subscribers', $request->getUri());
         $requestXml = '<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
             . 'xmlns:xs="http://www.w3.org/2001/XMLSchema"><ApiKey>api-key</ApiKey><MultiData><Subscriber>'
             . '<Mode>AddAndUpdate</Mode><ListId>25</ListId><MatchingMode>Email</MatchingMode>'
@@ -126,7 +126,7 @@ class RequestSenderTest extends \PHPUnit_Framework_TestCase
             [
                 new ConnectException(
                     'cURL error 28: SSL connection timeout (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)',
-                    new Request('GET', '/Api/Subscribers')
+                    new Request('GET', '/v2/Api/Subscribers')
                 ),
             ]
         );
