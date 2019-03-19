@@ -4,8 +4,8 @@ sudo: false
 dist: trusty
 
 php:
-  - 7.1
-  - nightly
+  - 7.2
+  - 7.3
 
 cache:
   directories:
