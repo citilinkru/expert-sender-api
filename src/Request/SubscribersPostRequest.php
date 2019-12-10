@@ -157,11 +157,11 @@ class SubscribersPostRequest implements RequestInterface
             $xmlWriter->writeElement('Phone', $subscriberInfo->getPhone());
         }
 
-        if (!empty($subscriberInfo->getFirstName())) {
+        if (!empty($subscriberInfo->getFirstname())) {
             $xmlWriter->writeElement('FirstName', $subscriberInfo->getFirstName());
         }
 
-        if (!empty($subscriberInfo->getLastName())) {
+        if (!empty($subscriberInfo->getLastname())) {
             $xmlWriter->writeElement('LastName', $subscriberInfo->getLastName());
         }
 
