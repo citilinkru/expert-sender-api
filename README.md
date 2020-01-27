@@ -1,5 +1,7 @@
-Expert Sender Api
+(UNSUPPORTED!) Expert Sender Api
 =================
+**This repository is no longer supported. Looking for a new MAINTAINER**
+
 [![Build Status](https://travis-ci.org/citilinkru/expert-sender-api.svg?branch=master)](https://travis-ci.org/citilinkru/expert-sender-api)
 
 [PHP API](https://sites.google.com/a/expertsender.com/api-documentation/) for [Expert Sender](http://www.expertsender.com/)
